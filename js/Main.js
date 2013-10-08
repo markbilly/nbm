@@ -4,17 +4,28 @@ var ctx = c.getContext("2d");
 var img = new Image();
 img.src = "NPI-2.png";
 
+var MAP      = { tw: 64, th: 48 }, // the size of the map (in tiles)
+    TILE     = 1,                 // the size of each tile (in game pixels)
+    METER    = TILE,               // abitrary choice for 1m
+    GRAVITY  = METER * 9.8,    // very exagerated gravity (6x)
+    MAXDX    = METER * 20,         // max horizontal speed (20 tiles per second)
+    MAXDY    = METER * 60,         // max vertical speed   (60 tiles per second)
+    ACCEL    = MAXDX * 2,          // horizontal acceleration -  take 1/2 second to reach maxdx
+    FRICTION = MAXDX * 6,          // horizontal friction     -  take 1/6 second to stop from maxdx
+    JUMP     = METER * 1500,       // (a large) instantaneous jump impulse
+    dt = 1;
+
 var player = {
     image: null,
     x: 0,
     y: 0,
-    v: 0,
-    vd: 0,
-    ad: 10,
-    au: 0,
-    a: 10
+    dx: 0,
+    dy: 0,
+    ddx: 0,
+    ddy: 0,
+    falling: false,
+    jumping: false
 }
-var keys = [];
 
 player.image = img;
 
@@ -25,67 +36,97 @@ player.image.onload = function() {
 function Draw() {
     ctx.drawImage(player.image,player.x,player.y);
     
-    debug.innerHTML = "y = " + player.y +
-                        "<br>speed = " + player.vd +
-                        "<br>acceleration = " + player.a +
-                        "<br>a_up = " + player.au +
-                        "<br>a_down = " + player.ad;
+    debug.innerHTML = "y = " + player.y + "<br>x = " + player.x;
 }
 
 function Processor() {
     ctx.clearRect(0,0,500,500);
     
-    //horizontal move
-    if (player.x > 500) {
-        player.x = 0;
-    }
-    else {
-        player.x += player.v;
-    }
-    //close
+    var wasleft  = player.dx < 0,
+        wasright = player.dx > 0,
+        falling  = player.falling;
     
-    //vertical move
-    player.a = player.ad - player.au;
-    player.vd += player.a;
-    player.y += player.vd;
+    player.ddx = 0;
+    player.ddy = GRAVITY;
+
+    if (player.left) {
+        player.ddx = player.ddx - ACCEL;     // player wants to go left
+    }
+    else if (wasleft) {
+        player.ddx = player.ddx + FRICTION;  // player was going left, but not any more
+    }
     
-    if (player.vd > 10) {
-        player.vd = 10;
+    if (player.right) {
+        player.ddx = player.ddx + ACCEL;     // player wants to go right
+    }
+    else if (wasright) {
+        player.ddx = player.ddx - FRICTION;  // player was going right, but not any more
+    }
+    
+    if (player.jump && !player.jumping && !falling) {
+        player.ddy = player.ddy - JUMP;     // apply an instantaneous (large) vertical impulse
+        player.jumping = true;
+    }
+    
+    player.y  = Math.floor(player.y  + (dt * player.dy));
+    player.x  = Math.floor(player.x  + (dt * player.dx));
+    player.dx = Math.floor(player.dx + (dt * player.ddx));
+    player.dy = Math.floor(player.dy + (dt * player.ddy));
+    
+    if (player.dx > MAXDX) {
+        player.dx = MAXDX;
+    }
+    else if (player.dx < -MAXDX) {
+        player.dx = -MAXDX;
+    }
+    
+    if (player.dy > MAXDY) {
+        player.dy = MAXDY;
+    }
+    else if (player.dy < -MAXDY) {
+        player.dy = -MAXDY;
+    }
+    
+    if ((wasleft  && (player.dx > 0)) || (wasright && (player.dx < 0))) {
+        player.dx = 0; // clamp at zero to prevent friction from making us jiggle side to side
     }
     
     if (player.y > 100) {
         player.y = 100;
-        player.vd = 0;
+        player.falling = false;
+        player.jumping = false;
     }
-    //close
+    
+    
+    if (player.x > 300) {
+        player.x = 300;
+    }
+    else if (player.x < 0) {
+        player.x = 0;
+    }
     
     Draw();
     requestAnimationFrame(Processor);
 }
 
-function keyPressed() {
-    // check keys
-    //put false conditions in
-    if (keys[38] === true) {
-        // up arrow
-        player.vd = -50;
-    }
-    if (keys[39] === true) {
-        // right arrow
-        player.v = 5;     
-    }          
-    if (keys[37] === true) {                 
-        // left arrow
-        player.v = -5;
+document.addEventListener("keydown", function(e) {
+    return onkey(e, e.keyCode, true);
+}, false);
+
+document.addEventListener("keyup", function(e) {
+    return onkey(e, e.keyCode, false);
+}, false);
+
+function onkey(e, key, down) {
+    switch(key) {
+        case 37: //left
+            player.left = down;
+            break;
+        case 39: //right
+            player.right = down;
+            break;
+        case 88: //x
+            player.jump = down;
+            break;
     }
 }
-
-document.body.addEventListener("keydown", function(e) {
-    keys[e.keyCode] = true;
-    keyPressed();
-});
- 
-document.body.addEventListener("keyup", function(e) {
-    keys[e.keyCode] = false;
-    keyPressed();
-});
