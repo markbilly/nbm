@@ -9,10 +9,11 @@ bg.style.backgroundImage = "url('bg.png')";
 bg.style.position = "absolute";
 control.style.position = "absolute";
 control.style.left = "750px";
+debug.style.position = "absolute";
+debug.style.left = "750px";
+debug.style.top = "50px";
 var ctx = c.getContext("2d");
 var ctx_b = b.getContext("2d");
-var img = new Image();
-img.src = "player.png";
 var tile = new Image();
 tile.src = "tile.png";
 var tile_floor1 = new Image();
@@ -28,29 +29,6 @@ function px(x) {
 
 function py(y) {
     return y * 3;
-}
-
-var MAP      = { tw: 24, th: 16 }, // the size of the map (in tiles)
-    TILE     = 10,                 // the size of each tile (in game pixels)
-    METER    = TILE * 0.5,               // abitrary choice for 1m
-    GRAVITY  = METER * 0.2,    
-    MAXDX    = METER * 0.8,         // max horizontal speed (20 tiles per second)
-    MAXDY    = METER * 1.8,         // max vertical speed   (60 tiles per second)
-    ACCEL    = MAXDX * 2,          // horizontal acceleration -  take 1/2 second to reach maxdx
-    FRICTION = MAXDX * 6,          // horizontal friction     -  take 1/6 second to stop from maxdx
-    JUMP     = METER * 6,       // (a large) instantaneous jump impulse
-    dt = 1;
-
-var player = {
-    image: null,
-    x: 0,
-    y: 0,
-    dx: 0,
-    dy: 0,
-    ddx: 0,
-    ddy: 0,
-    falling: false,
-    jumping: false
 }
 
 var map =[
@@ -72,9 +50,8 @@ var map =[
             3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
         ];
 
-player.image = img;
-
-player.image.onload = function() {
+Player.Init();
+Player.image.onload = function() {
     Processor();
 }
 
@@ -105,26 +82,26 @@ function BuildLevel(level) {
             else if (level[i] === 4) {
                 tileImage = tile_vert1;
             }
-            ctx_b.drawImage(tileImage,x,y,px(TILE),py(TILE));
+            ctx_b.drawImage(tileImage,x,y,px(Game.TILE),py(Game.TILE));
         }
         
         //get next draw location
         if (level[i] !== 8) {
-            x += px(TILE);
+            x += px(Game.TILE);
         }
         else {
             x = 0;
-            y += py(TILE);            
+            y += py(Game.TILE);            
         }
     }
 }
     
 function t2p(t) {
-    return t * TILE;
+    return t * Game.TILE;
 }
 
 function p2t(p) {
-    return Math.floor(p/TILE);
+    return Math.floor(p/Game.TILE);
 }
     
 function cell(x, y) {
@@ -135,7 +112,7 @@ function tcell(tx, ty) {
     var out = 0;
     
     out = tx;
-    out += (ty - 1) * (MAP.tw + 1);
+    out += (ty - 1) * (Game.MAP.tw + 1);
     
     control.innerHTML = "player @ (" + tx + ", " + ty + ")<br>tile location: " + out;
     
@@ -143,109 +120,129 @@ function tcell(tx, ty) {
 }
 
 function Draw() {
-    ctx.drawImage(player.image,px(player.x - 8),py(player.y - 12), 24 * 3, 13 * 3);
+    ctx.drawImage(Player.image,px(Player.x - 8),py(Player.y - 12), 24 * 3, 13 * 3);
 
-    debug.innerHTML = "y = " + player.y + "<br>x = " + player.x;
+    debug.innerHTML = "jumping: " + Player.jumping +
+                        "<br>falling: " + Player.falling +
+                        "<br>wallgrabbing: " + Player.wallgrabbing;
 }
 
 function Processor() {
     ctx.clearRect(0,0,720,480);
 
-    var wasleft  = player.dx < 0,
-	wasright = player.dx > 0,
-	falling  = player.falling;
+    var wasleft  = Player.dx < 0,
+	wasright = Player.dx > 0,
+	falling  = Player.falling;
 
-    player.ddx = 0;
-    player.ddy = GRAVITY;
+    Player.ddx = 0;
+    Player.ddy = Game.GRAVITY;
 
-    if (player.left) {
-	player.ddx = player.ddx - ACCEL;     // player wants to go left
+    if ((Player.right || Player.left) && Player.wallgrabbing) {
+        Player.x = t2p(tx);
+        Player.dx = 0;
+        Player.dy = 0;
+        Player.jumping = false;
+        Player.falling = false;
     }
-    else if (wasleft) {
-	player.ddx = player.ddx + FRICTION;  // player was going left, but not any more
-    }
-
-    if (player.right) {
-	player.ddx = player.ddx + ACCEL;     // player wants to go right
-    }
-    else if (wasright) {
-	player.ddx = player.ddx - FRICTION;  // player was going right, but not any more
-    }
-
-    if (player.jump && !player.jumping && !falling) {
-	player.ddy = player.ddy - JUMP;     // apply an instantaneous (large) vertical impulse
-	player.jumping = true;
-    }
-
-    player.y  = Math.floor(player.y  + (dt * player.dy));
-    player.x  = Math.floor(player.x  + (dt * player.dx));
-    player.dx = Math.floor(player.dx + (dt * player.ddx));
-    player.dy = Math.floor(player.dy + (dt * player.ddy));
-
-    if (player.dx > MAXDX) {
-	player.dx = MAXDX;
-    }
-    else if (player.dx < -MAXDX) {
-	player.dx = -MAXDX;
-    }
-
-    if (player.dy > MAXDY) {
-	player.dy = MAXDY;
-    }
-    else if (player.dy < -MAXDY) {
-	player.dy = -MAXDY;
+    else {        
+        if (Player.left) {
+            Player.ddx = Player.ddx - Player.ACCEL;     // player wants to go left
+        }
+        else if (wasleft) {
+            Player.ddx = Player.ddx + Player.FRICTION;  // player was going left, but not any more
+            Player.wallgrabbing = false;
+        }
+    
+        if (Player.right) {
+            Player.ddx = Player.ddx + Player.ACCEL;     // player wants to go right
+        }
+        else if (wasright) {
+            Player.ddx = Player.ddx - Player.FRICTION;  // player was going right, but not any more
+            Player.wallgrabbing = false;
+        }
+    
+        if (Player.jump && !Player.jumping && !falling) {
+            Player.ddy = Player.ddy - Player.JUMP;     // apply an instantaneous (large) vertical impulse
+            Player.jumping = true;
+            Player.wallgrabbing = false;
+        }
     }
 
-    if ((wasleft  && (player.dx > 0)) || (wasright && (player.dx < 0))) {
-	player.dx = 0; // clamp at zero to prevent friction from making us jiggle side to side
+    Player.y  = Math.floor(Player.y  + (Game.dt * Player.dy));
+    Player.x  = Math.floor(Player.x  + (Game.dt * Player.dx));
+    Player.dx = Math.floor(Player.dx + (Game.dt * Player.ddx));
+    Player.dy = Math.floor(Player.dy + (Game.dt * Player.ddy));
+
+    if (Player.dx > Player.MAXDX) {
+	Player.dx = Player.MAXDX;
+    }
+    else if (Player.dx < -Player.MAXDX) {
+	Player.dx = -Player.MAXDX;
+    }
+
+    if (Player.dy > Player.MAXDY) {
+	Player.dy = Player.MAXDY;
+    }
+    else if (Player.dy < -Player.MAXDY) {
+	Player.dy = -Player.MAXDY;
+    }
+
+    if ((wasleft  && (Player.dx > 0)) || (wasright && (Player.dx < 0))) {
+	Player.dx = 0; // clamp at zero to prevent friction from making us jiggle side to side
     }
     
-    var tx        = p2t(player.x),
-        ty        = p2t(player.y),
-        nx        = player.x % TILE,         // true if player overlaps right
-        ny        = player.y % TILE,         // true if player overlaps below
+    var tx        = p2t(Player.x),
+        ty        = p2t(Player.y),
+        nx        = Player.x % Game.TILE,         // true if player overlaps right
+        ny        = Player.y % Game.TILE,         // true if player overlaps below
         cell      = tcell(tx,     ty),
         cellright = tcell(tx + 1, ty),
+        cellleft  = tcell(tx - 1, ty),
         celldown  = tcell(tx,     ty + 1),
         celldiag  = tcell(tx + 1, ty + 1);
 
-    if (player.dy > 0) {
+    if (Player.dy > 0) {
       if ((celldown && !cell) ||
           (celldiag && !cellright && nx)) {
-        player.y = t2p(ty);       // clamp the y position to avoid falling into platform below
-        player.dy = 0;            // stop downward velocity
-        player.falling = false;   // no longer falling
-        player.jumping = false;   // (or jumping)
+        Player.y = t2p(ty);       // clamp the y position to avoid falling into platform below
+        Player.dy = 0;            // stop downward velocity
+        Player.falling = false;   // no longer falling
+        Player.jumping = false;   // (or jumping)
         ny = 0;                   // - no longer overlaps the cells below
       }
     }
-    else if (player.dy < 0) {
+    else if (Player.dy < 0) {
       if ((cell      && !celldown) ||
           (cellright && !celldiag && nx)) {
-        player.y = t2p(ty + 1);   // clamp the y position to avoid jumping into platform above
-        player.dy = 0;            // stop upward velocity
+        Player.y = t2p(ty + 1);   // clamp the y position to avoid jumping into platform above
+        Player.dy = 0;            // stop upward velocity
         cell      = celldown;     // player is no longer really in that cell, we clamped them to the cell below 
         cellright = celldiag;     // (ditto)
         ny        = 0;            // player no longer overlaps the cells below
       }
     }
     
-    if (player.dx > 0) {
+    if (Player.dx > 0) {
       if ((cellright && !cell) ||
           (celldiag  && !celldown && ny)) {
-        player.x = t2p(tx);       // clamp the x position to avoid moving into the platform we just hit
-        player.dx = 0;            // stop horizontal velocity
+        Player.x = t2p(tx);       // clamp the x position to avoid moving into the platform we just hit
+        Player.dx = 0;            // stop horizontal velocity
       }
     }
-    else if (player.dx < 0) {
+    else if (Player.dx < 0) {
       if ((cell     && !cellright) ||
           (celldown && !celldiag && ny)) {
-        player.x = t2p(tx + 1);  // clamp the x position to avoid moving into the platform we just hit
-        player.dx = 0;           // stop horizontal velocity
+        Player.x = t2p(tx + 1);  // clamp the x position to avoid moving into the platform we just hit
+        Player.dx = 0;           // stop horizontal velocity
       }
     }
+    
+    //wall grab
+    if ((cellleft || cellright) && !celldown && !Player.wallgrabbing) {
+        Player.wallgrabbing = true;
+    }
 
-    player.falling = ! (celldown || (nx && celldiag));
+    Player.falling = ! (celldown || (nx && celldiag));
     
     Draw();
     requestAnimationFrame(Processor);
@@ -262,13 +259,13 @@ document.addEventListener("keyup", function(e) {
 function onkey(e, key, down) {
     switch(key) {
 	case 37: //left
-	    player.left = down;
+	    Player.left = down;
 	    break;
 	case 39: //right
-	    player.right = down;
+	    Player.right = down;
 	    break;
 	case 88: //x
-	    player.jump = down;
+	    Player.jump = down;
 	    break;
     }
 }
