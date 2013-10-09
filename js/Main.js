@@ -138,34 +138,28 @@ function Processor() {
     Player.ddy = Game.GRAVITY;
 
     if ((Player.right || Player.left) && Player.wallgrabbing) {
-        Player.x = t2p(tx);
-        Player.dx = 0;
-        Player.dy = 0;
-        Player.jumping = false;
-        Player.falling = false;
     }
-    else {        
-        if (Player.left) {
-            Player.ddx = Player.ddx - Player.ACCEL;     // player wants to go left
-        }
-        else if (wasleft) {
-            Player.ddx = Player.ddx + Player.FRICTION;  // player was going left, but not any more
-            Player.wallgrabbing = false;
-        }
     
-        if (Player.right) {
-            Player.ddx = Player.ddx + Player.ACCEL;     // player wants to go right
-        }
-        else if (wasright) {
-            Player.ddx = Player.ddx - Player.FRICTION;  // player was going right, but not any more
-            Player.wallgrabbing = false;
-        }
-    
-        if (Player.jump && !Player.jumping && !falling) {
-            Player.ddy = Player.ddy - Player.JUMP;     // apply an instantaneous (large) vertical impulse
-            Player.jumping = true;
-            Player.wallgrabbing = false;
-        }
+    if (Player.left && !Player.wallgrabbing) {
+        Player.ddx = Player.ddx - Player.ACCEL;     // player wants to go left
+    }
+    else if (wasleft) {
+	Player.ddx = Player.ddx + Player.FRICTION;  // player was going left, but not any more
+        Player.wallgrabbing = false;
+    }
+
+    if (Player.right && !Player.wallgrabbing) {
+        Player.ddx = Player.ddx + Player.ACCEL;     // player wants to go right
+    }
+    else if (wasright) {
+	Player.ddx = Player.ddx - Player.FRICTION;  // player was going right, but not any more
+        Player.wallgrabbing = false;
+    }
+
+    if (Player.jump && !Player.jumping && !falling) {
+	Player.ddy = Player.ddy - Player.JUMP;     // apply an instantaneous (large) vertical impulse
+	Player.jumping = true;
+        Player.wallgrabbing = false;
     }
 
     Player.y  = Math.floor(Player.y  + (Game.dt * Player.dy));
@@ -238,8 +232,15 @@ function Processor() {
     }
     
     //wall grab
-    if ((cellleft || cellright) && !celldown && !Player.wallgrabbing) {
+    if ((cellleft || cellright) && !celldown && (Player.right || Player.left)) {
         Player.wallgrabbing = true;
+        Player.dx = 0;
+        Player.dy = 0;
+        Player.jumping = false;
+        Player.falling = false;
+    }
+    else {
+        Player.wallgrabbing = false;
     }
 
     Player.falling = ! (celldown || (nx && celldiag));
