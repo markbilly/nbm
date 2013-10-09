@@ -2,6 +2,11 @@ var c = document.getElementById("Game");
 var b = document.getElementById("Background");
 var debug = document.getElementById("debug");
 var control = document.getElementById("control");
+var bg = document.getElementById("bg");
+bg.style.width = "720px";
+bg.style.height = "480px";
+bg.style.backgroundImage = "url('bg.png')";
+bg.style.position = "absolute";
 control.style.position = "absolute";
 control.style.left = "750px";
 var ctx = c.getContext("2d");
@@ -10,9 +15,23 @@ var img = new Image();
 img.src = "player.png";
 var tile = new Image();
 tile.src = "tile.png";
+var tile_floor1 = new Image();
+tile_floor1.src = "floor1.png";
+var tile_floor2 = new Image();
+tile_floor2.src = "floor2.png";
+var tile_vert1 = new Image();
+tile_vert1.src = "vert1.png";
+
+function px(x) {
+    return x * 3;
+}
+
+function py(y) {
+    return y * 3;
+}
 
 var MAP      = { tw: 24, th: 16 }, // the size of the map (in tiles)
-    TILE     = 30,                 // the size of each tile (in game pixels)
+    TILE     = 10,                 // the size of each tile (in game pixels)
     METER    = TILE * 0.5,               // abitrary choice for 1m
     GRAVITY  = METER * 0.2,    
     MAXDX    = METER * 0.8,         // max horizontal speed (20 tiles per second)
@@ -35,22 +54,22 @@ var player = {
 }
 
 var map =[
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+            3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
         ];
 
 player.image = img;
@@ -66,20 +85,36 @@ tile.onload = function() {
 function BuildLevel(level) {
     var y = 0;
     var x = 0;
+    var tileImage = tile;
     
     for (i = 0; i < level.length; i++) {
         //draw tile
-        if (level[i] === 1) {
-            ctx_b.drawImage(tile,x,y,TILE,TILE);
+        if (level[i] === 0) {
+            //do nothing
+        }
+        else {
+            if (level[i] === 1) {
+                tileImage = tile;
+            }
+            else if (level[i] === 2) {
+                tileImage = tile_floor1;
+            }
+            else if (level[i] === 3) {
+                tileImage = tile_floor2;
+            }
+            else if (level[i] === 4) {
+                tileImage = tile_vert1;
+            }
+            ctx_b.drawImage(tileImage,x,y,px(TILE),py(TILE));
         }
         
         //get next draw location
         if (level[i] !== 8) {
-            x += TILE;
+            x += px(TILE);
         }
         else {
             x = 0;
-            y += TILE;            
+            y += py(TILE);            
         }
     }
 }
@@ -108,7 +143,7 @@ function tcell(tx, ty) {
 }
 
 function Draw() {
-    ctx.drawImage(player.image,player.x - (12 * 3),player.y - (13 * 3), 24 * 3, 13 * 3);
+    ctx.drawImage(player.image,px(player.x - 8),py(player.y - 12), 24 * 3, 13 * 3);
 
     debug.innerHTML = "y = " + player.y + "<br>x = " + player.x;
 }
