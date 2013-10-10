@@ -124,7 +124,8 @@ function Draw() {
 
     debug.innerHTML = "jumping: " + Player.jumping +
                         "<br>falling: " + Player.falling +
-                        "<br>wallgrabbing: " + Player.wallgrabbing;
+                        "<br>wallgrabbing: " + Player.wallgrabbing +
+                        "<br>jump: " + Player.jump;
 }
 
 function Processor() {
@@ -136,30 +137,24 @@ function Processor() {
 
     Player.ddx = 0;
     Player.ddy = Game.GRAVITY;
-
-    if ((Player.right || Player.left) && Player.wallgrabbing) {
-    }
     
-    if (Player.left && !Player.wallgrabbing) {
+    if (Player.left && !Player.wallgrabbingleft) {
         Player.ddx = Player.ddx - Player.ACCEL;     // player wants to go left
     }
     else if (wasleft) {
 	Player.ddx = Player.ddx + Player.FRICTION;  // player was going left, but not any more
-        Player.wallgrabbing = false;
     }
 
-    if (Player.right && !Player.wallgrabbing) {
+    if (Player.right && !Player.wallgrabbingright) {
         Player.ddx = Player.ddx + Player.ACCEL;     // player wants to go right
     }
     else if (wasright) {
 	Player.ddx = Player.ddx - Player.FRICTION;  // player was going right, but not any more
-        Player.wallgrabbing = false;
     }
 
     if (Player.jump && !Player.jumping && !falling) {
-	Player.ddy = Player.ddy - Player.JUMP;     // apply an instantaneous (large) vertical impulse
+        Player.ddy = Player.ddy - Player.JUMP;     // apply an instantaneous (large) vertical impulse
 	Player.jumping = true;
-        Player.wallgrabbing = false;
     }
 
     Player.y  = Math.floor(Player.y  + (Game.dt * Player.dy));
@@ -232,18 +227,30 @@ function Processor() {
     }
     
     //wall grab
-    if ((cellleft || cellright) && !celldown && (Player.right || Player.left)) {
-        Player.wallgrabbing = true;
+    if (cellright && !celldown && Player.right && !Player.jump) {
+        Player.wallgrabbingright = true;
+        Player.x = t2p(tx);
+        Player.dx = 0;
+        Player.dy = 0;
+        Player.jumping = false;
+        Player.falling = false;
+    }
+    else if (cellleft && !celldown && Player.left && !Player.jump) {
+        Player.wallgrabbingleft = true;
+        Player.x = t2p(tx);
         Player.dx = 0;
         Player.dy = 0;
         Player.jumping = false;
         Player.falling = false;
     }
     else {
-        Player.wallgrabbing = false;
+        Player.wallgrabbingleft = false;
+        Player.wallgrabbingright = false;
     }
 
-    Player.falling = ! (celldown || (nx && celldiag));
+    if (!Player.wallgrabbingleft && !Player.wallgrabbingright) {
+        Player.falling = ! (celldown || (nx && celldiag));
+    }
     
     Draw();
     requestAnimationFrame(Processor);
