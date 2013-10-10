@@ -25,3 +25,23 @@ var Player = {
         Player.image = img;        
     }
 }
+
+var Enemy = {
+    image: null,
+    x: 18 * 10,
+    y: 6 * 10,
+    dx: 0,
+    dy: 0,
+    ddx: 0,
+    ddy: 0,
+    falling: false,
+    MAXDX: 1.0,      // max horizontal speed (20 tiles per second)
+    MAXDY: 9.0,      // max vertical speed   (60 tiles per second)
+
+    Init: function() {
+        var img = new Image();
+        img.src = "player.png";
+        Enemy.image = img;        
+    }
+    
+}

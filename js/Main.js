@@ -51,6 +51,7 @@ var map =[
         ];
 
 Player.Init();
+Enemy.Init();
 
 window.setTimeout(function() {
     BuildLevel(map);
@@ -64,7 +65,7 @@ function BuildLevel(level) {
     
     for (i = 0; i < level.length; i++) {
         //draw tile
-        if (level[i] === 0) {
+        if (level[i] === 0 || level[i] === 9) {
             //do nothing
         }
         else {
@@ -119,7 +120,8 @@ function tcell(tx, ty) {
 
 function Draw() {
     ctx.drawImage(Player.image,px(Player.x - 8),py(Player.y - 12), 24 * 3, 13 * 3);
-
+    ctx.drawImage(Enemy.image,px(Enemy.x - 8),py(Enemy.y - 12), 24 * 3, 13 * 3);
+    
     debug.innerHTML = "jumping: " + Player.jumping +
                         "<br>falling: " + Player.falling +
                         "<br>wallgrabbing: " + Player.wallgrabbing +
@@ -128,6 +130,70 @@ function Draw() {
 
 function Processor() {
     ctx.clearRect(0,0,720,480);
+    
+    //Enemy
+    
+    if (Enemy.dx === 0) {
+        Enemy.dx = Enemy.MAXDX;
+    }
+    Enemy.ddx = 0;
+    Enemy.ddy = Game.GRAVITY;
+    
+    if (Enemy.dy > Enemy.MAXDY) {
+	Enemy.dy = Enemy.MAXDY;
+    }
+    
+    Enemy.y  = Math.floor(Enemy.y  + (Game.dt * Enemy.dy));
+    Enemy.x  = Math.floor(Enemy.x  + (Game.dt * Enemy.dx));
+    Enemy.dx = Math.floor(Enemy.dx + (Game.dt * Enemy.ddx));
+    Enemy.dy = Math.floor(Enemy.dy + (Game.dt * Enemy.ddy));
+    
+    var enemytx        = p2t(Enemy.x),
+        enemyty        = p2t(Enemy.y),
+        enemynx        = Enemy.x % Game.TILE,         // true if player overlaps right
+        enemyny        = Enemy.y % Game.TILE,         // true if player overlaps below
+        enemycell      = tcell(enemytx,     enemyty),
+        enemycellright = tcell(enemytx + 1, enemyty),
+        enemycellleft  = tcell(enemytx - 1, enemyty),
+        enemycelldown  = tcell(enemytx,     enemyty + 1),
+        enemycelldiag  = tcell(enemytx + 1, enemyty + 1);
+    
+    if (Enemy.dy > 0) {
+      if ((enemycelldown && !enemycell) ||
+          (enemycelldiag && !enemycellright && enemynx)) {
+        Enemy.y = t2p(enemyty);       // clamp the y position to avoid falling into platform below
+        Enemy.dy = 0;            // stop downward velocity
+        Enemy.falling = false;   // no longer falling
+        enemyny = 0;                   // - no longer overlaps the cells below
+      }
+    }
+    if ((!enemycelldiag || !enemycelldown) && !Enemy.falling) {
+        Enemy.y = t2p(enemyty);
+        if (Enemy.dx > 0) {
+            Enemy.dx = -Enemy.MAXDX;
+        }
+        else if (Enemy.dx < 0) {
+            Enemy.dx = Enemy.MAXDX;
+        }
+    }
+    if (Enemy.dx > 0) {
+      if ((enemycellright && !enemycell) ||
+          (enemycelldiag  && !enemycelldown && enemyny)) {
+        Enemy.x = t2p(enemytx);       // clamp the x position to avoid moving into the platform we just hit
+        Enemy.dx = -Enemy.MAXDX;            // stop horizontal velocity
+      }
+    }
+    else if (Enemy.dx < 0) {
+      if ((enemycell     && !enemycellright) ||
+          (enemycelldown && !enemycelldiag && enemyny)) {
+        Enemy.x = t2p(enemytx + 1);  // clamp the x position to avoid moving into the platform we just hit
+        Enemy.dx = Enemy.MAXDX;           // stop horizontal velocity
+      }
+    }
+    
+    Enemy.falling = ! (enemycelldown || (enemynx && enemycelldiag));
+    
+    //Player
 
     var wasleft  = Player.dx < 0,
 	wasright = Player.dx > 0,
