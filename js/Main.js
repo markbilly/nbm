@@ -51,13 +51,11 @@ var map =[
         ];
 
 Player.Init();
-Player.image.onload = function() {
-    Processor();
-}
 
-tile.onload = function() {
+window.setTimeout(function() {
     BuildLevel(map);
-}
+    Processor();
+}, 1000);
 
 function BuildLevel(level) {
     var y = 0;

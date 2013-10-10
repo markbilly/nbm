@@ -1,6 +1,6 @@
 var Player = {
     image: null,
-    x: 0,
+    x: 60,
     y: 0,
     dx: 0,
     dy: 0,
@@ -13,11 +13,11 @@ var Player = {
     left: false,
     right: false,
     jump: false,
-    MAXDX: 4.0,      // max horizontal speed (20 tiles per second)
-    MAXDY: 8.0,      // max vertical speed   (60 tiles per second)
+    MAXDX: 3.0,      // max horizontal speed (20 tiles per second)
+    MAXDY: 9.0,      // max vertical speed   (60 tiles per second)
     ACCEL: 8.0,        // horizontal acceleration -  take 1/2 second to reach maxdx
     FRICTION: 24.0,     // horizontal friction     -  take 1/6 second to stop from maxdx
-    JUMP: 30.0,         // (a large) instantaneous jump impulse
+    JUMP: 100.0,         // (a large) instantaneous jump impulse
     
     Init: function() {
         var img = new Image();
