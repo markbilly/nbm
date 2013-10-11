@@ -30,6 +30,7 @@ left.style.left = "0px";
 left.style.top = "380px";
 left.style.border = "solid 9px";
 left.style.position = "absolute";
+left.style.visibility = "hidden";
 
 var right = document.getElementById("right");
 right.style.width = "100px";
@@ -38,6 +39,7 @@ right.style.left = "150px";
 right.style.top = "380px";
 right.style.border = "solid 9px";
 right.style.position = "absolute";
+right.style.visibility = "hidden";
 
 var jump = document.getElementById("jump");
 jump.style.width = "100px";
@@ -46,6 +48,7 @@ jump.style.left = "620px";
 jump.style.top = "380px";
 jump.style.border = "solid 9px";
 jump.style.position = "absolute";
+jump.style.visibility = "hidden";
 
 function px(x) {
     return x * 3;
