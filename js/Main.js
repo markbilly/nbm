@@ -124,27 +124,27 @@ document.addEventListener("keyup", function(e) {
     return onkey(e, e.keyCode, false);
 }, false);
 
-left.addEventListener("touchdown", function(e) {
+left.addEventListener("touchstart", function(e) {
     return ontouch("left", true);
 }, false);
 
-left.addEventListener("touchup", function(e) {
+left.addEventListener("touchend", function(e) {
     return ontouch("left", false);
 }, false);
 
-right.addEventListener("touchdown", function(e) {
+right.addEventListener("touchstart", function(e) {
     return ontouch("right", true);
 }, false);
 
-right.addEventListener("touchup", function(e) {
+right.addEventListener("touchend", function(e) {
     return ontouch("right", false);
 }, false);
 
-jump.addEventListener("touchdown", function(e) {
+jump.addEventListener("touchstart", function(e) {
     return ontouch("jump", true);
 }, false);
 
-jump.addEventListener("touchup", function(e) {
+jump.addEventListener("touchend", function(e) {
     return ontouch("jummp", true);
 }, false);
 
