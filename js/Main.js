@@ -23,6 +23,30 @@ tile_floor2.src = "floor2.png";
 var tile_vert1 = new Image();
 tile_vert1.src = "vert1.png";
 
+var left = document.getElementById("left");
+left.style.width = "100px";
+left.style.height = "100px";
+left.style.left = "0px";
+left.style.top = "380px";
+left.style.border = "solid 9px";
+left.style.position = "absolute";
+
+var right = document.getElementById("right");
+right.style.width = "100px";
+right.style.height = "100px";
+right.style.left = "150px";
+right.style.top = "380px";
+right.style.border = "solid 9px";
+right.style.position = "absolute";
+
+var jump = document.getElementById("jump");
+jump.style.width = "100px";
+jump.style.height = "100px";
+jump.style.left = "620px";
+jump.style.top = "380px";
+jump.style.border = "solid 9px";
+jump.style.position = "absolute";
+
 function px(x) {
     return x * 3;
 }
@@ -50,23 +74,26 @@ var map =[
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
 ];
 
-Player.Init();
 var enemy1 = new Enemy((2 * 10), (1 * 10));
 var enemy2 = new Enemy((4 * 10), (6 * 10));
 var enemy3 = new Enemy((18 * 10), (6 * 10));
-
 Game.enemies[0] = enemy1;
 Game.enemies[1] = enemy2;
 Game.enemies[2] = enemy3;
 
-Game.InitEnemies();
+function StartGame() {
+    Player.Init();
+    Game.InitEnemies();
+}
 
 window.setTimeout(function() {
+    StartGame();
     Game.BuildLevel(map);
     Processor();
 }, 1000);
 
 function Draw() {
+    ctx.clearRect(0,0,720,480);
     
     ctx.drawImage(Player.image,px(Player.x - 8),py(Player.y - 12), 24 * 3, 13 * 3);
     Game.DrawEnemies();
@@ -78,14 +105,13 @@ function Draw() {
 }
 
 function Processor() {
-    ctx.clearRect(0,0,720,480);
-    
-    //Enemy
-    Game.UpdateEnemies();
     
     //Player
     Player.Update();
     
+    //Enemy
+    Game.UpdateEnemies();
+        
     Draw();
     requestAnimationFrame(Processor);
 }
@@ -98,16 +124,66 @@ document.addEventListener("keyup", function(e) {
     return onkey(e, e.keyCode, false);
 }, false);
 
+left.addEventListener("touchdown", function(e) {
+    return ontouch("left", true);
+}, false);
+
+left.addEventListener("touchup", function(e) {
+    return ontouch("left", false);
+}, false);
+
+right.addEventListener("touchdown", function(e) {
+    return ontouch("right", true);
+}, false);
+
+right.addEventListener("touchup", function(e) {
+    return ontouch("right", false);
+}, false);
+
+jump.addEventListener("touchdown", function(e) {
+    return ontouch("jump", true);
+}, false);
+
+jump.addEventListener("touchup", function(e) {
+    return ontouch("jummp", true);
+}, false);
+
 function onkey(e, key, down) {
     switch(key) {
-	case 37: //left
-	    Player.left = down;
-	    break;
-	case 39: //right
-	    Player.right = down;
-	    break;
-	case 88: //x
-	    Player.jump = down;
-	    break;
+        case 37: //left
+            Player.left = down;
+            break;
+        case 39: //right
+            Player.right = down;
+            break;
+        case 88: //x
+            if (Player.dead) {
+                StartGame();
+                Player.dead = false;
+            }
+            else {
+                Player.jump = down;
+            }
+            break;
+    }
+}
+
+function ontouch(key, down) {
+    switch(key) {
+        case "left": //left
+            Player.left = down;
+            break;
+        case "right": //right
+            Player.right = down;
+            break;
+        case "jump": //x
+            if (Player.dead) {
+                StartGame();
+                Player.dead = false;
+            }
+            else {
+                Player.jump = down;
+            }
+            break;
     }
 }

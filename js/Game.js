@@ -47,8 +47,6 @@ var Game = {
         out = tx;
         out += (ty - 1) * (Game.MAP.tw + 1);
         
-        control.innerHTML = "player @ (" + tx + ", " + ty + ")<br>tile location: " + out;
-        
         return map[out];
     },    
     

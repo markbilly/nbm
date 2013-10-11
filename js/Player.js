@@ -1,15 +1,20 @@
 var Player = {
     image: null,
+    xInit: 60,
+    yInit: 140,
     x: 60,
-    y: 0,
+    y: 140,
     dx: 0,
     dy: 0,
     ddx: 0,
     ddy: 0,
+    tx: 0,
+    ty: 0,
     falling: false,
     jumping: false,
     wallgrabbingleft: false,
     wallgrabbingright: false,
+    dead: false,
     left: false,
     right: false,
     jump: false,
@@ -22,7 +27,9 @@ var Player = {
     Init: function() {
         var img = new Image();
         img.src = "player.png";
-        Player.image = img;        
+        this.image = img;
+        this.x = this.xInit;
+        this.y = this.yInit;
     },
     
     Update: function() {
@@ -33,8 +40,10 @@ var Player = {
             
         this.UpdatePosition(wasleft, wasright, falling);
         this.ClampSpeed(wasleft, wasright);
-        this.ApplyCollisions(wasleft, wasright, falling);
         
+        if (this.dead === false) {
+            this.ApplyCollisions(wasleft, wasright, falling);
+        }
     },
     
     UpdatePosition: function(wasleft, wasright, falling) {
@@ -95,7 +104,7 @@ var Player = {
     ApplyCollisions: function(wasleft, wasright, falling) {
         
         var player = this;
-            
+        
         var tx        = Game.PixelToTile(player.x),
             ty        = Game.PixelToTile(player.y),
             nx        = player.x % Game.TILE,         // true if player overlaps right
@@ -105,6 +114,9 @@ var Player = {
             cellleft  = Game.TileLocationFromTile(tx - 1, ty),
             celldown  = Game.TileLocationFromTile(tx,     ty + 1),
             celldiag  = Game.TileLocationFromTile(tx + 1, ty + 1);
+        
+        player.tx = tx;
+        player.ty = ty;
         
         if (player.dy > 0) {
           if ((celldown && !cell) ||

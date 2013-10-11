@@ -1,5 +1,7 @@
 function Enemy(x, y) {
     this.image = null;
+    this.xInit = x;
+    this.yInit = y;
     this.x = x;
     this.y = y;
     this.dx = 0;
@@ -14,7 +16,9 @@ function Enemy(x, y) {
 Enemy.prototype.Init = function() {
     var img = new Image();
     img.src = "player.png";
-    this.image = img;        
+    this.image = img;
+    this.x = this.xInit;
+    this.y = this.yInit;
 }
 
 Enemy.prototype.Update = function() {
@@ -90,4 +94,13 @@ Enemy.prototype.ApplyCollisions = function() {
     }
     
     enemy.falling = ! (enemycelldown || (enemynx && enemycelldiag));
+    
+    var inPlayerCell = (enemytx === Player.tx) && (enemyty === Player.ty);
+    
+    if (inPlayerCell) {
+        Player.dead = true;
+        Player.dx = 0;
+        Player.x = Game.TileToPixel(Player.tx);
+    }
+    control.innerHTML = "<br>dead: " + Player.dead;
 }
