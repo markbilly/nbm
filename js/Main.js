@@ -32,95 +32,44 @@ function py(y) {
 }
 
 var map =[
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-            3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
-        ];
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
+];
 
 Player.Init();
-Enemy.Init();
+var enemy1 = new Enemy((2 * 10), (1 * 10));
+var enemy2 = new Enemy((4 * 10), (6 * 10));
+var enemy3 = new Enemy((18 * 10), (6 * 10));
+
+Game.enemies[0] = enemy1;
+Game.enemies[1] = enemy2;
+Game.enemies[2] = enemy3;
+
+Game.InitEnemies();
 
 window.setTimeout(function() {
-    BuildLevel(map);
+    Game.BuildLevel(map);
     Processor();
 }, 1000);
 
-function BuildLevel(level) {
-    var y = 0;
-    var x = 0;
-    var tileImage = tile;
-    
-    for (i = 0; i < level.length; i++) {
-        //draw tile
-        if (level[i] === 0 || level[i] === 9) {
-            //do nothing
-        }
-        else {
-            if (level[i] === 1) {
-                tileImage = tile;
-            }
-            else if (level[i] === 2) {
-                tileImage = tile_floor1;
-            }
-            else if (level[i] === 3) {
-                tileImage = tile_floor2;
-            }
-            else if (level[i] === 4) {
-                tileImage = tile_vert1;
-            }
-            ctx_b.drawImage(tileImage,x,y,px(Game.TILE),py(Game.TILE));
-        }
-        
-        //get next draw location
-        if (level[i] !== 8) {
-            x += px(Game.TILE);
-        }
-        else {
-            x = 0;
-            y += py(Game.TILE);            
-        }
-    }
-}
-    
-function t2p(t) {
-    return t * Game.TILE;
-}
-
-function p2t(p) {
-    return Math.floor(p/Game.TILE);
-}
-    
-function cell(x, y) {
-    return tcell(p2t(x),p2t(y));
-}
-
-function tcell(tx, ty) {
-    var out = 0;
-    
-    out = tx;
-    out += (ty - 1) * (Game.MAP.tw + 1);
-    
-    control.innerHTML = "player @ (" + tx + ", " + ty + ")<br>tile location: " + out;
-    
-    return map[out];
-}
-
 function Draw() {
+    
     ctx.drawImage(Player.image,px(Player.x - 8),py(Player.y - 12), 24 * 3, 13 * 3);
-    ctx.drawImage(Enemy.image,px(Enemy.x - 8),py(Enemy.y - 12), 24 * 3, 13 * 3);
+    Game.DrawEnemies();
     
     debug.innerHTML = "jumping: " + Player.jumping +
                         "<br>falling: " + Player.falling +
@@ -132,189 +81,10 @@ function Processor() {
     ctx.clearRect(0,0,720,480);
     
     //Enemy
-    
-    if (Enemy.dx === 0) {
-        Enemy.dx = Enemy.MAXDX;
-    }
-    Enemy.ddx = 0;
-    Enemy.ddy = Game.GRAVITY;
-    
-    if (Enemy.dy > Enemy.MAXDY) {
-	Enemy.dy = Enemy.MAXDY;
-    }
-    
-    Enemy.y  = Math.floor(Enemy.y  + (Game.dt * Enemy.dy));
-    Enemy.x  = Math.floor(Enemy.x  + (Game.dt * Enemy.dx));
-    Enemy.dx = Math.floor(Enemy.dx + (Game.dt * Enemy.ddx));
-    Enemy.dy = Math.floor(Enemy.dy + (Game.dt * Enemy.ddy));
-    
-    var enemytx        = p2t(Enemy.x),
-        enemyty        = p2t(Enemy.y),
-        enemynx        = Enemy.x % Game.TILE,         // true if player overlaps right
-        enemyny        = Enemy.y % Game.TILE,         // true if player overlaps below
-        enemycell      = tcell(enemytx,     enemyty),
-        enemycellright = tcell(enemytx + 1, enemyty),
-        enemycellleft  = tcell(enemytx - 1, enemyty),
-        enemycelldown  = tcell(enemytx,     enemyty + 1),
-        enemycelldiag  = tcell(enemytx + 1, enemyty + 1);
-    
-    if (Enemy.dy > 0) {
-      if ((enemycelldown && !enemycell) ||
-          (enemycelldiag && !enemycellright && enemynx)) {
-        Enemy.y = t2p(enemyty);       // clamp the y position to avoid falling into platform below
-        Enemy.dy = 0;            // stop downward velocity
-        Enemy.falling = false;   // no longer falling
-        enemyny = 0;                   // - no longer overlaps the cells below
-      }
-    }
-    if ((!enemycelldiag || !enemycelldown) && !Enemy.falling) {
-        Enemy.y = t2p(enemyty);
-        if (Enemy.dx > 0) {
-            Enemy.dx = -Enemy.MAXDX;
-        }
-        else if (Enemy.dx < 0) {
-            Enemy.dx = Enemy.MAXDX;
-        }
-    }
-    if (Enemy.dx > 0) {
-      if ((enemycellright && !enemycell) ||
-          (enemycelldiag  && !enemycelldown && enemyny)) {
-        Enemy.x = t2p(enemytx);       // clamp the x position to avoid moving into the platform we just hit
-        Enemy.dx = -Enemy.MAXDX;            // stop horizontal velocity
-      }
-    }
-    else if (Enemy.dx < 0) {
-      if ((enemycell     && !enemycellright) ||
-          (enemycelldown && !enemycelldiag && enemyny)) {
-        Enemy.x = t2p(enemytx + 1);  // clamp the x position to avoid moving into the platform we just hit
-        Enemy.dx = Enemy.MAXDX;           // stop horizontal velocity
-      }
-    }
-    
-    Enemy.falling = ! (enemycelldown || (enemynx && enemycelldiag));
+    Game.UpdateEnemies();
     
     //Player
-
-    var wasleft  = Player.dx < 0,
-	wasright = Player.dx > 0,
-	falling  = Player.falling;
-
-    Player.ddx = 0;
-    Player.ddy = Game.GRAVITY;
-    
-    if (Player.left && !Player.wallgrabbingleft) {
-        Player.ddx = Player.ddx - Player.ACCEL;     // player wants to go left
-    }
-    else if (wasleft) {
-	Player.ddx = Player.ddx + Player.FRICTION;  // player was going left, but not any more
-    }
-
-    if (Player.right && !Player.wallgrabbingright) {
-        Player.ddx = Player.ddx + Player.ACCEL;     // player wants to go right
-    }
-    else if (wasright) {
-	Player.ddx = Player.ddx - Player.FRICTION;  // player was going right, but not any more
-    }
-
-    if (Player.jump && !Player.jumping && !falling) {
-        Player.ddy = Player.ddy - Player.JUMP;     // apply an instantaneous (large) vertical impulse
-	Player.jumping = true;
-    }
-
-    Player.y  = Math.floor(Player.y  + (Game.dt * Player.dy));
-    Player.x  = Math.floor(Player.x  + (Game.dt * Player.dx));
-    Player.dx = Math.floor(Player.dx + (Game.dt * Player.ddx));
-    Player.dy = Math.floor(Player.dy + (Game.dt * Player.ddy));
-
-    if (Player.dx > Player.MAXDX) {
-	Player.dx = Player.MAXDX;
-    }
-    else if (Player.dx < -Player.MAXDX) {
-	Player.dx = -Player.MAXDX;
-    }
-
-    if (Player.dy > Player.MAXDY) {
-	Player.dy = Player.MAXDY;
-    }
-    else if (Player.dy < -Player.MAXDY) {
-	Player.dy = -Player.MAXDY;
-    }
-
-    if ((wasleft  && (Player.dx > 0)) || (wasright && (Player.dx < 0))) {
-	Player.dx = 0; // clamp at zero to prevent friction from making us jiggle side to side
-    }
-    
-    var tx        = p2t(Player.x),
-        ty        = p2t(Player.y),
-        nx        = Player.x % Game.TILE,         // true if player overlaps right
-        ny        = Player.y % Game.TILE,         // true if player overlaps below
-        cell      = tcell(tx,     ty),
-        cellright = tcell(tx + 1, ty),
-        cellleft  = tcell(tx - 1, ty),
-        celldown  = tcell(tx,     ty + 1),
-        celldiag  = tcell(tx + 1, ty + 1);
-
-    if (Player.dy > 0) {
-      if ((celldown && !cell) ||
-          (celldiag && !cellright && nx)) {
-        Player.y = t2p(ty);       // clamp the y position to avoid falling into platform below
-        Player.dy = 0;            // stop downward velocity
-        Player.falling = false;   // no longer falling
-        Player.jumping = false;   // (or jumping)
-        ny = 0;                   // - no longer overlaps the cells below
-      }
-    }
-    else if (Player.dy < 0) {
-      if ((cell      && !celldown) ||
-          (cellright && !celldiag && nx)) {
-        Player.y = t2p(ty + 1);   // clamp the y position to avoid jumping into platform above
-        Player.dy = 0;            // stop upward velocity
-        cell      = celldown;     // player is no longer really in that cell, we clamped them to the cell below 
-        cellright = celldiag;     // (ditto)
-        ny        = 0;            // player no longer overlaps the cells below
-      }
-    }
-    
-    if (Player.dx > 0) {
-      if ((cellright && !cell) ||
-          (celldiag  && !celldown && ny)) {
-        Player.x = t2p(tx);       // clamp the x position to avoid moving into the platform we just hit
-        Player.dx = 0;            // stop horizontal velocity
-      }
-    }
-    else if (Player.dx < 0) {
-      if ((cell     && !cellright) ||
-          (celldown && !celldiag && ny)) {
-        Player.x = t2p(tx + 1);  // clamp the x position to avoid moving into the platform we just hit
-        Player.dx = 0;           // stop horizontal velocity
-      }
-    }
-    
-    //wall grab
-    if (cellright && !celldown && Player.right && !Player.jump) {
-        Player.wallgrabbingright = true;
-        Player.x = t2p(tx);
-        Player.dx = 0;
-        Player.dy = 0;
-        Player.jumping = false;
-        Player.falling = false;
-    }
-    else if (cellleft && !celldown && Player.left && !Player.jump) {
-        Player.wallgrabbingleft = true;
-        Player.x = t2p(tx);
-        Player.dx = 0;
-        Player.dy = 0;
-        Player.jumping = false;
-        Player.falling = false;
-    }
-    else {
-        Player.wallgrabbingleft = false;
-        Player.wallgrabbingright = false;
-    }
-
-    if (!Player.wallgrabbingleft && !Player.wallgrabbingright) {
-        Player.falling = ! (celldown || (nx && celldiag));
-    }
+    Player.Update();
     
     Draw();
     requestAnimationFrame(Processor);
