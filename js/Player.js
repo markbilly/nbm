@@ -4,8 +4,6 @@ var Player = {
     yInit: 140,
     x: 60,
     y: 140,
-    width: 12,
-    height: 12,
     dx: 0,
     dy: 0,
     ddx: 0,
@@ -120,68 +118,41 @@ var Player = {
         player.tx = tx;
         player.ty = ty;
         
-        var topLeft = { x: player.x, y: player.y },
-            topRight = { x: player.x + player.width, y: player.y },
-            bottomLeft = { x: player.x, y: player.y + player.height },
-            bottomRight = { x: player.x + player.width, y: player.y + player.height },
-            topLeftTile = Game.TileLocationFromPixel(topLeft.x, topLeft.y),
-            topRightTile = Game.TileLocationFromPixel(topRight.x, topRight.y),
-            bottomLeftTile = Game.TileLocationFromPixel(bottomLeft.x, bottomLeft.y),
-            bottomRightTile = Game.TileLocationFromPixel(bottomRight.x, bottomRight.y);
-        
         if (player.dy > 0) {
-            if ((wasright && bottomRightTile) ||
-                (wasleft && bottomLeftTile) ||
-                (!player.dx && (bottomRightTile || bottomLeftTile))) {
-                player.y = Game.TileToPixel(ty);
-                player.dy = 0;            // stop downward velocity
-                player.falling = false;   // no longer falling
-                player.jumping = false;   // (or jumping)                
-            }
+          if ((celldown && !cell) ||
+              (celldiag && !cellright && nx)) {
+            player.y = Game.TileToPixel(ty);       // clamp the y position to avoid falling into platform below
+            player.dy = 0;            // stop downward velocity
+            player.falling = false;   // no longer falling
+            player.jumping = false;   // (or jumping)
+            ny = 0;                   // - no longer overlaps the cells below
+          }
         }
         else if (player.dy < 0) {
-            if ((wasright && topRightTile) ||
-                (wasleft && topLeftTile) ||
-                (!player.dx && (topRightTile || topLeftTile))) {
-                player.dy = 0;            // stop upward velocity
-            }
+          if ((cell      && !celldown) ||
+              (cellright && !celldiag && nx)) {
+            player.y = Game.TileToPixel(ty + 1);   // clamp the y position to avoid jumping into platform above
+            player.dy = 0;            // stop upward velocity
+            cell      = celldown;     // player is no longer really in that cell, we clamped them to the cell below 
+            cellright = celldiag;     // (ditto)
+            ny        = 0;            // player no longer overlaps the cells below
+          }
         }
         
-        //if (player.dy > 0) {
-        //  if ((celldown && !cell) ||
-        //      (celldiag && !cellright && nx)) {
-        //    player.y = Game.TileToPixel(ty);       // clamp the y position to avoid falling into platform below
-        //    player.dy = 0;            // stop downward velocity
-        //    player.falling = false;   // no longer falling
-        //    player.jumping = false;   // (or jumping)
-        //    ny = 0;                   // - no longer overlaps the cells below
-        //  }
-        //}
-        //else if (player.dy < 0) {
-        //  if ((cell      && !celldown) ||
-        //      (cellright && !celldiag && nx)) {
-        //    player.y = Game.TileToPixel(ty + 1);   // clamp the y position to avoid jumping into platform above
-        //    player.dy = 0;            // stop upward velocity
-        //    cell      = celldown;     // player is no longer really in that cell, we clamped them to the cell below 
-        //    cellright = celldiag;     // (ditto)
-        //    ny        = 0;            // player no longer overlaps the cells below
-        //  }
-        //}
-        //
-        //if (player.dx > 0) {
-        //  if ((cellright && !cell) ||
-        //      (celldiag  && !celldown && ny)) {
-        //    player.x = Game.TileToPixel(tx);       // clamp the x position to avoid moving into the platform we just hit
-        //    player.dx = 0;            // stop horizontal velocity
-        //  }
-        //}
-        //else if (player.dx < 0) {
-        //  if ((cell     && !cellright) ||
-        //      (celldown && !celldiag && ny)) {
-        //    player.x = Game.TileToPixel(tx + 1);  // clamp the x position to avoid moving into the platform we just hit
-        //    player.dx = 0;           // stop horizontal velocity
-        //  }
-        //}
+        if (player.dx > 0) {
+          if ((cellright && !cell) ||
+              (celldiag  && !celldown && ny)) {
+            player.x = Game.TileToPixel(tx);       // clamp the x position to avoid moving into the platform we just hit
+            player.dx = 0;            // stop horizontal velocity
+          }
+        }
+        else if (player.dx < 0) {
+          if ((cell     && !cellright) ||
+              (celldown && !celldiag && ny)) {
+            player.x = Game.TileToPixel(tx + 1);  // clamp the x position to avoid moving into the platform we just hit
+            player.dx = 0;           // stop horizontal velocity
+          }
+        }
         
         //wall grab
         if (cellright && !celldown && player.right && !player.jump) {
