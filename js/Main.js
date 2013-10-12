@@ -23,33 +23,6 @@ tile_floor2.src = "floor2.png";
 var tile_vert1 = new Image();
 tile_vert1.src = "vert1.png";
 
-var left = document.getElementById("left");
-left.style.width = "100px";
-left.style.height = "100px";
-left.style.left = "0px";
-left.style.top = "380px";
-left.style.border = "solid 9px";
-left.style.position = "absolute";
-left.style.visibility = "hidden";
-
-var right = document.getElementById("right");
-right.style.width = "100px";
-right.style.height = "100px";
-right.style.left = "150px";
-right.style.top = "380px";
-right.style.border = "solid 9px";
-right.style.position = "absolute";
-right.style.visibility = "hidden";
-
-var jump = document.getElementById("jump");
-jump.style.width = "100px";
-jump.style.height = "100px";
-jump.style.left = "620px";
-jump.style.top = "380px";
-jump.style.border = "solid 9px";
-jump.style.position = "absolute";
-jump.style.visibility = "hidden";
-
 function px(x) {
     return x * 3;
 }
@@ -83,9 +56,11 @@ var enemy3 = new Enemy((18 * 10), (6 * 10));
 Game.enemies[0] = enemy1;
 Game.enemies[1] = enemy2;
 Game.enemies[2] = enemy3;
+var melon = new Melon();
 
 function StartGame() {
     Player.Init();
+    melon.Init();
     Game.InitEnemies();
 }
 
@@ -100,11 +75,14 @@ function Draw() {
     
     ctx.drawImage(Player.image,px(Player.x - 8),py(Player.y - 12), 24 * 3, 13 * 3);
     Game.DrawEnemies();
+    ctx.drawImage(melon.image,px(melon.x - 10),py(melon.y - 10), px(Game.TILE), py(Game.TILE));
     
     debug.innerHTML = "jumping: " + Player.jumping +
                         "<br>falling: " + Player.falling +
                         "<br>wallgrabbing: " + Player.wallgrabbing +
                         "<br>jump: " + Player.jump;
+                        
+    //requestAnimFrame(Draw);
 }
 
 function Processor() {
@@ -114,9 +92,12 @@ function Processor() {
     
     //Enemy
     Game.UpdateEnemies();
-        
+    
+    //Melon
+    melon.Update();
+   
     Draw();
-    requestAnimationFrame(Processor);
+    requestAnimFrame(Processor);
 }
 
 document.addEventListener("keydown", function(e) {
@@ -125,30 +106,6 @@ document.addEventListener("keydown", function(e) {
 
 document.addEventListener("keyup", function(e) {
     return onkey(e, e.keyCode, false);
-}, false);
-
-left.addEventListener("touchstart", function(e) {
-    return ontouch("left", true);
-}, false);
-
-left.addEventListener("touchend", function(e) {
-    return ontouch("left", false);
-}, false);
-
-right.addEventListener("touchstart", function(e) {
-    return ontouch("right", true);
-}, false);
-
-right.addEventListener("touchend", function(e) {
-    return ontouch("right", false);
-}, false);
-
-jump.addEventListener("touchstart", function(e) {
-    return ontouch("jump", true);
-}, false);
-
-jump.addEventListener("touchend", function(e) {
-    return ontouch("jummp", true);
 }, false);
 
 function onkey(e, key, down) {
@@ -160,26 +117,6 @@ function onkey(e, key, down) {
             Player.right = down;
             break;
         case 88: //x
-            if (Player.dead) {
-                StartGame();
-                Player.dead = false;
-            }
-            else {
-                Player.jump = down;
-            }
-            break;
-    }
-}
-
-function ontouch(key, down) {
-    switch(key) {
-        case "left": //left
-            Player.left = down;
-            break;
-        case "right": //right
-            Player.right = down;
-            break;
-        case "jump": //x
             if (Player.dead) {
                 StartGame();
                 Player.dead = false;

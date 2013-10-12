@@ -1,5 +1,6 @@
 var Player = {
     image: null,
+    frame: 1,
     xInit: 60,
     yInit: 140,
     x: 60,
@@ -38,11 +39,26 @@ var Player = {
             wasright = Player.dx > 0,
             falling  = Player.falling;
             
+        //this.UpdateImage(wasleft, wasright);
         this.UpdatePosition(wasleft, wasright, falling);
         this.ClampSpeed(wasleft, wasright);
         
         if (this.dead === false) {
             this.ApplyCollisions(wasleft, wasright, falling);
+        }
+    },
+    
+    UpdateImage: function(wasleft, wasright) {
+        if (wasright) {
+            if (Player.frame === 8) {
+                Player.frame = 1;
+            }
+            else {
+                Player.frame++;
+            }
+            var imgSrc = "player/" + Player.frame + ".png";
+            
+            Player.image.src = imgSrc;
         }
     },
     

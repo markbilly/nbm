@@ -33,6 +33,15 @@ var Game = {
         return t * Game.TILE;
     },
     
+    TileLocationToPixel: function(t) {
+        var ty = Math.ceil((t + 1) / (Game.MAP.tw + 1));
+        var tx = t - ((ty - 1) * (Game.MAP.tw + 1));
+        var x = Game.TileToPixel(tx);
+        var y = Game.TileToPixel(ty);
+        
+        return { x: x, y: y };
+    },
+    
     PixelToTile: function(p) {
         return Math.floor(p/Game.TILE);
     },
