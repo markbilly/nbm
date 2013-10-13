@@ -19,6 +19,7 @@ var Player = {
     left: false,
     right: false,
     jump: false,
+    thrown: false,
     MAXDX: 3.0,      // max horizontal speed (20 tiles per second)
     MAXDY: 9.0,      // max vertical speed   (60 tiles per second)
     ACCEL: 8.0,        // horizontal acceleration -  take 1/2 second to reach maxdx
@@ -40,7 +41,12 @@ var Player = {
             falling  = Player.falling;
             
         //this.UpdateImage(wasleft, wasright);
-        this.UpdatePosition(wasleft, wasright, falling);
+        
+        if (this.dead === false) {
+            this.ApplyInputs(wasleft, wasright, falling);
+        }
+        
+        this.UpdatePosition();
         this.ClampSpeed(wasleft, wasright);
         
         if (this.dead === false) {
@@ -62,7 +68,7 @@ var Player = {
         }
     },
     
-    UpdatePosition: function(wasleft, wasright, falling) {
+    ApplyInputs: function(wasleft, wasright, falling) {
         
         var player = this;
         
@@ -87,6 +93,20 @@ var Player = {
             player.ddy = player.ddy - player.JUMP;     // apply an instantaneous (large) vertical impulse
             player.jumping = true;
         }
+        
+        //if (player.thrown && wasleft) {
+        //    Player.ddy = Player.ddy - Player.JUMP;
+        //    Player.ddx = Player.ddx + Player.JUMP;
+        //}
+        //else if (player.thrown && wasright) {
+        //    Player.ddy = Player.ddy - Player.JUMP;
+        //    Player.ddx = Player.ddx - Player.JUMP;
+        //}
+    },
+    
+    UpdatePosition: function() {
+        
+        var player = this;
         
         player.y  = Math.floor(player.y  + (Game.dt * player.dy));
         player.x  = Math.floor(player.x  + (Game.dt * player.dx));
@@ -130,6 +150,12 @@ var Player = {
             cellleft  = Game.TileLocationFromTile(tx - 1, ty),
             celldown  = Game.TileLocationFromTile(tx,     ty + 1),
             celldiag  = Game.TileLocationFromTile(tx + 1, ty + 1);
+            
+        if (cell === 9) cell = 0;
+        if (cellright === 9) cellright = 0;
+        if (cellleft === 9) cellleft = 0;
+        if (celldown === 9) celldown = 0;
+        if (celldiag === 9) celldiag = 0;
         
         player.tx = tx;
         player.ty = ty;

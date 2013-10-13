@@ -8,7 +8,10 @@ function Melon() {
     this.falling = false;
     this.state = "start";
     this.timer = 0;
-    this.counter = 3;
+    this.counter = 5;
+    this.radius = 0;
+    this.frame = 0;
+    this.previousY = 0;
     this.MAXDX = 1.0;      // max horizontal speed (20 tiles per second)
     this.MAXDY = 9.0;      // max vertical speed   (60 tiles per second)
 }
@@ -23,7 +26,7 @@ Melon.prototype.ReactToState = function() {
             }
             break;
         case "countdown":
-            self.counterElem.style.left = px(self.x - Game.TILE) + "px";
+            self.counterElem.style.left = px(self.x) + "px";
             self.counterElem.style.top = py(self.y - (2 * Game.TILE)) + "px";
             
             self.timer++;
@@ -37,7 +40,25 @@ Melon.prototype.ReactToState = function() {
             }
             break;
         case "exploding":
-            self.state = "exploded";
+            self.timer++;
+            var secondPassed = self.timer % 3;
+            if (secondPassed === 0) {
+                if (self.frame < 8) {
+                    self.frame++;
+                }
+                else {
+                    self.state = "exploded";
+                }
+            }
+            
+            if (self.radius > 50) {
+                self.radius = 0;
+            }
+            else {
+                self.radius += 5;
+            }
+            
+            self.image.src = "melon/" + self.frame + ".png";
             break;
         case "exploded":
             self.Init();
@@ -52,14 +73,13 @@ Melon.prototype.Explode = function() {
 Melon.prototype.Init = function() {
     
     var self = this;
-    self.state = "start";
     self.timer = 0;
-    self.counter = 3;
+    self.counter = 5;
+    self.frame = 0;
     
     //Set up image
     var img = new Image();
-    img.src = "melon.png";
-    self.image = img;
+    img.src = "melon/" + self.frame + ".png";
     
     //set up counter
     if (self.counterElem === undefined) {
@@ -71,7 +91,7 @@ Melon.prototype.Init = function() {
     }
     else {
         self.counterElem.innerHTML = "";
-    }    
+    }
     
     var spawned = false;
     
@@ -79,10 +99,15 @@ Melon.prototype.Init = function() {
         var tileIndex = RandomInt(0, map.length);
         var tile = map[tileIndex];
         
-        if (!tile) {
-            spawned = true;
+        if (tile === 9) {
             self.x = Game.TileLocationToPixel(tileIndex).x;
             self.y = Game.TileLocationToPixel(tileIndex).y;
+            if (self.y !== self.previousY) {
+                spawned = true;
+                self.state = "start";
+                self.image = img;
+                self.previousY = self.y;
+            }
         }
     }
     control.innerHTML = "Melon: (" + self.x + ", " + self.y + ")";
@@ -125,6 +150,12 @@ Melon.prototype.ApplyCollisions = function() {
         enemycellleft  = Game.TileLocationFromTile(enemytx - 1, enemyty),
         enemycelldown  = Game.TileLocationFromTile(enemytx,     enemyty + 1),
         enemycelldiag  = Game.TileLocationFromTile(enemytx + 1, enemyty + 1);
+        
+    if (enemycell === 9) enemycell = 0;
+    if (enemycellright === 9) enemycellright = 0;
+    if (enemycellleft === 9) enemycellleft = 0;
+    if (enemycelldown === 9) enemycelldown = 0;
+    if (enemycelldiag === 9) enemycelldiag = 0;
     
     if (enemy.dy > 0) {
         if ((enemycelldown && !enemycell) ||
@@ -137,12 +168,14 @@ Melon.prototype.ApplyCollisions = function() {
     
     enemy.falling = ! (enemycelldown);
     
-    //var inPlayerCell = (enemytx === Player.tx) && (enemyty === Player.ty);
-    //
-    //if (inPlayerCell) {
-    //    Player.dead = true;
-    //    Player.dx = 0;
-    //    Player.x = Game.TileToPixel(Player.tx);
-    //}
-    //control.innerHTML = "<br>dead: " + Player.dead;
+    var inPlayerCell = (enemy.x < Player.x +
+                        Game.TILE && enemy.x +
+                        Game.TILE  > Player.x && enemy.y < Player.y +
+                        Game.TILE && enemy.y +
+                        Game.TILE > Player.y);
+    
+    if (inPlayerCell) {
+        enemy.Init();
+        Game.score++;
+    }
 }

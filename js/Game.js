@@ -4,6 +4,7 @@ var Game = {
     GRAVITY: 1.0,    // gravity
     dt: 1,
     enemies: [],
+    score: 0,
     
     InitEnemies: function() {
         var list = this.enemies;

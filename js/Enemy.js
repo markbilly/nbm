@@ -25,6 +25,7 @@ Enemy.prototype.Update = function() {
     this.UpdatePosition();
     this.ApplyCollisions();
 }
+
 Enemy.prototype.UpdatePosition = function() {
     
     var enemy = this;
@@ -59,7 +60,13 @@ Enemy.prototype.ApplyCollisions = function() {
         enemycellleft  = Game.TileLocationFromTile(enemytx - 1, enemyty),
         enemycelldown  = Game.TileLocationFromTile(enemytx,     enemyty + 1),
         enemycelldiag  = Game.TileLocationFromTile(enemytx + 1, enemyty + 1);
-    
+        
+    if (enemycell === 9) enemycell = 0;
+    if (enemycellright === 9) enemycellright = 0;
+    if (enemycellleft === 9) enemycellleft = 0;
+    if (enemycelldown === 9) enemycelldown = 0;
+    if (enemycelldiag === 9) enemycelldiag = 0;
+        
     if (enemy.dy > 0) {
       if ((enemycelldown && !enemycell) ||
           (enemycelldiag && !enemycellright && enemynx)) {
@@ -95,12 +102,22 @@ Enemy.prototype.ApplyCollisions = function() {
     
     enemy.falling = ! (enemycelldown || (enemynx && enemycelldiag));
     
-    var inPlayerCell = (enemytx === Player.tx) && (enemyty === Player.ty);
+    var inPlayerCell = (enemy.x < Player.x +
+                        Game.TILE && enemy.x +
+                        Game.TILE  > Player.x && enemy.y < Player.y +
+                        Game.TILE && enemy.y +
+                        Game.TILE > Player.y);
     
     if (inPlayerCell) {
+        //Player.thrown = true;
+        Player.falling = true;
         Player.dead = true;
         Player.dx = 0;
+        Player.ddx = 0;
         Player.x = Game.TileToPixel(Player.tx);
+    }
+    else {
+        Player.thrown = false;
     }
     control.innerHTML = "<br>dead: " + Player.dead;
 }

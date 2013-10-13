@@ -11,7 +11,7 @@ control.style.position = "absolute";
 control.style.left = "750px";
 debug.style.position = "absolute";
 debug.style.left = "750px";
-debug.style.top = "100px";
+debug.style.top = "200px";
 var ctx = c.getContext("2d");
 var ctx_b = b.getContext("2d");
 var tile = new Image();
@@ -32,14 +32,14 @@ function py(y) {
 }
 
 var map =[
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 9, 9, 9, 9, 9, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
@@ -62,6 +62,7 @@ function StartGame() {
     Player.Init();
     melon.Init();
     Game.InitEnemies();
+    Game.score = 0;
 }
 
 window.setTimeout(function() {
@@ -75,7 +76,17 @@ function Draw() {
     
     ctx.drawImage(Player.image,px(Player.x - 8),py(Player.y - 12), 24 * 3, 13 * 3);
     Game.DrawEnemies();
-    ctx.drawImage(melon.image,px(melon.x - 10),py(melon.y - 10), px(Game.TILE), py(Game.TILE));
+    ctx.drawImage(melon.image,px(melon.x + 5 - 50),py(melon.y - 5 - 50), px(100), py(100));
+    
+    ////draw circle damage
+    //var centerX = px(melon.x - (Game.TILE / 2));
+    //var centerY = py(melon.y - (Game.TILE / 2));
+    //var radius = px(melon.radius);
+    //ctx.beginPath();
+    //ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+    //ctx.fillStyle = 'black';
+    //ctx.fill();
+    ////end circle
     
     if (melon.state === "countdown") {
         melon.counterElem.innerHTML = melon.counter;
@@ -92,7 +103,8 @@ function Draw() {
     control.innerHTML = "melon: " + melon.state +
                         "<br>counter: " + melon.counter +
                         "<br>counterX: " + melon.counterElem.style.left + 
-                        "<br>counterY: " + melon.counterElem.style.top;
+                        "<br>counterY: " + melon.counterElem.style.top +
+                        "<br><font size='100px'>" + Game.score + "</font>";
     //requestAnimFrame(Draw);
 }
 
