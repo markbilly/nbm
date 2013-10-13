@@ -11,7 +11,7 @@ control.style.position = "absolute";
 control.style.left = "750px";
 debug.style.position = "absolute";
 debug.style.left = "750px";
-debug.style.top = "50px";
+debug.style.top = "100px";
 var ctx = c.getContext("2d");
 var ctx_b = b.getContext("2d");
 var tile = new Image();
@@ -77,11 +77,22 @@ function Draw() {
     Game.DrawEnemies();
     ctx.drawImage(melon.image,px(melon.x - 10),py(melon.y - 10), px(Game.TILE), py(Game.TILE));
     
+    if (melon.state === "countdown") {
+        melon.counterElem.innerHTML = melon.counter;
+    }
+    else {
+        melon.counterElem.innerHTML = "";
+    }
+    
     debug.innerHTML = "jumping: " + Player.jumping +
                         "<br>falling: " + Player.falling +
                         "<br>wallgrabbing: " + Player.wallgrabbing +
                         "<br>jump: " + Player.jump;
                         
+    control.innerHTML = "melon: " + melon.state +
+                        "<br>counter: " + melon.counter +
+                        "<br>counterX: " + melon.counterElem.style.left + 
+                        "<br>counterY: " + melon.counterElem.style.top;
     //requestAnimFrame(Draw);
 }
 

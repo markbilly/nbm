@@ -1,22 +1,77 @@
 function Melon() {
     this.image = null;
+    this.counterElem;
     this.x = 0;
     this.y = 0;
     this.dy = 0;
     this.ddy = 0;
     this.falling = false;
+    this.state = "start";
+    this.timer = 0;
+    this.counter = 3;
     this.MAXDX = 1.0;      // max horizontal speed (20 tiles per second)
     this.MAXDY = 9.0;      // max vertical speed   (60 tiles per second)
+}
+
+Melon.prototype.ReactToState = function() {
+    var self = this;
+    
+    switch(self.state) {
+        case "start":
+            if (Player.dy === 0) {
+                self.state = "countdown";
+            }
+            break;
+        case "countdown":
+            self.counterElem.style.left = px(self.x - Game.TILE) + "px";
+            self.counterElem.style.top = py(self.y - (2 * Game.TILE)) + "px";
+            
+            self.timer++;
+            var secondPassed = self.timer % 60;
+            if (secondPassed === 0) {
+                self.counter--;
+            }
+            if (self.counter === 0) {
+                self.state = "exploding";
+                self.Explode();
+            }
+            break;
+        case "exploding":
+            self.state = "exploded";
+            break;
+        case "exploded":
+            self.Init();
+            break;
+    }
+    
+}
+
+Melon.prototype.Explode = function() {
 }
 
 Melon.prototype.Init = function() {
     
     var self = this;
+    self.state = "start";
+    self.timer = 0;
+    self.counter = 3;
     
     //Set up image
     var img = new Image();
     img.src = "melon.png";
-    this.image = img;
+    self.image = img;
+    
+    //set up counter
+    if (self.counterElem === undefined) {
+        self.counterElem = document.getElementById("counter");
+        self.counterElem.style.position = "absolute";
+        self.counterElem.style.width = px(Game.TILE) + "px";
+        self.counterElem.style.height = py(Game.TILE) + "px";
+        self.counterElem.style.fontSize = px(Game.TILE) + "px";
+    }
+    else {
+        self.counterElem.innerHTML = "";
+    }    
     
     var spawned = false;
     
@@ -38,6 +93,7 @@ Melon.prototype.Init = function() {
 }
 
 Melon.prototype.Update = function() {
+    this.ReactToState();
     this.UpdatePosition();
     this.ApplyCollisions();
 }
