@@ -30,11 +30,11 @@ var tile_vert1 = new Image();
 tile_vert1.src = "vert1.png";
 
 function px(x) {
-    return x * 2;
+    return x * 3;
 }
 
 function py(y) {
-    return y * 2;
+    return y * 3;
 }
 
 var map =[

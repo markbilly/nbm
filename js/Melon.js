@@ -41,13 +41,14 @@ Melon.prototype.ReactToState = function() {
             break;
         case "exploding":
             self.timer++;
-            var secondPassed = self.timer % (Game.fps / 30);
+            var secondPassed = self.timer % Math.ceil(Game.fps / 30);
             if (secondPassed === 0) {
                 if (self.frame < 8) {
                     self.frame++;
                 }
                 else {
                     self.state = "exploded";
+                    self.timer = 0;
                 }
             }
             
@@ -61,6 +62,13 @@ Melon.prototype.ReactToState = function() {
             self.image.src = "melon/" + self.frame + ".png";
             break;
         case "exploded":
+            self.timer++;
+            
+            if (self.timer === (fps * 3)) {
+                self.state = "end";
+            }
+            break;
+        case "end":
             self.Init();
             break;
     }
