@@ -15,7 +15,7 @@ function Enemy(x, y) {
 
 Enemy.prototype.Init = function() {
     var img = new Image();
-    img.src = "player.png";
+    img.src = "enemy.png";
     this.image = img;
     this.x = this.xInit;
     this.y = this.yInit;
@@ -24,6 +24,13 @@ Enemy.prototype.Init = function() {
 Enemy.prototype.Update = function() {
     this.UpdatePosition();
     this.ApplyCollisions();
+    
+    if (this.dx < 0) {
+        this.image.src = "enemy.png";
+    }
+    else {
+        this.image.src = "enemyr.png";
+    }
 }
 
 Enemy.prototype.UpdatePosition = function() {

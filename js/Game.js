@@ -20,7 +20,7 @@ var Game = {
         var list = this.enemies;
         
         for (i = 0; i < list.length; i++) {
-            ctx.drawImage(list[i].image,px(list[i].x - 8),py(list[i].y - 12), px(24), py(13));
+            ctx.drawImage(list[i].image,px(list[i].x - 8),py(list[i].y - 16), px(24), py(16));
         }
     },
     
