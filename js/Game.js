@@ -1,10 +1,12 @@
 var Game = {
     MAP: { tw: 24, th: 16 }, // object to store size of map in tiles
-    TILE: 10,                // size of each tile (in game pixels)
+    TILE: 12,                // size of each tile (in game pixels)
     GRAVITY: 1.0,    // gravity
     dt: 1,
     enemies: [],
     score: 0,
+    touchedEnemyX: 0,
+    fps: 45,
     
     InitEnemies: function() {
         var list = this.enemies;

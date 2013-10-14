@@ -30,7 +30,7 @@ Melon.prototype.ReactToState = function() {
             self.counterElem.style.top = py(self.y - (2 * Game.TILE)) + "px";
             
             self.timer++;
-            var secondPassed = self.timer % 60;
+            var secondPassed = self.timer % Game.fps;
             if (secondPassed === 0) {
                 self.counter--;
             }
@@ -41,7 +41,7 @@ Melon.prototype.ReactToState = function() {
             break;
         case "exploding":
             self.timer++;
-            var secondPassed = self.timer % 3;
+            var secondPassed = self.timer % (Game.fps / 30);
             if (secondPassed === 0) {
                 if (self.frame < 8) {
                     self.frame++;
