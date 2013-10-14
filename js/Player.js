@@ -70,37 +70,51 @@ var Player = {
     
     ApplyInputs: function(wasleft, wasright, falling) {
         
-        var player = this;
+        var player = this,
+            tx        = Game.PixelToTile(player.x),
+            ty        = Game.PixelToTile(player.y),
+            cellright = Game.TileLocationFromTile(tx + 1, ty),
+            cellleft  = Game.TileLocationFromTile(tx - 1, ty);
         
         player.ddx = 0;
         player.ddy = Game.GRAVITY;
         
-        if (player.left && !player.wallgrabbingleft && !player.thrown) {
+        if (player.left && !player.wallgrabbingleft) {
             player.ddx = player.ddx - player.ACCEL;     // player wants to go left
         }
         else if (wasleft) {
             player.ddx = player.ddx + player.FRICTION;  // player was going left, but not any more
         }
         
-        if (player.right && !player.wallgrabbingright && !player.thrown) {
+        if (player.right && !player.wallgrabbingright) {
             player.ddx = player.ddx + player.ACCEL;     // player wants to go right
         }
         else if (wasright) {
             player.ddx = player.ddx - player.FRICTION;  // player was going right, but not any more
         }
         
-        if (player.jump && !player.jumping && !falling && !player.thrown) {
+        if (player.jump && !player.jumping && !falling) {
+            if (player.wallgrabbingleft) {
+                player.ddx = player.ddx + player.JUMP;
+            }
+            else if (player.wallgrabbingright) {
+                player.ddx = player.ddx - player.JUMP;
+            }
             player.ddy = player.ddy - player.JUMP;     // apply an instantaneous (large) vertical impulse
             player.jumping = true;
         }
-        
-        if (player.thrown && (player.x > Game.touchedEnemyX)) {
-            player.ddx = player.ddx + (player.JUMP * 100);
-            Player.falling = true;
-        }
-        else if (player.thrown && (player.x < Game.touchedEnemyX)) {
-            player.ddx = player.ddx - (player.JUMP * 100);
-            player.falling = true;
+        else if (player.jump && !player.jumping && falling) {
+            if (cellright) {
+                player.ddx = player.ddx - player.JUMP;
+                player.ddy = player.ddy - player.JUMP;
+            }
+            else if (cellleft) {
+                player.ddx = player.ddx + player.JUMP;
+                player.ddy = player.ddy - player.JUMP;
+            }
+            else {
+                //do nothing
+            }
         }
     },
     
