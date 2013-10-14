@@ -109,12 +109,12 @@ Enemy.prototype.ApplyCollisions = function() {
                         Game.TILE > Player.y);
     
     if (inPlayerCell) {
-        Player.thrown = true;
-        Game.touchedEnemyX = enemy.x;
-        //Player.dead = true;
-        //Player.dx = 0;
-        //Player.ddx = 0;
-        //Player.x = Game.TileToPixel(Player.tx);
+        //Player.thrown = true;
+        //Game.touchedEnemyX = enemy.x;
+        Player.dead = true;
+        Player.dx = 0;
+        Player.ddx = 0;
+        Player.x = Game.TileToPixel(Player.tx);
     }
     else {
         Player.thrown = false;
