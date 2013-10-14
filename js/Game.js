@@ -6,7 +6,7 @@ var Game = {
     enemies: [],
     score: 0,
     touchedEnemyX: 0,
-    fps: 45,
+    fps: 50,
     
     InitEnemies: function() {
         var list = this.enemies;
@@ -20,7 +20,7 @@ var Game = {
         var list = this.enemies;
         
         for (i = 0; i < list.length; i++) {
-            ctx.drawImage(list[i].image,px(list[i].x - 8),py(list[i].y - 12), 24 * 3, 13 * 3);
+            ctx.drawImage(list[i].image,px(list[i].x - 8),py(list[i].y - 12), px(24), py(13));
         }
     },
     
@@ -60,7 +60,7 @@ var Game = {
         out += (ty - 1) * (Game.MAP.tw + 1);
         
         return map[out];
-    },    
+    },  
     
     BuildLevel: function(level) {
         var y = 0;

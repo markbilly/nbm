@@ -2,15 +2,25 @@
 <html>
 <head>
     <title>hello world</title>
+    
+    <style type="text/css">
+        @font-face {
+            font-family: 'pixel';
+            src: url('PressStart2P.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
 </head>
 <body>
-
-<div id="bg"></div>
-<canvas id="Game" width="864" height="576" style="position: absolute;"></canvas>
-<canvas id="Background" width="864" height="576" style="position: absolute;"></canvas>
-<div id="debug">y = 0<br>speed = 0<br>acceleration = 0</div>
-<div id="control"></div>
-<div id="counter"></div>
+<div id="container" style="font-family: pixel;">
+    <div id="bg"></div>
+    <canvas id="Game" style="position: absolute;"></canvas>
+    <canvas id="Background" style="position: absolute;"></canvas>
+    <div id="debug">y = 0<br>speed = 0<br>acceleration = 0</div>
+    <div id="control"></div>
+    <div id="counter"></div>
+</div>
 
 <script src="js/Animation.js"></script>
 <script src="js/Game.js"></script>

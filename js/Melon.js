@@ -26,8 +26,8 @@ Melon.prototype.ReactToState = function() {
             }
             break;
         case "countdown":
-            self.counterElem.style.left = px(self.x) + "px";
-            self.counterElem.style.top = py(self.y - (2 * Game.TILE)) + "px";
+            self.counterElem.style.left = px(self.x + 4) + "px";
+            self.counterElem.style.top = py(self.y - Game.TILE - 6) + "px";
             
             self.timer++;
             var secondPassed = self.timer % Game.fps;
@@ -85,9 +85,9 @@ Melon.prototype.Init = function() {
     if (self.counterElem === undefined) {
         self.counterElem = document.getElementById("counter");
         self.counterElem.style.position = "absolute";
+        self.counterElem.style.color = "red";
         self.counterElem.style.width = px(Game.TILE) + "px";
         self.counterElem.style.height = py(Game.TILE) + "px";
-        self.counterElem.style.fontSize = px(Game.TILE) + "px";
     }
     else {
         self.counterElem.innerHTML = "";

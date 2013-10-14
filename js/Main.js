@@ -3,8 +3,14 @@ var b = document.getElementById("Background");
 var debug = document.getElementById("debug");
 var control = document.getElementById("control");
 var bg = document.getElementById("bg");
-bg.style.width = "864px";
-bg.style.height = "576px";
+var container = document.getElementById("container");
+c.width = px(288); //px
+c.height = py(192); //px
+b.width = px(288); //px
+b.height = py(192); //px
+container.style.fontSize = px(8) + "px";
+bg.style.width = px(288) + "px";
+bg.style.height = py(192) + "px";
 bg.style.backgroundImage = "url('bg.png')";
 bg.style.position = "absolute";
 control.style.position = "absolute";
@@ -24,11 +30,11 @@ var tile_vert1 = new Image();
 tile_vert1.src = "vert1.png";
 
 function px(x) {
-    return x * 3;
+    return x * 2;
 }
 
 function py(y) {
-    return y * 3;
+    return y * 2;
 }
 
 var map =[
@@ -77,7 +83,7 @@ window.setTimeout(function() {
 function Draw() {
     ctx.clearRect(0,0,px(Game.width),py(Game.height));
     
-    ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), 24 * 3, 13 * 3);
+    ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(13));
     Game.DrawEnemies();
     ctx.drawImage(melon.image,px(melon.x + 5 - 50),py(melon.y - 5 - 50), px(100), py(100));
     
@@ -107,7 +113,7 @@ function Draw() {
                         "<br>counter: " + melon.counter +
                         "<br>counterX: " + melon.counterElem.style.left + 
                         "<br>counterY: " + melon.counterElem.style.top +
-                        "<br><font size='100px'>" + Game.score + "</font>";
+                        "<br><font size='24px'>" + Game.score + "</font>";
     //requestAnimFrame(Draw);
 }
 
