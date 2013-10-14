@@ -43,7 +43,7 @@ Melon.prototype.ReactToState = function() {
             self.timer++;
             var secondPassed = self.timer % Math.ceil(Game.fps / 30);
             if (secondPassed === 0) {
-                if (self.frame < 8) {
+                if (self.frame < 9) {
                     self.frame++;
                 }
                 else {
@@ -64,7 +64,7 @@ Melon.prototype.ReactToState = function() {
         case "exploded":
             self.timer++;
             
-            if (self.timer === (fps * 3)) {
+            if (self.timer === Game.fps) {
                 self.state = "end";
             }
             break;
