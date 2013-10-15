@@ -116,15 +116,21 @@ Enemy.prototype.ApplyCollisions = function() {
                         Game.TILE > Player.y);
     
     if (inPlayerCell) {
-        //Player.thrown = true;
-        //Game.touchedEnemyX = enemy.x;
-        Player.dead = true;
-        Player.dx = 0;
-        Player.ddx = 0;
-        Player.x = Game.TileToPixel(Player.tx);
+        if (Player.dead === false) {
+            Player.dead = true;
+            Player.jumping = true;
+            Player.ddx = 0;
+            Player.dx = 0;
+            Player.x = Game.TileToPixel(enemytx);
+            Player.dy = Player.dy - (Player.JUMP * 0.25);
+        }
+        
+        //if (Player.dx <= 0) {
+        //    Player.ddx = Player.ddx + (Player.JUMP * 2);
+        //}
+        //else if (Player.dx > 0) {
+        //    Player.ddx = Player.ddx - (Player.JUMP * 2);
+        //}
+        //Player.ddy = Player.ddy - (Player.JUMP * 2);
     }
-    else {
-        Player.thrown = false;
-    }
-    control.innerHTML = "<br>dead: " + Player.dead;
 }

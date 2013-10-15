@@ -5,7 +5,6 @@ var Game = {
     dt: 1,
     enemies: [],
     score: 0,
-    touchedEnemyX: 0,
     fps: 50,
     
     InitEnemies: function() {

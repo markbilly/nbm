@@ -44,13 +44,14 @@ var Player = {
         
         if (this.dead === false) {
             this.ApplyInputs(wasleft, wasright, falling);
-        }
-        
-        this.UpdatePosition();
-        this.ClampSpeed(wasleft, wasright);
-        
-        if (this.dead === false) {
+            this.UpdatePosition();
+            this.ClampSpeed(wasleft, wasright);
             this.ApplyCollisions(wasleft, wasright, falling);
+        }
+        else {
+            Player.ddy = Game.GRAVITY;
+            this.UpdatePosition();
+            this.ClampSpeed(wasleft, wasright);
         }
         
         if (wasleft) {
