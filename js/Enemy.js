@@ -17,10 +17,12 @@ function Enemy(x, y) {
         width: Game.TILE,
         height: Game.TILE
     };
-    this.dead = false;
+    this.onfire = false;
 }
 
 Enemy.prototype.Init = function() {
+    this.onfire = false;
+    this.MAXDX = 1.0;
     var img = new Image();
     img.src = "enemy.png";
     this.image = img;
@@ -92,7 +94,7 @@ Enemy.prototype.ApplyCollisions = function() {
         enemyny = 0;                   // - no longer overlaps the cells below
       }
     }
-    if ((!enemycelldiag || !enemycelldown) && !enemy.falling && !enemy.dead) {
+    if ((!enemycelldiag || !enemycelldown) && !enemy.falling && !enemy.onfire) {
         enemy.y = Game.TileToPixel(enemyty);
         if (enemy.dx > 0) {
             enemy.dx = -enemy.MAXDX;
@@ -126,9 +128,8 @@ Enemy.prototype.ApplyCollisions = function() {
             Player.Die(enemy);
         }
     }
-    if (inMelonCell && melon.state === "exploding" && !enemy.dead) {
-        //alert("enemy dead");
-        enemy.dead = true;
+    if (inMelonCell && melon.state === "exploding" && !enemy.onfire) {
+        enemy.onfire = true;
         enemy.dx = enemy.dx * 5;
         enemy.MAXDX = enemy.MAXDX * 5;
     }

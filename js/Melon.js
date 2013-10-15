@@ -53,7 +53,7 @@ Melon.prototype.ReactToState = function() {
         case "exploding":
             self.counterElem.style.visibility = "hidden";
             self.timer++;
-            var secondPassed = self.timer % Math.ceil(Game.fps / 30);
+            var secondPassed = self.timer % Math.ceil(Game.fps / 20);
             if (secondPassed === 0) {
                 if (self.frame < 9) {
                     if (self.frame === 2) {
