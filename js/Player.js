@@ -52,6 +52,13 @@ var Player = {
         if (this.dead === false) {
             this.ApplyCollisions(wasleft, wasright, falling);
         }
+        
+        if (wasleft) {
+            this.image.src = "playerl.png";
+        }
+        else if (wasright) {
+            this.image.src = "player.png";
+        }
     },
     
     UpdateImage: function(wasleft, wasright) {

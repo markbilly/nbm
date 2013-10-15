@@ -50,7 +50,7 @@ var map =[
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 9, 0, 0, 0, 0, 9, 9, 0, 4, 0, 0, 0, 0, 9, 0, 0, 0, 9, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
@@ -75,10 +75,16 @@ function StartGame() {
 }
 
 window.setTimeout(function() {
+    FirstTimeStart();
+}, 1000);
+
+//Resources.Load(FirstTimeStart);
+
+function FirstTimeStart() {
     StartGame();
     Game.BuildLevel(map);
     Processor();
-}, 1000);
+}
 
 function Draw() {
     ctx.clearRect(0,0,px(Game.width),py(Game.height));
@@ -86,16 +92,11 @@ function Draw() {
     ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(13));
     Game.DrawEnemies();
     ctx.drawImage(melon.image,px(melon.x + 5 - 50),py(melon.y - 5 - 50), px(100), py(100));
-    
-    ////draw circle damage
-    //var centerX = px(melon.x - (Game.TILE / 2));
-    //var centerY = py(melon.y - (Game.TILE / 2));
-    //var radius = px(melon.radius);
-    //ctx.beginPath();
-    //ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    //ctx.fillStyle = 'black';
-    //ctx.fill();
-    ////end circle
+    //ctx.strokeStyle = 'red';
+    //ctx.strokeRect(px(melon.BoundingBox.x),
+    //             py(melon.BoundingBox.y),
+    //             px(melon.BoundingBox.width),
+    //             py(melon.BoundingBox.height));
     
     if (melon.state === "countdown") {
         melon.counterElem.innerHTML = melon.counter;
@@ -104,15 +105,15 @@ function Draw() {
         melon.counterElem.innerHTML = "";
     }
     
-    debug.innerHTML = "jumping: " + Player.jumping +
-                        "<br>falling: " + Player.falling +
-                        "<br>wallgrabbing: " + Player.wallgrabbing +
-                        "<br>jump: " + Player.jump;
+    //debug.innerHTML = "jumping: " + Player.jumping +
+    //                    "<br>falling: " + Player.falling +
+    //                    "<br>wallgrabbing: " + Player.wallgrabbing +
+    //                    "<br>jump: " + Player.jump;
                         
-    control.innerHTML = "melon: " + melon.state +
+    control.innerHTML = /*"melon: " + melon.state +
                         "<br>counter: " + melon.counter +
                         "<br>counterX: " + melon.counterElem.style.left + 
-                        "<br>counterY: " + melon.counterElem.style.top +
+                        "<br>counterY: " + melon.counterElem.style.top +*/
                         "<br><font size='24px'>" + Game.score + "</font>";
     //requestAnimFrame(Draw);
 }

@@ -9,7 +9,12 @@ function Melon() {
     this.state = "start";
     this.timer = 0;
     this.counter = 5;
-    this.radius = 0;
+    this.BoundingBox = {
+        x: 0,
+        y: 0,
+        width: Game.TILE,
+        height: Game.TILE
+    };
     this.frame = 0;
     this.previousY = 0;
     this.MAXDX = 1.0;      // max horizontal speed (20 tiles per second)
@@ -26,6 +31,12 @@ Melon.prototype.ReactToState = function() {
             }
             break;
         case "countdown":
+            self.BoundingBox.x = self.x;
+            self.BoundingBox.y = self.y - Game.TILE;
+            self.BoundingBox.width = Game.TILE;
+            self.BoundingBox.height = Game.TILE;
+            
+            self.counterElem.style.visibility = "visible";
             self.counterElem.style.left = px(self.x + 4) + "px";
             self.counterElem.style.top = py(self.y - Game.TILE - 6) + "px";
             
@@ -40,23 +51,35 @@ Melon.prototype.ReactToState = function() {
             }
             break;
         case "exploding":
+            self.counterElem.style.visibility = "hidden";
             self.timer++;
             var secondPassed = self.timer % Math.ceil(Game.fps / 30);
             if (secondPassed === 0) {
                 if (self.frame < 9) {
+                    if (self.frame === 2) {
+                        self.BoundingBox.x = self.x - 20;
+                        self.BoundingBox.y = self.y - Game.TILE - 25;
+                        self.BoundingBox.width = 50;
+                        self.BoundingBox.height = 50;
+                    }
+                    if (self.frame === 3) {
+                        self.BoundingBox.x = self.x - 40;
+                        self.BoundingBox.y = self.y - Game.TILE - 45;
+                        self.BoundingBox.width = 90;
+                        self.BoundingBox.height = 90;
+                    }
+                    else if (self.frame === 4) {
+                        self.BoundingBox.x = self.x;
+                        self.BoundingBox.y = self.y - Game.TILE;
+                        self.BoundingBox.width = Game.TILE;
+                        self.BoundingBox.height = Game.TILE;                     
+                    }
                     self.frame++;
                 }
                 else {
                     self.state = "exploded";
                     self.timer = 0;
                 }
-            }
-            
-            if (self.radius > 50) {
-                self.radius = 0;
-            }
-            else {
-                self.radius += 5;
             }
             
             self.image.src = "melon/" + self.frame + ".png";
@@ -69,6 +92,11 @@ Melon.prototype.ReactToState = function() {
             }
             break;
         case "end":
+            self.counterElem.style.visibility = "hidden";
+            self.BoundingBox.x = 0;
+            self.BoundingBox.y = 0;
+            self.BoundingBox.width = 0;
+            self.BoundingBox.height = 0;
             self.Init();
             break;
     }
@@ -118,7 +146,6 @@ Melon.prototype.Init = function() {
             }
         }
     }
-    control.innerHTML = "Melon: (" + self.x + ", " + self.y + ")";
     
     function RandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;    
@@ -176,14 +203,25 @@ Melon.prototype.ApplyCollisions = function() {
     
     enemy.falling = ! (enemycelldown);
     
-    var inPlayerCell = (enemy.x < Player.x +
-                        Game.TILE && enemy.x +
-                        Game.TILE  > Player.x && enemy.y < Player.y +
-                        Game.TILE && enemy.y +
-                        Game.TILE > Player.y);
+    var inPlayerCell = (enemy.BoundingBox.x < Player.x +
+                        Game.TILE && enemy.BoundingBox.x +
+                        enemy.BoundingBox.width  > Player.x && enemy.BoundingBox.y <= Player.y +
+                        Game.TILE && enemy.BoundingBox.y +
+                        enemy.BoundingBox.height >= Player.y);
     
     if (inPlayerCell) {
-        enemy.Init();
-        Game.score++;
+        if (enemy.state === "countdown") {
+            enemy.state = "end";
+            Game.score++;
+        }
+        else if (enemy.state === "exploding") {
+            Player.dead = true;
+            Player.dx = 0;
+            Player.ddx = 0;
+            Player.x = Game.TileToPixel(Player.tx);
+        }
+        else {
+            //do nothing
+        }
     }
 }
