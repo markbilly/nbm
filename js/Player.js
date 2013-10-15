@@ -25,6 +25,12 @@ var Player = {
     ACCEL: 8.0,        // horizontal acceleration -  take 1/2 second to reach maxdx
     FRICTION: 24.0,     // horizontal friction     -  take 1/6 second to stop from maxdx
     JUMP: 100.0,         // (a large) instantaneous jump impulse
+    BoundingBox: {
+        x: 0,
+        y: 0,
+        width: Game.TILE,
+        height: Game.TILE
+    },
     
     Die: function(object) { 
         Player.dead = true;
@@ -143,6 +149,9 @@ var Player = {
         player.x  = Math.floor(player.x  + (Game.dt * player.dx));
         player.dx = Math.floor(player.dx + (Game.dt * player.ddx));
         player.dy = Math.floor(player.dy + (Game.dt * player.ddy));
+        
+        player.BoundingBox.x = player.x;
+        player.BoundingBox.y = player.y;
         
     },
     

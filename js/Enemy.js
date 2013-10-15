@@ -9,8 +9,15 @@ function Enemy(x, y) {
     this.ddx = 0;
     this.ddy = 0;
     this.falling = false;
-    this.MAXDX = 1.0;      // max horizontal speed (20 tiles per second)
-    this.MAXDY = 9.0;      // max vertical speed   (60 tiles per second)
+    this.MAXDX = 1.0;
+    this.MAXDY = 9.0;
+    this.BoundingBox = {
+        x: 0,
+        y: 0,
+        width: Game.TILE,
+        height: Game.TILE
+    };
+    this.dead = false;
 }
 
 Enemy.prototype.Init = function() {
@@ -52,6 +59,8 @@ Enemy.prototype.UpdatePosition = function() {
     enemy.dx = Math.floor(enemy.dx + (Game.dt * enemy.ddx));
     enemy.dy = Math.floor(enemy.dy + (Game.dt * enemy.ddy));
     
+    enemy.BoundingBox.x = enemy.x;
+    enemy.BoundingBox.y = enemy.y;
 }
     
 Enemy.prototype.ApplyCollisions = function() {
@@ -83,7 +92,7 @@ Enemy.prototype.ApplyCollisions = function() {
         enemyny = 0;                   // - no longer overlaps the cells below
       }
     }
-    if ((!enemycelldiag || !enemycelldown) && !enemy.falling) {
+    if ((!enemycelldiag || !enemycelldown) && !enemy.falling && !enemy.dead) {
         enemy.y = Game.TileToPixel(enemyty);
         if (enemy.dx > 0) {
             enemy.dx = -enemy.MAXDX;
@@ -109,15 +118,18 @@ Enemy.prototype.ApplyCollisions = function() {
     
     enemy.falling = ! (enemycelldown || (enemynx && enemycelldiag));
     
-    var inPlayerCell = (enemy.x < Player.x +
-                        Game.TILE && enemy.x +
-                        Game.TILE  > Player.x && enemy.y < Player.y +
-                        Game.TILE && enemy.y +
-                        Game.TILE > Player.y);
+    var inPlayerCell = Game.IsColliding(enemy, Player),
+        inMelonCell = Game.IsColliding(enemy, melon);
     
     if (inPlayerCell) {
         if (Player.dead === false) {
             Player.Die(enemy);
         }
+    }
+    if (inMelonCell && melon.state === "exploding" && !enemy.dead) {
+        //alert("enemy dead");
+        enemy.dead = true;
+        enemy.dx = enemy.dx * 5;
+        enemy.MAXDX = enemy.MAXDX * 5;
     }
 }

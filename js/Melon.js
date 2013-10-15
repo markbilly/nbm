@@ -174,48 +174,44 @@ Melon.prototype.UpdatePosition = function() {
     
 Melon.prototype.ApplyCollisions = function() {
     
-    var enemy = this;
+    var mel = this;
     
-    var enemytx        = Game.PixelToTile(enemy.x),
-        enemyty        = Game.PixelToTile(enemy.y),
-        enemynx        = enemy.x % Game.TILE,         // true if player overlaps right
-        enemyny        = enemy.y % Game.TILE,         // true if player overlaps below
-        enemycell      = Game.TileLocationFromTile(enemytx,     enemyty),
-        enemycellright = Game.TileLocationFromTile(enemytx + 1, enemyty),
-        enemycellleft  = Game.TileLocationFromTile(enemytx - 1, enemyty),
-        enemycelldown  = Game.TileLocationFromTile(enemytx,     enemyty + 1),
-        enemycelldiag  = Game.TileLocationFromTile(enemytx + 1, enemyty + 1);
+    var meltx        = Game.PixelToTile(mel.x),
+        melty        = Game.PixelToTile(mel.y),
+        melnx        = mel.x % Game.TILE,         // true if player overlaps right
+        melny        = mel.y % Game.TILE,         // true if player overlaps below
+        melcell      = Game.TileLocationFromTile(meltx,     melty),
+        melcellright = Game.TileLocationFromTile(meltx + 1, melty),
+        melcellleft  = Game.TileLocationFromTile(meltx - 1, melty),
+        melcelldown  = Game.TileLocationFromTile(meltx,     melty + 1),
+        melcelldiag  = Game.TileLocationFromTile(meltx + 1, melty + 1);
         
-    if (enemycell === 9) enemycell = 0;
-    if (enemycellright === 9) enemycellright = 0;
-    if (enemycellleft === 9) enemycellleft = 0;
-    if (enemycelldown === 9) enemycelldown = 0;
-    if (enemycelldiag === 9) enemycelldiag = 0;
+    if (melcell === 9) melcell = 0;
+    if (melcellright === 9) melcellright = 0;
+    if (melcellleft === 9) melcellleft = 0;
+    if (melcelldown === 9) melcelldown = 0;
+    if (melcelldiag === 9) melcelldiag = 0;
     
-    if (enemy.dy > 0) {
-        if ((enemycelldown && !enemycell) ||
-            (enemycelldiag && !enemycellright && enemynx)) {
-            enemy.y = Game.TileToPixel(enemyty);       // clamp the y position to avoid falling into platform below
-            enemy.dy = 0;            // stop downward velocity
-            enemy.falling = false;   // no longer falling
+    if (mel.dy > 0) {
+        if ((melcelldown && !melcell) ||
+            (melcelldiag && !melcellright && melnx)) {
+            mel.y = Game.TileToPixel(melty);       // clamp the y position to avoid falling into platform below
+            mel.dy = 0;            // stop downward velocity
+            mel.falling = false;   // no longer falling
       }
     }
     
-    enemy.falling = ! (enemycelldown);
+    mel.falling = ! (melcelldown);
     
-    var inPlayerCell = (enemy.BoundingBox.x < Player.x +
-                        Game.TILE && enemy.BoundingBox.x +
-                        enemy.BoundingBox.width  > Player.x && enemy.BoundingBox.y <= Player.y +
-                        Game.TILE && enemy.BoundingBox.y +
-                        enemy.BoundingBox.height >= Player.y);
+    var inPlayerCell = Game.IsColliding(mel, Player);
     
     if (inPlayerCell) {
-        if (enemy.state === "countdown") {
-            enemy.state = "end";
+        if (mel.state === "countdown") {
+            mel.state = "end";
             Game.score++;
         }
-        else if (enemy.state === "exploding") {
-            Player.Die(enemy);
+        else if (mel.state === "exploding") {
+            Player.Die(mel);
         }
         else {
             //do nothing

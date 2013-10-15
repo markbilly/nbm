@@ -7,6 +7,21 @@ var Game = {
     score: 0,
     fps: 50,
     
+    IsColliding: function(object1, object2) {
+        
+        var x1 = object1.BoundingBox.x,
+            y1 = object1.BoundingBox.y,
+            w1 = object1.BoundingBox.width,
+            h1 = object1.BoundingBox.height,
+            x2 = object2.BoundingBox.x,
+            y2 = object2.BoundingBox.y,
+            w2 = object2.BoundingBox.width,
+            h2 = object2.BoundingBox.height,
+            result = (x1 <= x2 + w2 && x1 + w1 >= x2 && y1 <= y2 + h2 && y1 + h1 >= y2);
+        
+        return result;
+    },
+    
     InitEnemies: function() {
         var list = this.enemies;
         
