@@ -215,10 +215,7 @@ Melon.prototype.ApplyCollisions = function() {
             Game.score++;
         }
         else if (enemy.state === "exploding") {
-            Player.dead = true;
-            Player.dx = 0;
-            Player.ddx = 0;
-            Player.x = Game.TileToPixel(Player.tx);
+            Player.Die(enemy);
         }
         else {
             //do nothing

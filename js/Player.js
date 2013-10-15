@@ -26,6 +26,15 @@ var Player = {
     FRICTION: 24.0,     // horizontal friction     -  take 1/6 second to stop from maxdx
     JUMP: 100.0,         // (a large) instantaneous jump impulse
     
+    Die: function(object) { 
+        Player.dead = true;
+        Player.jumping = true;
+        Player.ddx = 0;
+        Player.dx = 0;
+        Player.x = Game.TileToPixel(Game.PixelToTile(object.x));
+        Player.dy = Player.dy - (Player.JUMP * 0.25);
+    },
+    
     Init: function() {
         var img = new Image();
         img.src = "player.png";

@@ -117,20 +117,7 @@ Enemy.prototype.ApplyCollisions = function() {
     
     if (inPlayerCell) {
         if (Player.dead === false) {
-            Player.dead = true;
-            Player.jumping = true;
-            Player.ddx = 0;
-            Player.dx = 0;
-            Player.x = Game.TileToPixel(enemytx);
-            Player.dy = Player.dy - (Player.JUMP * 0.25);
+            Player.Die(enemy);
         }
-        
-        //if (Player.dx <= 0) {
-        //    Player.ddx = Player.ddx + (Player.JUMP * 2);
-        //}
-        //else if (Player.dx > 0) {
-        //    Player.ddx = Player.ddx - (Player.JUMP * 2);
-        //}
-        //Player.ddy = Player.ddy - (Player.JUMP * 2);
     }
 }

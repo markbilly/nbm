@@ -14,7 +14,8 @@ bg.style.height = py(192) + "px";
 bg.style.backgroundImage = "url('bg.png')";
 bg.style.position = "absolute";
 control.style.position = "absolute";
-control.style.left = "900px";
+control.style.left = px(140) + "px";
+control.style.top = px(3) + "px";
 debug.style.position = "absolute";
 debug.style.left = "900px";
 debug.style.top = "200px";
@@ -114,7 +115,7 @@ function Draw() {
                         "<br>counter: " + melon.counter +
                         "<br>counterX: " + melon.counterElem.style.left + 
                         "<br>counterY: " + melon.counterElem.style.top +*/
-                        "<br><font size='24px'>" + Game.score + "</font>";
+                        "<font size='24px'>" + Game.score + "</font>";
     //requestAnimFrame(Draw);
 }
 
