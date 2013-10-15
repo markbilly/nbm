@@ -57,15 +57,19 @@ var map =[
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
 ];
 
-var enemy1 = new Enemy((2 * Game.TILE), (1 * Game.TILE));
-var enemy2 = new Enemy((4 * Game.TILE), (6 * Game.TILE));
-var enemy3 = new Enemy((18 * Game.TILE), (6 * Game.TILE));
-Game.enemies[0] = enemy1;
-Game.enemies[1] = enemy2;
-Game.enemies[2] = enemy3;
 var melon = new Melon();
 
 function StartGame() {
+    //empty enemies array
+    Game.enemies.length = 0;
+    //fill enemies array
+    var enemy1 = new Enemy((2 * Game.TILE), (1 * Game.TILE));
+    var enemy2 = new Enemy((4 * Game.TILE), (6 * Game.TILE));
+    var enemy3 = new Enemy((18 * Game.TILE), (6 * Game.TILE));
+    Game.enemies[0] = enemy1;
+    Game.enemies[1] = enemy2;
+    Game.enemies[2] = enemy3;
+
     Player.Init();
     melon.Init();
     Game.InitEnemies();

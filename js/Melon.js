@@ -8,7 +8,7 @@ function Melon() {
     this.falling = false;
     this.state = "start";
     this.timer = 0;
-    this.counter = 5;
+    this.counter = 0; //set value in Init()
     this.BoundingBox = {
         x: 0,
         y: 0,
@@ -110,7 +110,7 @@ Melon.prototype.Init = function() {
     
     var self = this;
     self.timer = 0;
-    self.counter = 5;
+    self.counter = 3;
     self.frame = 0;
     
     //Set up image
@@ -205,7 +205,7 @@ Melon.prototype.ApplyCollisions = function() {
     
     var inPlayerCell = Game.IsColliding(mel, Player);
     
-    if (inPlayerCell) {
+    if (inPlayerCell && !Player.dead) {
         if (mel.state === "countdown") {
             mel.state = "end";
             Game.score++;

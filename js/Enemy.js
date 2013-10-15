@@ -11,6 +11,7 @@ function Enemy(x, y) {
     this.falling = false;
     this.MAXDX = 1.0;
     this.MAXDY = 9.0;
+    this.JUMP = 100.0;
     this.BoundingBox = {
         x: 0,
         y: 0,
@@ -18,6 +19,8 @@ function Enemy(x, y) {
         height: Game.TILE
     };
     this.onfire = false;
+    this.fireTimer = 0;
+    this.dead = false;
 }
 
 Enemy.prototype.Init = function() {
@@ -31,6 +34,24 @@ Enemy.prototype.Init = function() {
 }
 
 Enemy.prototype.Update = function() {
+    var self = this;
+    
+    if (self.onfire && !self.dead) {
+        control.innerHTML = "onfire";
+        self.fireTimer++;
+        if (self.fireTimer === (Game.fps * 3) && !self.falling) {
+            var newEnemy = new Enemy(self.xInit, self.yInit);
+            Game.enemies.push(newEnemy);
+            Game.enemies[Game.enemies.length - 1].Init();
+        }
+        if (!(self.fireTimer % Game.fps)) {
+            self.dy = self.dy - (self.JUMP * 0.75);
+        }
+    }
+    else {
+        self.fireTimer = 0;
+    }
+    
     this.UpdatePosition();
     this.ApplyCollisions();
     
@@ -54,6 +75,9 @@ Enemy.prototype.UpdatePosition = function() {
     
     if (enemy.dy > enemy.MAXDY) {
         enemy.dy = enemy.MAXDY;
+    }
+    else if (enemy.dy < -enemy.MAXDY) {
+        enemy.dy = -enemy.MAXDY;
     }
     
     enemy.y  = Math.floor(enemy.y  + (Game.dt * enemy.dy));
@@ -92,6 +116,16 @@ Enemy.prototype.ApplyCollisions = function() {
         enemy.dy = 0;            // stop downward velocity
         enemy.falling = false;   // no longer falling
         enemyny = 0;                   // - no longer overlaps the cells below
+      }
+    }
+    else if (enemy.dy < 0) {
+      if ((enemycell      && !enemycelldown) ||
+          (enemycellright && !enemycelldiag && enemynx)) {
+        enemy.y = Game.TileToPixel(enemyty + 1);   // clamp the y position to avoid jumping into platform above
+        enemy.dy = 0;            // stop upward velocity
+        enemycell      = enemycelldown;     // player is no longer really in that cell, we clamped them to the cell below 
+        enemycellright = enemycelldiag;     // (ditto)
+        enemyny        = 0;            // player no longer overlaps the cells below
       }
     }
     if ((!enemycelldiag || !enemycelldown) && !enemy.falling && !enemy.onfire) {
