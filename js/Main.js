@@ -6,11 +6,21 @@ var bg = document.getElementById("bg");
 var container = document.getElementById("container");
 c.width = px(288); //px
 c.height = py(192); //px
+c.style.left = 0 + "px";
+c.style.top = 0 + "px";
+c.style.padding = 0;
+c.style.margin = 0 + "px";
 b.width = px(288); //px
 b.height = py(192); //px
+b.style.left = 0 + "px";
+b.style.top = 0 + "px";
+b.style.padding = 0;
+b.style.margin = 0 + "px";
 container.style.fontSize = px(8) + "px";
 bg.style.width = px(288) + "px";
 bg.style.height = py(192) + "px";
+bg.style.left = 0 + "px";
+bg.style.top = 0 + "px";
 bg.style.backgroundImage = "url('bg.png')";
 bg.style.position = "absolute";
 control.style.position = "absolute";
@@ -62,8 +72,10 @@ function RandomInt(min, max) {
 }
 
 var melon = new Melon();
+GameOver.Build();
 
 function StartGame() {
+    GameOver.Hide();
     //empty enemies array
     Game.enemies.length = 0;
     //fill enemies array
@@ -162,6 +174,7 @@ function onkey(e, key, down) {
             if (Player.dead) {
                 StartGame();
                 Player.dead = false;
+                Player.jump = false;
             }
             else {
                 Player.jump = down;

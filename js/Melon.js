@@ -37,8 +37,8 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.height = Game.TILE;
             
             self.counterElem.style.visibility = "visible";
-            self.counterElem.style.left = px(self.x + 4) + "px";
-            self.counterElem.style.top = py(self.y - Game.TILE - 6) + "px";
+            self.counterElem.style.left = px(self.x + 1) + "px";
+            self.counterElem.style.top = py(self.y - Game.TILE - 8) + "px";
             
             self.timer++;
             var secondPassed = self.timer % Game.fps;
@@ -47,7 +47,6 @@ Melon.prototype.ReactToState = function() {
             }
             if (self.counter === 0) {
                 self.state = "exploding";
-                self.Explode();
             }
             break;
         case "exploding":
@@ -103,9 +102,6 @@ Melon.prototype.ReactToState = function() {
     
 }
 
-Melon.prototype.Explode = function() {
-}
-
 Melon.prototype.Init = function() {
     
     var self = this;
@@ -124,6 +120,7 @@ Melon.prototype.Init = function() {
         self.counterElem.style.color = "red";
         self.counterElem.style.width = px(Game.TILE) + "px";
         self.counterElem.style.height = py(Game.TILE) + "px";
+        self.counterElem.style.padding = 0 + "px";
     }
     else {
         self.counterElem.innerHTML = "";
