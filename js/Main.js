@@ -94,7 +94,7 @@ function FirstTimeStart() {
 function Draw() {
     ctx.clearRect(0,0,px(Game.width),py(Game.height));
     
-    ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(12));
+    ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(13));
     Game.DrawEnemies();
     ctx.drawImage(melon.image,px(melon.x + 5 - 50),py(melon.y - 5 - 50), px(100), py(100));
     //ctx.strokeStyle = 'red';

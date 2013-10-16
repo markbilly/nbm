@@ -158,11 +158,8 @@ Enemy.prototype.ApplyCollisions = function() {
         inMelonCell = Game.IsColliding(enemy, melon);
     
     if (inPlayerCell) {
-        if (!Player.dead && enemy.onfire) {
+        if (Player.dead === false) {
             Player.Die(enemy);
-        }
-        else if (!Player.dead && !enemy.onfire && !Player.thrown) {
-            Player.Throw(enemy);
         }
     }
     if (inMelonCell && melon.state === "exploding" && !enemy.onfire) {
