@@ -204,16 +204,39 @@ Melon.prototype.ApplyCollisions = function() {
     
     var inPlayerCell = Game.IsColliding(mel, Player);
     
+    if (Game.enemies.length > 0) var enemiesInCell = GetEnemiesInCell();
+    
+    function GetEnemiesInCell() {
+        var touching = [];
+        
+        for (i = 0; i < Game.enemies.length; i++) {
+            var currentEnemy = Game.enemies[i];
+            
+            if (Game.IsColliding(self, currentEnemy)) {
+                touching.push(currentEnemy);
+            };
+        }
+        
+        return touching;
+    }
+    
     if (inPlayerCell && !Player.dead) {
         if (mel.state === "countdown") {
             mel.state = "end";
             Game.score++;
         }
         else if (mel.state === "exploding") {
-            Player.Die(mel);
+            Player.Die(mel, "You're toast!");
         }
         else {
             //do nothing
+        }
+    }
+    if ((enemiesInCell.length > 0) && melon.state === "exploding" && !enemy.onfire) {
+        for (i = 0; i < enemiesInCell.length; i++) {
+            enemiesInCell[i].onfire = true;
+            enemiesInCell[i].dx = enemy.dx * 5;
+            enemiesInCell[i].MAXDX = enemy.MAXDX * 5;
         }
     }
 }

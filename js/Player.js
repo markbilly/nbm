@@ -32,19 +32,14 @@ var Player = {
         height: Game.TILE
     },
     
-    Die: function(object) { 
+    Die: function(object, string) { 
         Player.dead = true;
         Player.jumping = true;
         Player.ddx = 0;
         Player.dx = 0;
         Player.x = Game.TileToPixel(Game.PixelToTile(object.x));
         Player.dy = Player.dy - (Player.JUMP * 0.25);
-        if (object.onfire) {
-            GameOver.Show("You're toast!");
-        }
-        else {
-            GameOver.Show("Crumbs! You're dead!");
-        }
+        GameOver.Show(string);
     },
     
     Init: function() {

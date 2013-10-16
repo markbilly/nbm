@@ -170,17 +170,16 @@ Enemy.prototype.ApplyCollisions = function() {
     
     enemy.falling = ! (enemycelldown || (enemynx && enemycelldiag));
     
-    var inPlayerCell = Game.IsColliding(enemy, Player),
-        inMelonCell = false; //Game.IsColliding(enemy, melon);
+    var inPlayerCell = Game.IsColliding(enemy, Player);
     
     if (inPlayerCell) {
         if (!Player.dead) {
-            Player.Die(enemy);
+            if (enemy.onfire) {
+                Player.Die(enemy, "You're toast!");
+            }
+            else {
+                Player.Die(enemy, "Crumbs! You're dead!");
+            }
         }
-    }
-    if (inMelonCell && melon.state === "exploding" && !enemy.onfire) {
-        enemy.onfire = true;
-        enemy.dx = enemy.dx * 5;
-        enemy.MAXDX = enemy.MAXDX * 5;
     }
 }
