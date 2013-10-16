@@ -142,7 +142,7 @@ function Processor() {
 }
 
 function MelonManager() {
-    var freq = 3;
+    var freq = 2;
     Game.melonTimer++;
     
     if (!(Game.melonTimer % (Game.fps * freq))) {
