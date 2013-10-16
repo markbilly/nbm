@@ -33,19 +33,32 @@ Enemy.prototype.Init = function() {
     this.y = this.yInit;
 }
 
+Enemy.prototype.Die = function() { 
+    this.dead = true;
+    this.onfire = false;
+    this.jumping = true;
+    this.ddx = 0;
+    this.dx = 0;
+    this.x = Game.TileToPixel(Game.PixelToTile(this.x));
+    this.dy = this.dy - (this.JUMP * 0.25);
+}
+    
 Enemy.prototype.Update = function() {
     var self = this;
     
     if (self.onfire && !self.dead) {
-        control.innerHTML = "onfire";
+        var jumpDelay = RandomInt(1, 3);
         self.fireTimer++;
-        if (self.fireTimer === (Game.fps * 3) && !self.falling) {
+        if (self.fireTimer === (Game.fps * 3)) {
             var newEnemy = new Enemy(self.xInit, self.yInit);
             Game.enemies.push(newEnemy);
             Game.enemies[Game.enemies.length - 1].Init();
         }
-        if (!(self.fireTimer % Game.fps)) {
-            self.dy = self.dy - (self.JUMP * 0.75);
+        if (!(self.fireTimer % (Game.fps * jumpDelay))) {
+            self.dy = self.dy - (self.JUMP);
+        }
+        if (self.fireTimer > (Game.fps * 10) && !self.falling && !self.jumping) {
+            self.Die();
         }
     }
     else {
@@ -53,7 +66,7 @@ Enemy.prototype.Update = function() {
     }
     
     this.UpdatePosition();
-    this.ApplyCollisions();
+    if (!this.dead) this.ApplyCollisions();
     
     if (this.dx < 0) {
         this.image.src = "enemy.png";
@@ -101,7 +114,8 @@ Enemy.prototype.ApplyCollisions = function() {
         enemycellright = Game.TileLocationFromTile(enemytx + 1, enemyty),
         enemycellleft  = Game.TileLocationFromTile(enemytx - 1, enemyty),
         enemycelldown  = Game.TileLocationFromTile(enemytx,     enemyty + 1),
-        enemycelldiag  = Game.TileLocationFromTile(enemytx + 1, enemyty + 1);
+        enemycelldiag  = Game.TileLocationFromTile(enemytx + 1, enemyty + 1),
+        enemycellleftdiag  = Game.TileLocationFromTile(enemytx - 1, enemyty + 1);
         
     if (enemycell === 9) enemycell = 0;
     if (enemycellright === 9) enemycellright = 0;
@@ -128,7 +142,9 @@ Enemy.prototype.ApplyCollisions = function() {
         enemyny        = 0;            // player no longer overlaps the cells below
       }
     }
-    if ((!enemycelldiag || !enemycelldown) && !enemy.falling && !enemy.onfire) {
+    if ((!enemycelldiag || !enemycellleftdiag) &&
+        !enemy.falling && !enemy.jumping && enemycelldown/*&& !enemy.onfire*/) {
+        
         enemy.y = Game.TileToPixel(enemyty);
         if (enemy.dx > 0) {
             enemy.dx = -enemy.MAXDX;
@@ -158,7 +174,7 @@ Enemy.prototype.ApplyCollisions = function() {
         inMelonCell = Game.IsColliding(enemy, melon);
     
     if (inPlayerCell) {
-        if (Player.dead === false) {
+        if (!Player.dead) {
             Player.Die(enemy);
         }
     }

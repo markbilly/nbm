@@ -56,6 +56,10 @@ var map =[
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
 ];
+    
+function RandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;    
+}
 
 var melon = new Melon();
 
