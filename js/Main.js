@@ -71,13 +71,17 @@ function RandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;    
 }
 
-var melon = new Melon();
 GameOver.Build();
 
 function StartGame() {
     GameOver.Hide();
-    //empty enemies array
+    //get rid of melon elems
+    for (i = 0; i < Game.melons.length; i++) {
+        Game.melons[i].counterElem.parentNode.removeChild(Game.melons[i].counterElem);
+    }
+    //empty enemies & melons arrays
     Game.enemies.length = 0;
+    Game.melons.length = 0;
     //fill enemies array
     var enemy1 = new Enemy((2 * Game.TILE), (1 * Game.TILE));
     var enemy2 = new Enemy((4 * Game.TILE), (6 * Game.TILE));
@@ -85,9 +89,13 @@ function StartGame() {
     Game.enemies[0] = enemy1;
     Game.enemies[1] = enemy2;
     Game.enemies[2] = enemy3;
+    //add inital melon
+    var melon = new Melon();
+    Game.melons.push(melon);
 
+    Game.melonTimer = 0;
     Player.Init();
-    melon.Init();
+    Game.InitMelons();
     Game.InitEnemies();
     Game.score = 0;
     
@@ -112,31 +120,9 @@ function Draw() {
     
     ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(13));
     Game.DrawEnemies();
-    ctx.drawImage(melon.image,px(melon.x + 5 - 50),py(melon.y - 5 - 50), px(100), py(100));
-    //ctx.strokeStyle = 'red';
-    //ctx.strokeRect(px(melon.BoundingBox.x),
-    //             py(melon.BoundingBox.y),
-    //             px(melon.BoundingBox.width),
-    //             py(melon.BoundingBox.height));
-    
-    if (melon.state === "countdown") {
-        melon.counterElem.innerHTML = melon.counter;
-    }
-    else {
-        melon.counterElem.innerHTML = "";
-    }
-    
-    //debug.innerHTML = "jumping: " + Player.jumping +
-    //                    "<br>falling: " + Player.falling +
-    //                    "<br>wallgrabbing: " + Player.wallgrabbing +
-    //                    "<br>jump: " + Player.jump;
+    Game.DrawMelons();
                         
-    control.innerHTML = /*"melon: " + melon.state +
-                        "<br>counter: " + melon.counter +
-                        "<br>counterX: " + melon.counterElem.style.left + 
-                        "<br>counterY: " + melon.counterElem.style.top +*/
-                        "<font size='24px'>" + Game.score + "</font>";
-    //requestAnimFrame(Draw);
+    control.innerHTML = "<font size='24px'>" + Game.score + "</font>";
 }
 
 function Processor() {
@@ -148,10 +134,26 @@ function Processor() {
     Game.UpdateEnemies();
     
     //Melon
-    melon.Update();
+    MelonManager();
+    Game.UpdateMelons();
    
     Draw();
     requestTimeout(Processor, (1000 / Game.fps));
+}
+
+function MelonManager() {
+    var freq = 3;
+    Game.melonTimer++;
+    
+    if (!(Game.melonTimer % (Game.fps * freq))) {
+        var newMelon = new Melon();
+        Game.melons.push(newMelon);
+        Game.melons[Game.melons.length - 1].index = Game.melons.length - 1;
+        Game.melons[Game.melons.length - 1].Init();
+    }
+    if (Game.melonTimer > 1000) {
+        Game.melonTimer = 0;
+    }
 }
 
 document.addEventListener("keydown", function(e) {

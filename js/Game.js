@@ -4,8 +4,10 @@ var Game = {
     GRAVITY: 1.0,    // gravity
     dt: 1,
     enemies: [],
+    melons: [],
     score: 0,
     fps: 50,
+    melonTimer: 0,
     
     IsColliding: function(object1, object2) {
         
@@ -30,6 +32,14 @@ var Game = {
         }
     },
     
+    InitMelons: function() {
+        var list = this.melons;
+        
+        for (i = 0; i < list.length; i++) {
+            list[i].Init();
+        }
+    },
+    
     DrawEnemies: function() {
         var list = this.enemies;
         
@@ -37,9 +47,34 @@ var Game = {
             ctx.drawImage(list[i].image,px(list[i].x - 8),py(list[i].y - 16), px(24), py(16));
         }
     },
+
+    DrawMelons: function() {
+        var list = this.melons;
+        
+        for (i = 0; i < list.length; i++) {
+            ctx.drawImage(list[i].image,px(list[i].x + 5 - 50),py(list[i].y - 5 - 50), px(100), py(100));
+            
+            if (list[i].state === "countdown") {
+                list[i].counterElem.innerHTML = list[i].counter;
+            }
+            else {
+                if (list[i].counterElem !== null) {
+                    list[i].counterElem.innerHTML = "";
+                }
+            }
+        }
+    },
     
     UpdateEnemies: function() {
         var list = this.enemies;
+        
+        for (i = 0; i < list.length; i++) {
+            list[i].Update();
+        }
+    },
+    
+    UpdateMelons: function() {
+        var list = this.melons;
         
         for (i = 0; i < list.length; i++) {
             list[i].Update();

@@ -171,7 +171,7 @@ Enemy.prototype.ApplyCollisions = function() {
     enemy.falling = ! (enemycelldown || (enemynx && enemycelldiag));
     
     var inPlayerCell = Game.IsColliding(enemy, Player),
-        inMelonCell = Game.IsColliding(enemy, melon);
+        inMelonCell = false; //Game.IsColliding(enemy, melon);
     
     if (inPlayerCell) {
         if (!Player.dead) {

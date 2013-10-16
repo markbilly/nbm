@@ -1,6 +1,6 @@
 function Melon() {
     this.image = null;
-    this.counterElem;
+    this.counterElem = null;
     this.x = 0;
     this.y = 0;
     this.dy = 0;
@@ -19,6 +19,7 @@ function Melon() {
     this.previousY = 0;
     this.MAXDX = 1.0;      // max horizontal speed (20 tiles per second)
     this.MAXDY = 9.0;      // max vertical speed   (60 tiles per second)
+    this.index = 0; // got in Init()
 }
 
 Melon.prototype.ReactToState = function() {
@@ -96,7 +97,8 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.y = 0;
             self.BoundingBox.width = 0;
             self.BoundingBox.height = 0;
-            self.Init();
+            //remove melon from melons array
+            Game.melons.splice(self.index, 1);
             break;
     }
     
@@ -106,25 +108,29 @@ Melon.prototype.Init = function() {
     
     var self = this;
     self.timer = 0;
-    self.counter = 3;
+    self.counter = 5;
     self.frame = 0;
+    
+    //Get index in melons array
+    self.index = Game.melons.indexOf(self);
     
     //Set up image
     var img = new Image();
     img.src = "melon/" + self.frame + ".png";
     
     //set up counter
-    if (self.counterElem === undefined) {
-        self.counterElem = document.getElementById("counter");
-        self.counterElem.style.position = "absolute";
-        self.counterElem.style.color = "red";
-        self.counterElem.style.width = px(Game.TILE) + "px";
-        self.counterElem.style.height = py(Game.TILE) + "px";
-        self.counterElem.style.padding = 0 + "px";
-    }
-    else {
-        self.counterElem.innerHTML = "";
-    }
+    var elem = document.createElement("counter" + self.index);
+    container.appendChild(elem);
+    
+    //record new elem as property
+    self.counterElem = elem;
+    
+    //style counter
+    self.counterElem.style.position = "absolute";
+    self.counterElem.style.color = "red";
+    self.counterElem.style.width = px(Game.TILE) + "px";
+    self.counterElem.style.height = py(Game.TILE) + "px";
+    self.counterElem.style.padding = 0 + "px";
     
     var spawned = false;
     
