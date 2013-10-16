@@ -16,7 +16,7 @@ function Melon() {
         height: Game.TILE
     };
     this.frame = 0;
-    this.previousY = 0;
+    this.yInit = 0;
     this.MAXDX = 1.0;      // max horizontal speed (20 tiles per second)
     this.MAXDY = 9.0;      // max vertical speed   (60 tiles per second)
     this.index = 0; // got in Init()
@@ -27,7 +27,7 @@ Melon.prototype.ReactToState = function() {
     
     switch(self.state) {
         case "start":
-            if (Player.dy === 0) {
+            if (self.dy === 0) {
                 self.state = "countdown";
             }
             break;
@@ -141,12 +141,25 @@ Melon.prototype.Init = function() {
         if (tile === 9) {
             self.x = Game.TileLocationToPixel(tileIndex).x;
             self.y = Game.TileLocationToPixel(tileIndex).y;
-            if (self.y !== self.previousY) {
-                spawned = true;
-                self.state = "start";
-                self.image = img;
-                self.previousY = self.y;
-            }
+            self.yInit = self.y;
+            
+            ////this bit needs redoing to use check against position of prev melon in array
+            //if (Game.melons.length <= 1) {
+            //    spawned = true;
+            //    self.state = "start";
+            //    self.image = img;
+            //    
+            //}
+            //else {
+            //    if (self.y !== Game.melons[self.index - 1].yInit) {
+            //        spawned = true;
+            //        self.state = "start";
+            //        self.image = img;
+            //    }
+            //}
+            spawned = true;
+            self.state = "start";
+            self.image = img;
         }
     }
 }
@@ -204,22 +217,6 @@ Melon.prototype.ApplyCollisions = function() {
     
     var inPlayerCell = Game.IsColliding(mel, Player);
     
-    if (Game.enemies.length > 0) var enemiesInCell = GetEnemiesInCell();
-    
-    function GetEnemiesInCell() {
-        var touching = [];
-        
-        for (i = 0; i < Game.enemies.length; i++) {
-            var currentEnemy = Game.enemies[i];
-            
-            if (Game.IsColliding(self, currentEnemy)) {
-                touching.push(currentEnemy);
-            };
-        }
-        
-        return touching;
-    }
-    
     if (inPlayerCell && !Player.dead) {
         if (mel.state === "countdown") {
             mel.state = "end";
@@ -232,11 +229,32 @@ Melon.prototype.ApplyCollisions = function() {
             //do nothing
         }
     }
-    if ((enemiesInCell.length > 0) && melon.state === "exploding" && !enemy.onfire) {
-        for (i = 0; i < enemiesInCell.length; i++) {
-            enemiesInCell[i].onfire = true;
-            enemiesInCell[i].dx = enemy.dx * 5;
-            enemiesInCell[i].MAXDX = enemy.MAXDX * 5;
+    
+    if (Game.enemies.length > 0) {
+        
+        var enemiesInCell = GetEnemiesInCell();
+        
+        function GetEnemiesInCell() {
+            var touching = [];
+            
+            for (i = 0; i < Game.enemies.length; i++) {
+                var currentEnemy = Game.enemies[i];
+                
+                if (Game.IsColliding(mel, currentEnemy)) {
+                    touching.push(currentEnemy);
+                };
+            }
+            
+            return touching;
         }
+        if ((enemiesInCell.length > 0) && mel.state === "exploding") {
+            for (i = 0; i < enemiesInCell.length; i++) {
+                if (!enemiesInCell[i].onfire) {
+                    enemiesInCell[i].onfire = true;
+                    enemiesInCell[i].dx = enemiesInCell[i].dx * 5;
+                    enemiesInCell[i].MAXDX = enemiesInCell[i].MAXDX * 5;
+                }
+            }
+        }    
     }
 }

@@ -35,8 +35,10 @@ var Game = {
     InitMelons: function() {
         var list = this.melons;
         
-        for (i = 0; i < list.length; i++) {
-            list[i].Init();
+        if (list.length > 0) {
+            for (i = 0; i < list.length; i++) {
+                list[i].Init();
+            }
         }
     },
     
@@ -76,8 +78,10 @@ var Game = {
     UpdateMelons: function() {
         var list = this.melons;
         
-        for (i = 0; i < list.length; i++) {
-            list[i].Update();
+        if (list.length > 0) {        
+            for (i = 0; i < list.length; i++) {
+                list[i].Update();
+            }
         }
     },
     

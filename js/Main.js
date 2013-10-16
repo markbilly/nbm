@@ -142,14 +142,14 @@ function Processor() {
 }
 
 function MelonManager() {
-    var freq = 2;
+    var freq = 3;
     Game.melonTimer++;
     
     if (!(Game.melonTimer % (Game.fps * freq))) {
         var newMelon = new Melon();
+        newMelon.Init();
         Game.melons.push(newMelon);
-        Game.melons[Game.melons.length - 1].index = Game.melons.length - 1;
-        Game.melons[Game.melons.length - 1].Init();
+        //Game.melons[Game.melons.length - 1].Init();
     }
     if (Game.melonTimer > 1000) {
         Game.melonTimer = 0;
