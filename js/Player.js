@@ -31,10 +31,19 @@ var Player = {
         width: Game.TILE,
         height: Game.TILE
     },
+    thrownTimer: 0,
     
     Die: function(object) { 
         Player.dead = true;
         Player.jumping = true;
+        Player.ddx = 0;
+        Player.dx = 0;
+        Player.x = Game.TileToPixel(Game.PixelToTile(object.x));
+        Player.dy = Player.dy - (Player.JUMP * 0.25);
+    },
+    
+    Throw: function(object) {
+        Player.thrown = true;
         Player.ddx = 0;
         Player.dx = 0;
         Player.x = Game.TileToPixel(Game.PixelToTile(object.x));
@@ -53,11 +62,12 @@ var Player = {
         
         var wasleft  = Player.dx < 0,
             wasright = Player.dx > 0,
-            falling  = Player.falling;
+            falling  = Player.falling,
+            self = this;
             
         //this.UpdateImage(wasleft, wasright);
         
-        if (this.dead === false) {
+        if (!this.dead) {
             this.ApplyInputs(wasleft, wasright, falling);
             this.UpdatePosition();
             this.ClampSpeed(wasleft, wasright);
@@ -201,14 +211,19 @@ var Player = {
         player.ty = ty;
         
         if (player.dy > 0) {
-          if ((celldown && !cell) ||
-              (celldiag && !cellright && nx)) {
-            player.y = Game.TileToPixel(ty);       // clamp the y position to avoid falling into platform below
-            player.dy = 0;            // stop downward velocity
-            player.falling = false;   // no longer falling
-            player.jumping = false;   // (or jumping)
-            ny = 0;                   // - no longer overlaps the cells below
-          }
+            if ((celldown && !cell) ||
+                (celldiag && !cellright && nx)) {
+                //if (!player.thrown) {
+                    player.y = Game.TileToPixel(ty);       // clamp the y position to avoid falling into platform below
+                    player.dy = 0;            // stop downward velocity
+                    player.falling = false;   // no longer falling
+                    player.jumping = false;   // (or jumping)
+                    ny = 0;                   // - no longer overlaps the cells below
+                //}
+                //else {
+                    player.thrown = false;
+                //}
+            }
         }
         else if (player.dy < 0) {
           if ((cell      && !celldown) ||
