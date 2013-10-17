@@ -98,7 +98,7 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.width = 0;
             self.BoundingBox.height = 0;
             //remove melon from melons array
-            if (self.index !== -1) Game.melons.splice(self.index, 1);
+            if (self.index !== -1 && Game.melons.length > 1) Game.melons.splice(self.index, 1);
             break;
     }
 }
