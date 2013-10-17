@@ -57,7 +57,7 @@ Enemy.prototype.Update = function() {
         if (!(self.fireTimer % (Game.fps * jumpDelay))) {
             self.dy = self.dy - (self.JUMP);
         }
-        if (self.fireTimer > (Game.fps * 10) && !self.falling && !self.jumping) {
+        if (self.fireTimer > (Game.fps * 20) && !self.falling && !self.jumping) {
             self.Die();
         }
     }

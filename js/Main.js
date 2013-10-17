@@ -136,6 +136,7 @@ function Processor() {
     //Melon
     MelonManager();
     Game.UpdateMelons();
+    debug.innerHTML = Game.melons.length;
    
     Draw();
     requestTimeout(Processor, (1000 / Game.fps));

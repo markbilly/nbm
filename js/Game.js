@@ -70,18 +70,16 @@ var Game = {
     UpdateEnemies: function() {
         var list = this.enemies;
         
-        for (i = 0; i < list.length; i++) {
-            list[i].Update();
+        for (var i = 0; i < list.length; i++) {
+            if (list[i]) list[i].Update();
         }
     },
     
     UpdateMelons: function() {
         var list = this.melons;
         
-        if (list.length > 0) {        
-            for (i = 0; i < list.length; i++) {
-                list[i].Update();
-            }
+        for (var i = 0; i < list.length; i++) {
+            if (list[i]) list[i].Update();
         }
     },
     

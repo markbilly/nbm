@@ -98,17 +98,16 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.width = 0;
             self.BoundingBox.height = 0;
             //remove melon from melons array
-            Game.melons.splice(self.index, 1);
+            if (self.index !== -1) Game.melons.splice(self.index, 1);
             break;
     }
-    
 }
 
 Melon.prototype.Init = function() {
     
     var self = this;
     self.timer = 0;
-    self.counter = 5;
+    self.counter = 9;
     self.frame = 0;
     
     //Get index in melons array
@@ -126,6 +125,7 @@ Melon.prototype.Init = function() {
     self.counterElem = elem;
     
     //style counter
+    self.counterElem.style.visibility = "hidden";
     self.counterElem.style.position = "absolute";
     self.counterElem.style.color = "red";
     self.counterElem.style.width = px(Game.TILE) + "px";
@@ -139,27 +139,33 @@ Melon.prototype.Init = function() {
         var tile = map[tileIndex];
         
         if (tile === 9) {
+            var list = Game.melons;
+            
             self.x = Game.TileLocationToPixel(tileIndex).x;
             self.y = Game.TileLocationToPixel(tileIndex).y;
             self.yInit = self.y;
             
-            ////this bit needs redoing to use check against position of prev melon in array
-            //if (Game.melons.length <= 1) {
-            //    spawned = true;
-            //    self.state = "start";
-            //    self.image = img;
-            //    
-            //}
-            //else {
-            //    if (self.y !== Game.melons[self.index - 1].yInit) {
-            //        spawned = true;
-            //        self.state = "start";
-            //        self.image = img;
-            //    }
-            //}
-            spawned = true;
-            self.state = "start";
-            self.image = img;
+            //check that self.x and self.yInit does not match any of the other melons currently in array
+            
+            if (list.length > 1) {
+                for (var i = 0; i < list.length; i++) {
+                    if ((self.x !== list[i].x) && (self.yInit !== list[i].yInit)) {
+                        spawned = true;
+                    }
+                    else {
+                        spawned = false;
+                    }
+                }
+            }
+            else {
+                spawned = true;
+            }
+            
+            if (spawned) {
+                self.state = "start";
+                self.image = img;
+                self.counterElem.style.visibility = "visible";
+            }
         }
     }
 }
