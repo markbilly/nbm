@@ -150,7 +150,6 @@ function MelonManager() {
         var newMelon = new Melon();
         newMelon.Init();
         Game.melons.push(newMelon);
-        //Game.melons[Game.melons.length - 1].Init();
     }
     if (Game.melonTimer > 1000) {
         Game.melonTimer = 0;

@@ -64,14 +64,14 @@ var Game = {
                     px(100),
                     py(100)
                 );
-            }
-            
-            if (list[i].state === "countdown") {
-                list[i].counterElem.innerHTML = list[i].counter;
-            }
-            else {
-                if (list[i].counterElem !== null) {
-                    list[i].counterElem.innerHTML = "";
+                
+                if (list[i].state === "countdown") {
+                    list[i].counterElem.innerHTML = list[i].counter;
+                }
+                else {
+                    if (list[i].counterElem !== null) {
+                        list[i].counterElem.innerHTML = "";
+                    }
                 }
             }
         }
