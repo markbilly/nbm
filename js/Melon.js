@@ -20,6 +20,7 @@ function Melon() {
     this.MAXDX = 1.0;      // max horizontal speed (20 tiles per second)
     this.MAXDY = 9.0;      // max vertical speed   (60 tiles per second)
     this.index = 0; // got in Init()
+    this.visible = true;
 }
 
 Melon.prototype.ReactToState = function() {
@@ -98,7 +99,8 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.width = 0;
             self.BoundingBox.height = 0;
             //remove melon from melons array
-            if (self.index !== -1 && Game.melons.length > 1) Game.melons.splice(self.index, 1);
+            if (Game.melons.length > 1) Game.melons.splice(self.index, 1);
+            self.visible = false;
             break;
     }
 }
@@ -109,6 +111,7 @@ Melon.prototype.Init = function() {
     self.timer = 0;
     self.counter = 9;
     self.frame = 0;
+    self.visible = true;
     
     //Get index in melons array
     self.index = Game.melons.indexOf(self);
@@ -240,19 +243,6 @@ Melon.prototype.ApplyCollisions = function() {
         
         var enemiesInCell = GetEnemiesInCell();
         
-        function GetEnemiesInCell() {
-            var touching = [];
-            
-            for (i = 0; i < Game.enemies.length; i++) {
-                var currentEnemy = Game.enemies[i];
-                
-                if (Game.IsColliding(mel, currentEnemy)) {
-                    touching.push(currentEnemy);
-                };
-            }
-            
-            return touching;
-        }
         if ((enemiesInCell.length > 0) && mel.state === "exploding") {
             for (i = 0; i < enemiesInCell.length; i++) {
                 if (!enemiesInCell[i].onfire) {
@@ -262,5 +252,19 @@ Melon.prototype.ApplyCollisions = function() {
                 }
             }
         }    
+    }
+    
+    function GetEnemiesInCell() {
+        var touching = [];
+        
+        for (i = 0; i < Game.enemies.length; i++) {
+            var currentEnemy = Game.enemies[i];
+            
+            if (Game.IsColliding(mel, currentEnemy)) {
+                touching.push(currentEnemy);
+            };
+        }
+        
+        return touching;
     }
 }
