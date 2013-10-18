@@ -100,6 +100,7 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.width = 0;
             self.BoundingBox.height = 0;
             map[self.tileIndex] = 9;
+            //Game.melons.splice(self.index, 1);
             self.visible = false;
             break;
     }
