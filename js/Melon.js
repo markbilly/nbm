@@ -21,6 +21,7 @@ function Melon() {
     this.MAXDY = 9.0;      // max vertical speed   (60 tiles per second)
     this.index = 0; // got in Init()
     this.visible = true;
+    this.tileIndex;
 }
 
 Melon.prototype.ReactToState = function() {
@@ -98,8 +99,7 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.y = 0;
             self.BoundingBox.width = 0;
             self.BoundingBox.height = 0;
-            //remove melon from melons array
-            if (Game.melons.length > 1) Game.melons.splice(self.index, 1);
+            map[self.tileIndex] = 9;
             self.visible = false;
             break;
     }
@@ -142,30 +142,19 @@ Melon.prototype.Init = function() {
         var tile = map[tileIndex];
         
         if (tile === 9) {
-            var list = Game.melons;
             
             self.x = Game.TileLocationToPixel(tileIndex).x;
             self.y = Game.TileLocationToPixel(tileIndex).y;
             self.yInit = self.y;
             
-            //check that self.x and self.yInit does not match any of the other melons currently in array
-            
-            var check = 0;
-            
-            for (var i = 0; i < list.length; i++) {
-                if ((self.x !== list[i].x) && (self.yInit !== list[i].yInit)) {
-                    check++;
-                }
-            }
-            
-            if (check === list.length) {
-                spawned = true;
-            }
+            spawned = true;
             
             if (spawned) {
                 self.state = "start";
                 self.image = img;
                 self.counterElem.style.visibility = "visible";
+                self.tileIndex = tileIndex;
+                map[tileIndex] = 0;
             }
         }
     }
