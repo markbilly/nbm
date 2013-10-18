@@ -150,15 +150,17 @@ Melon.prototype.Init = function() {
             
             //check that self.x and self.yInit does not match any of the other melons currently in array
             
-            var check = 0;
-            
-            for (var i = 0; i < list.length; i++) {
-                if ((self.x !== list[i].x) && (self.yInit !== list[i].yInit)) {
-                    check++;
+            if (list.length > 1) {
+                for (var i = 0; i < list.length; i++) {
+                    if ((self.x !== list[i].x) && (self.yInit !== list[i].yInit)) {
+                        spawned = true;
+                    }
+                    else {
+                        spawned = false;
+                    }
                 }
             }
-            
-            if (check === list.length) {
+            else {
                 spawned = true;
             }
             
