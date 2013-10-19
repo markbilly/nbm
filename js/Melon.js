@@ -22,6 +22,16 @@ function Melon() {
     this.index = 0; // got in Init()
     this.visible = true;
     this.tileIndex;
+    this.sprite = null;
+}
+
+Melon.prototype.Draw = function(x, y) {
+    var sprite = this.sprite,
+        sWidth = sprite.rawWidth,
+        sHeight = sprite.rawHeight,
+        pos_f = (this.frame) * sprite.rawWidth;
+    
+    ctx.drawImage(sprite.img, pos_f, 0, sWidth, sHeight, x, y, sprite.rawWidth, sprite.rawHeight);
 }
 
 Melon.prototype.ReactToState = function() {
@@ -84,7 +94,6 @@ Melon.prototype.ReactToState = function() {
                 }
             }
             
-            self.image.src = "melon/" + self.frame + ".png";
             break;
         case "exploded":
             self.timer++;
@@ -110,16 +119,17 @@ Melon.prototype.Init = function() {
     
     var self = this;
     self.timer = 0;
-    self.counter = 9;
     self.frame = 0;
     self.visible = true;
+    
+    //Random counter between 3 and 10
+    self.counter = RandomInt(5, 10);
     
     //Get index in melons array
     self.index = Game.melons.indexOf(self);
     
-    //Set up image
-    var img = new Image();
-    img.src = "melon/" + self.frame + ".png";
+    //Set up sprite
+    var sprite = new Sprite("melon" + self.index, 100, 100, "melonsheet.png", 10, 1);
     
     //set up counter
     var elem = document.createElement("counter" + self.index);
@@ -152,7 +162,8 @@ Melon.prototype.Init = function() {
             
             if (spawned) {
                 self.state = "start";
-                self.image = img;
+                //self.image = img;
+                self.sprite = sprite;
                 self.counterElem.style.visibility = "visible";
                 self.tileIndex = tileIndex;
                 map[tileIndex] = 0;

@@ -143,16 +143,24 @@ function Processor() {
 }
 
 function MelonManager() {
-    var freq = 2; //(1/50);
+    var freq = 10, //2,
+        //number = RandomInt(1, 3);
+        number = 1;
     Game.melonTimer++;
     
     if (!(Game.melonTimer % (Game.fps * freq))) {
-        var newMelon = new Melon();
-        newMelon.Init();
-        Game.melons.push(newMelon);
+        SpawnMelons(number);
     }
     if (Game.melonTimer > 1000) {
         Game.melonTimer = 0;
+    }
+    
+    function SpawnMelons(amount) {
+        for (var i = 0; i < amount; i++) {
+            var newMelon = new Melon();
+            newMelon.Init();
+            Game.melons.push(newMelon);
+        }
     }
 }
 
