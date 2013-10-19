@@ -108,6 +108,7 @@ window.setTimeout(function() {
 }, 1000);
 
 //Resources.Load(FirstTimeStart);
+Resources.Assign();
 
 function FirstTimeStart() {
     StartGame();
@@ -143,9 +144,9 @@ function Processor() {
 }
 
 function MelonManager() {
-    var freq = 10, //2,
-        //number = RandomInt(1, 3);
-        number = 1;
+    var freq = 2,
+        number = RandomInt(1, 2);
+        
     Game.melonTimer++;
     
     if (!(Game.melonTimer % (Game.fps * freq))) {

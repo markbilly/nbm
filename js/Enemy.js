@@ -26,9 +26,9 @@ function Enemy(x, y) {
 Enemy.prototype.Init = function() {
     this.onfire = false;
     this.MAXDX = 1.0;
-    var img = new Image();
-    img.src = "enemy.png";
-    this.image = img;
+    //var img = new Image();
+    //img.src = "enemy.png";
+    this.image = Resources.enemyLeft;
     this.x = this.xInit;
     this.y = this.yInit;
 }
@@ -69,10 +69,10 @@ Enemy.prototype.Update = function() {
     if (!this.dead) this.ApplyCollisions();
     
     if (this.dx < 0) {
-        this.image.src = "enemy.png";
+        this.image = Resources.enemyLeft;
     }
     else {
-        this.image.src = "enemyr.png";
+        this.image = Resources.enemyRight;
     }
 }
 

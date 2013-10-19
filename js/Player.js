@@ -43,9 +43,9 @@ var Player = {
     },
     
     Init: function() {
-        var img = new Image();
-        img.src = "player.png";
-        this.image = img;
+        //var img = new Image();
+        //img.src = "player.png";
+        this.image = Resources.playerRight;
         this.x = this.xInit;
         this.y = this.yInit;
     },
@@ -71,10 +71,10 @@ var Player = {
         }
         
         if (wasleft) {
-            this.image.src = "playerl.png";
+            this.image = Resources.playerLeft;
         }
         else if (wasright) {
-            this.image.src = "player.png";
+            this.image = Resources.playerRight;
         }
     },
     

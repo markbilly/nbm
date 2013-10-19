@@ -13,6 +13,20 @@ var Resources = {
     list: [],
     loadedTally: 0,
     
+    Assign: function() {
+        var self = this;
+        
+        self.playerRight.src = "player.png";
+        self.playerLeft.src = "playerl.png";
+        self.enemyRight.src = "enemyr.png";
+        self.enemyLeft.src = "enemy.png";
+        self.melon.src = "melon/0.png";
+        self.tiles.wood.src = "tile.png";
+        self.tiles.floor1.src = "floor1.png";
+        self.tiles.floor2.src = "floor2.png";
+        self.tiles.vert1.src = "vert1.png";
+    },
+    
     Load: function(callback) {
         var self = this;
         

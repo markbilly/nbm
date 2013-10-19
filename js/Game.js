@@ -56,13 +56,11 @@ var Game = {
         for (i = 0; i < list.length; i++) {
             
             if (list[i].visible) {
-                ctx.drawImage
-                (
-                    list[i].image,
-                    px(list[i].x + 5 - 50),
-                    py(list[i].y - 5 - 50),
-                    px(100),
-                    py(100)
+                
+                list[i].Draw
+                    (
+                        px(list[i].x + 5 - 50),
+                        py(list[i].y - 5 - 50)
                 );
                 
                 if (list[i].state === "countdown") {
