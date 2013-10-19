@@ -123,7 +123,7 @@ Melon.prototype.Init = function() {
     self.visible = true;
     
     //Random counter between 3 and 10
-    self.counter = RandomInt(5, 10);
+    self.counter = 5; //RandomInt(5, 10);
     
     //Get index in melons array
     self.index = Game.melons.indexOf(self);
