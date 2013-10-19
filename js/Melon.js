@@ -129,7 +129,7 @@ Melon.prototype.Init = function() {
     self.index = Game.melons.indexOf(self);
     
     //Set up sprite
-    var sprite = new Sprite("melon" + self.index, 100, 100, "melonsheet.png", 10, 1);
+    var sprite = new Sprite("melon" + self.index, 100, 100, Resources.melon.src, 10, 1);
     
     //set up counter
     var elem = document.createElement("counter" + self.index);
