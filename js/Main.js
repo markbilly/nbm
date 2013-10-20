@@ -4,27 +4,31 @@ var debug = document.getElementById("debug");
 var control = document.getElementById("control");
 var bg = document.getElementById("bg");
 var container = document.getElementById("container");
-c.width = px(288); //px
-c.height = py(192); //px
+
+var gameWidth = px(Game.MAP.tw * Game.TILE);
+var gameHeight = py(Game.MAP.th * Game.TILE);
+
+c.width = gameWidth; //px
+c.height = gameHeight; //px
 c.style.left = 0 + "px";
 c.style.top = 0 + "px";
 c.style.padding = 0;
 c.style.margin = 0 + "px";
-b.width = px(288); //px
-b.height = py(192); //px
+b.width = gameWidth; //px
+b.height = gameHeight; //px
 b.style.left = 0 + "px";
 b.style.top = 0 + "px";
 b.style.padding = 0;
 b.style.margin = 0 + "px";
 container.style.fontSize = px(8) + "px";
-bg.style.width = px(288) + "px";
-bg.style.height = py(192) + "px";
+bg.style.width = gameWidth + "px";
+bg.style.height = gameHeight + "px";
 bg.style.left = 0 + "px";
 bg.style.top = 0 + "px";
 bg.style.backgroundImage = "url('bg.png')";
 bg.style.position = "absolute";
 control.style.position = "absolute";
-control.style.left = px(140) + "px";
+control.style.left = (gameWidth / 2) + "px";
 control.style.top = px(3) + "px";
 debug.style.position = "absolute";
 debug.style.left = "900px";
@@ -41,33 +45,14 @@ var tile_vert1 = new Image();
 tile_vert1.src = "vert1.png";
 
 function px(x) {
-    return x * 3;
+    return x * Game.scale;
 }
 
 function py(y) {
-    return y * 3;
+    return y * Game.scale;
 }
 
-var mapold =[
-    4, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 9, 9, 9, 9, 9, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 4, 8,
-    4, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 9, 0, 0, 0, 0, 9, 9, 0, 4, 0, 0, 0, 0, 9, 0, 0, 0, 9, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
-];
-
-var mapNO =[
+var mapWide =[
     4, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
@@ -87,22 +72,27 @@ var mapNO =[
 ];
 
 var map =[
-    4, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 4, 0, 0, 9, 0, 9, 0, 9, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 4, 8,
-    4, 0, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
+////1//2//3//4//5//6//7//8//9//10/11/12/13    
+    4, 0, 0, 0, 0, 0, 0, 9, 0, 0, 9, 9, 4, 8, //1
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, //2
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, //3
+    4, 9, 9, 9, 9, 0, 0, 4, 0, 0, 1, 1, 4, 8, //4
+    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //5
+    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 9, 9, 4, 8, //6
+    4, 1, 1, 1, 1, 0, 0, 4, 0, 0, 0, 0, 4, 8, //7
+    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //8
+    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1, 1, 4, 8, //9
+    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //10
+    4, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 4, 8, //11
+    4, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 4, 8, //12
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, //13
+    4, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 4, 8, //14
+    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //15
+    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //16
+    4, 9, 9, 9, 9, 9, 9, 4, 9, 9, 9, 9, 4, 8, //17
+    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //18
+    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //19
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 8, //20
 ];
     
 function RandomInt(min, max) {
@@ -121,12 +111,14 @@ function StartGame() {
     Game.enemies.length = 0;
     Game.melons.length = 0;
     //fill enemies array
-    var enemy1 = new Enemy((2 * Game.TILE), (1 * Game.TILE));
-    var enemy2 = new Enemy((4 * Game.TILE), (6 * Game.TILE));
-    var enemy3 = new Enemy((18 * Game.TILE), (6 * Game.TILE));
+    var enemy1 = new Enemy((2 * Game.TILE), (4 * Game.TILE));
+    var enemy2 = new Enemy((2 * Game.TILE), (11 * Game.TILE));
+    //var enemy3 = new Enemy((10 * Game.TILE), (17 * Game.TILE));
+    //var enemy4 = new Enemy((3 * Game.TILE), (17 * Game.TILE));
     Game.enemies[0] = enemy1;
     Game.enemies[1] = enemy2;
-    Game.enemies[2] = enemy3;
+    //Game.enemies[2] = enemy3;
+    //Game.enemies[3] = enemy4;
     //add inital melon
     var melon = new Melon();
     Game.melons.push(melon);
@@ -161,7 +153,7 @@ function Draw() {
     Game.DrawEnemies();
     Game.DrawMelons();
                         
-    control.innerHTML = "<font size='24px'>" + Game.score + "</font>";
+    control.innerHTML = Game.score;
 }
 
 function Processor() {
@@ -175,7 +167,6 @@ function Processor() {
     //Melon
     MelonManager();
     Game.UpdateMelons();
-    debug.innerHTML = Game.melons.length;
    
     Draw();
     requestTimeout(Processor, (1000 / Game.fps));

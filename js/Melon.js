@@ -31,7 +31,7 @@ Melon.prototype.Draw = function(x, y) {
         sHeight = sprite.rawHeight,
         pos_f = (this.frame) * sprite.rawWidth;
     
-    ctx.drawImage(sprite.img, pos_f, 0, sWidth, sHeight, x, y, sprite.rawWidth, sprite.rawHeight);
+    ctx.drawImage(sprite.img, pos_f, 0, sWidth, sHeight, x, y, sprite.width, sprite.height);
 }
 
 Melon.prototype.ReactToState = function() {
