@@ -1,6 +1,6 @@
 var Game = {
-    //MAP: { tw: 24, th: 16 }, // object to store size of map in tiles - WIDE
-    MAP: { tw: 13, th: 20 }, // object to store size of map in tiles - TALL
+    MAP: { tw: 24, th: 16 }, // object to store size of map in tiles - WIDE
+    //MAP: { tw: 13, th: 20 }, // object to store size of map in tiles - TALL
     TILE: 12,                // size of each tile (in game pixels)
     GRAVITY: 1.0,    // gravity
     dt: 1,
@@ -9,7 +9,7 @@ var Game = {
     score: 0,
     fps: 50,
     melonTimer: 0,
-    scale: 2,
+    scale: 3,
     
     IsColliding: function(object1, object2) {
         

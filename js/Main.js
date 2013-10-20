@@ -52,18 +52,18 @@ function py(y) {
     return y * Game.scale;
 }
 
-var mapWide =[
+var map =[
     4, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 4, 0, 0, 9, 0, 9, 0, 9, 0, 0, 0, 4, 8,
+    4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 0, 0, 9, 0, 9, 0, 9, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 4, 8,
-    4, 0, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
@@ -71,7 +71,7 @@ var mapWide =[
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
 ];
 
-var map =[
+var mapTALL =[
 ////1//2//3//4//5//6//7//8//9//10/11/12/13    
     4, 0, 0, 0, 0, 0, 0, 9, 0, 0, 9, 9, 4, 8, //1
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, //2
@@ -111,14 +111,14 @@ function StartGame() {
     Game.enemies.length = 0;
     Game.melons.length = 0;
     //fill enemies array
-    var enemy1 = new Enemy((2 * Game.TILE), (4 * Game.TILE));
-    var enemy2 = new Enemy((2 * Game.TILE), (11 * Game.TILE));
-    //var enemy3 = new Enemy((10 * Game.TILE), (17 * Game.TILE));
-    //var enemy4 = new Enemy((3 * Game.TILE), (17 * Game.TILE));
+    var enemy1 = new Enemy((2 * Game.TILE), (2 * Game.TILE));
+    var enemy2 = new Enemy((4 * Game.TILE), (8 * Game.TILE));
+    var enemy3 = new Enemy((18 * Game.TILE), (4 * Game.TILE));
+    var enemy4 = new Enemy((10 * Game.TILE), (14 * Game.TILE));
     Game.enemies[0] = enemy1;
     Game.enemies[1] = enemy2;
-    //Game.enemies[2] = enemy3;
-    //Game.enemies[3] = enemy4;
+    Game.enemies[2] = enemy3;
+    Game.enemies[3] = enemy4;
     //add inital melon
     var melon = new Melon();
     Game.melons.push(melon);
@@ -149,7 +149,7 @@ function FirstTimeStart() {
 function Draw() {
     ctx.clearRect(0,0,px(Game.width),py(Game.height));
     
-    ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(13));
+    ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(12));
     Game.DrawEnemies();
     Game.DrawMelons();
                         
@@ -174,7 +174,7 @@ function Processor() {
 
 function MelonManager() {
     var freq = 2,
-        number = 1; //RandomInt(1, 2);
+        number = RandomInt(1, 2);
         
     Game.melonTimer++;
     

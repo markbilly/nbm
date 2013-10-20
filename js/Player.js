@@ -70,10 +70,10 @@ var Player = {
             this.ClampSpeed(wasleft, wasright);
         }
         
-        if (wasleft) {
+        if (Player.left) {
             this.image = Resources.playerLeft;
         }
-        else if (wasright) {
+        else if (Player.right) {
             this.image = Resources.playerRight;
         }
     },
