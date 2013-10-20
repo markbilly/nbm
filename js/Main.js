@@ -165,7 +165,7 @@ function Processor() {
     Game.UpdateEnemies();
     
     //Melon
-    MelonManager();
+    //MelonManager();
     Game.UpdateMelons();
    
     Draw();

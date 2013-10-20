@@ -23,6 +23,7 @@ function Melon() {
     this.visible = true;
     this.tileIndex;
     this.sprite = null;
+    this.newCreated = false;
 }
 
 Melon.prototype.Draw = function(x, y) {
@@ -109,8 +110,17 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.width = 0;
             self.BoundingBox.height = 0;
             map[self.tileIndex] = 9;
-            //Game.melons.splice(self.index, 1);
             self.visible = false;
+            //Game.melons.splice(self.index, 1);
+            
+            if (!self.newCreated) {
+                //spawn a new melon
+                var newMelon = new Melon();
+                newMelon.Init();
+                Game.melons.push(newMelon);
+                //remove this melon
+                self.newCreated = true;
+            }
             break;
     }
 }
@@ -123,7 +133,7 @@ Melon.prototype.Init = function() {
     self.visible = true;
     
     //Random counter between 3 and 10
-    self.counter = 5; //RandomInt(5, 10);
+    self.counter = RandomInt(1, 5);
     
     //Get index in melons array
     self.index = Game.melons.indexOf(self);
@@ -231,7 +241,7 @@ Melon.prototype.ApplyCollisions = function() {
             Game.score++;
         }
         else if (mel.state === "exploding") {
-            Player.Die(mel, "You're toast!");
+            Player.Die("You're toast!");
         }
         else {
             //do nothing

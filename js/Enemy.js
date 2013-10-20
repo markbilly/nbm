@@ -175,10 +175,10 @@ Enemy.prototype.ApplyCollisions = function() {
     if (inPlayerCell) {
         if (!Player.dead) {
             if (enemy.onfire) {
-                Player.Die(enemy, "You're toast!");
+                Player.Die("You're toast!");
             }
             else {
-                Player.Die(enemy, "Crumbs! You're dead!");
+                Player.Die("Crumbs! You're dead!");
             }
         }
     }

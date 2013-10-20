@@ -32,12 +32,11 @@ var Player = {
         height: Game.TILE
     },
     
-    Die: function(object, string) { 
+    Die: function(string) { 
         Player.dead = true;
         Player.jumping = true;
         Player.ddx = 0;
         Player.dx = 0;
-        Player.x = Game.TileToPixel(Game.PixelToTile(object.x));
         Player.dy = Player.dy - (Player.JUMP * 0.25);
         GameOver.Show(string);
     },
