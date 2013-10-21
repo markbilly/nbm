@@ -37,24 +37,26 @@ debug.style.position = "absolute";
 debug.style.left = "900px";
 debug.style.top = "200px";
 
-controlsL.style.position = "absolute";
-controlsL.style.left = "0%";
-controlsL.style.bottom = "0%";
-controlsL.style.width = "25%";
-controlsL.style.height = "30%";
-controlsL.style.border = "solid 3px";
-controlsR.style.position = "absolute";
-controlsR.style.left = "25%";
-controlsR.style.bottom = "0%";
-controlsR.style.width = "25%";
-controlsR.style.height = "30%";
-controlsR.style.border = "solid 3px";
-controlsJ.style.position = "absolute";
-controlsJ.style.left = "50%";
-controlsJ.style.bottom = "0%";
-controlsJ.style.width = "50%";
-controlsJ.style.height = "30%";
-controlsJ.style.border = "solid 3px";
+if ("ontouchstart" in document) {
+    controlsL.style.position = "absolute";
+    controlsL.style.left = "0%";
+    controlsL.style.bottom = "0%";
+    controlsL.style.width = "25%";
+    controlsL.style.height = "30%";
+    controlsL.style.border = "solid 3px";
+    controlsR.style.position = "absolute";
+    controlsR.style.left = "25%";
+    controlsR.style.bottom = "0%";
+    controlsR.style.width = "25%";
+    controlsR.style.height = "30%";
+    controlsR.style.border = "solid 3px";
+    controlsJ.style.position = "absolute";
+    controlsJ.style.left = "50%";
+    controlsJ.style.bottom = "0%";
+    controlsJ.style.width = "50%";
+    controlsJ.style.height = "30%";
+    controlsJ.style.border = "solid 3px";
+}
 
 var ctx = c.getContext("2d");
 var ctx_b = b.getContext("2d");
