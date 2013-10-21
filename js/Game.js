@@ -10,6 +10,7 @@ var Game = {
     fps: 50,
     melonTimer: 0,
     scale: 3,
+    previousMelonY: 0,
     
     IsColliding: function(object1, object2) {
         
@@ -60,18 +61,20 @@ var Game = {
             if (list[i].visible) {
                 
                 list[i].Draw
-                    (
-                        px(list[i].x + 5 - 50),
-                        py(list[i].y - 5 - 50)
+                (
+                    px(list[i].x + 5 - 50),
+                    py(list[i].y - 5 - 50)
                 );
                 
                 if (list[i].state === "countdown") {
-                    list[i].counterElem.innerHTML = list[i].counter;
-                }
-                else {
-                    if (list[i].counterElem !== null) {
-                        list[i].counterElem.innerHTML = "";
-                    }
+                    ctx.font="" + px(8) + "px pixel";
+                    ctx.fillStyle = "red";
+                    ctx.fillText
+                    (
+                        "" + list[i].counter + "",
+                        px(list[i].x + 1),
+                        py(list[i].y - Game.TILE)
+                    );
                 }
             }
         }

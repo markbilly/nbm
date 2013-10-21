@@ -128,10 +128,6 @@ GameOver.Build();
 
 function StartGame() {
     GameOver.Hide();
-    //get rid of melon elems
-    for (i = 0; i < Game.melons.length; i++) {
-        Game.melons[i].counterElem.parentNode.removeChild(Game.melons[i].counterElem);
-    }
     //empty enemies & melons arrays
     Game.enemies.length = 0;
     Game.melons.length = 0;
@@ -162,7 +158,6 @@ window.setTimeout(function() {
     FirstTimeStart();
 }, 1000);
 
-//Resources.Load(FirstTimeStart);
 Resources.Assign();
 
 function FirstTimeStart() {
@@ -177,8 +172,15 @@ function Draw() {
     ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(12));
     Game.DrawEnemies();
     Game.DrawMelons();
-                        
-    control.innerHTML = Game.score;
+    
+    ctx.font="" + px(8) + "px pixel";
+    ctx.fillStyle = "black";
+    ctx.fillText
+    (
+        "" + Game.score + "",
+        gameWidth / 2,
+        py(Game.TILE)
+    );
 }
 
 function Processor() {

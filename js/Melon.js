@@ -1,6 +1,5 @@
 function Melon() {
     this.image = null;
-    this.counterElem = null;
     this.x = 0;
     this.y = 0;
     this.dy = 0;
@@ -50,10 +49,6 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.width = Game.TILE;
             self.BoundingBox.height = Game.TILE;
             
-            self.counterElem.style.visibility = "visible";
-            self.counterElem.style.left = px(self.x + 1) + "px";
-            self.counterElem.style.top = py(self.y - Game.TILE - 8) + "px";
-            
             self.timer++;
             var secondPassed = self.timer % Game.fps;
             if (secondPassed === 0) {
@@ -64,7 +59,6 @@ Melon.prototype.ReactToState = function() {
             }
             break;
         case "exploding":
-            self.counterElem.style.visibility = "hidden";
             self.timer++;
             var secondPassed = self.timer % Math.ceil(Game.fps / 20);
             if (secondPassed === 0) {
@@ -104,7 +98,6 @@ Melon.prototype.ReactToState = function() {
             }
             break;
         case "end":
-            self.counterElem.style.visibility = "hidden";
             self.BoundingBox.x = 0;
             self.BoundingBox.y = 0;
             self.BoundingBox.width = 0;
@@ -133,28 +126,13 @@ Melon.prototype.Init = function() {
     self.visible = true;
     
     //Random counter between 3 and 10
-    self.counter = RandomInt(1, 5);
+    self.counter = 3; //RandomInt(1, 5);
     
     //Get index in melons array
     self.index = Game.melons.indexOf(self);
     
     //Set up sprite
     var sprite = new Sprite("melon" + self.index, 100, 100, Resources.melon.src, 10, 1);
-    
-    //set up counter
-    var elem = document.createElement("counter" + self.index);
-    container.appendChild(elem);
-    
-    //record new elem as property
-    self.counterElem = elem;
-    
-    //style counter
-    self.counterElem.style.visibility = "hidden";
-    self.counterElem.style.position = "absolute";
-    self.counterElem.style.color = "red";
-    self.counterElem.style.width = px(Game.TILE) + "px";
-    self.counterElem.style.height = py(Game.TILE) + "px";
-    self.counterElem.style.padding = 0 + "px";
     
     var spawned = false;
     
@@ -168,15 +146,16 @@ Melon.prototype.Init = function() {
             self.y = Game.TileLocationToPixel(tileIndex).y;
             self.yInit = self.y;
             
-            spawned = true;
+            if (self.yInit !== Game.previousMelonY) {
+                spawned = true;
+            }
             
             if (spawned) {
                 self.state = "start";
-                //self.image = img;
                 self.sprite = sprite;
-                self.counterElem.style.visibility = "visible";
                 self.tileIndex = tileIndex;
                 map[tileIndex] = 0;
+                Game.previousMelonY = self.yInit;
             }
         }
     }
