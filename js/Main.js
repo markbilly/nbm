@@ -222,3 +222,39 @@ function onkey(e, key, down) {
             break;
     }
 }
+
+//touch events
+document.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    var touch = e.touches[0];
+    return ontouch(e, touch, true);
+}, false);
+
+document.addEventListener("touchend", function(e) {
+    e.preventDefault();
+    var touch = e.touches[0];
+    return ontouch(e, touch, false);
+}, false);
+
+function ontouch(e, key, down) {
+    var x = key.pageX,
+        halfW = gameWidth / 2,
+        quarterW = halfW / 2;
+    
+    if (x <= quarterW) {
+        Player.left = down;
+    }
+    else if (x > quarterW && x <= halfW) {
+        Player.right = down;
+    }
+    else if (x > halfW) {
+        if (Player.dead) {
+            StartGame();
+            Player.dead = false;
+            Player.jump = false;
+        }
+        else {
+            Player.jump = down;
+        }
+    }
+}
