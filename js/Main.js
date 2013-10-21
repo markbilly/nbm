@@ -226,13 +226,13 @@ function onkey(e, key, down) {
 //touch events
 document.addEventListener("touchstart", function(e) {
     e.preventDefault();
-    var touch = e.touches[0];
+    var touch = e.changedTouches[0];
     return ontouch(e, touch, true);
 }, false);
 
 document.addEventListener("touchend", function(e) {
     e.preventDefault();
-    var touch = e.touches[0];
+    var touch = e.changedTouches[0];
     return ontouch(e, touch, false);
 }, false);
 
