@@ -96,7 +96,7 @@ function StartGame() {
     var enemy1 = new Enemy((2 * Game.TILE), (2 * Game.TILE));
     var enemy2 = new Enemy((4 * Game.TILE), (8 * Game.TILE));
     var enemy3 = new Enemy((18 * Game.TILE), (4 * Game.TILE));
-    var enemy4 = new Enemy((10 * Game.TILE), (14 * Game.TILE));
+    var enemy4 = new Enemy((10 * Game.TILE), (12 * Game.TILE));
     Game.enemies[0] = enemy1;
     Game.enemies[1] = enemy2;
     Game.enemies[2] = enemy3;
@@ -115,11 +115,11 @@ function StartGame() {
 Resources.Assign();
 Game.width = Game.MAP.tw * Game.TILE;
 Game.height = Game.MAP.th * Game.TILE;
-GameOver.Build();
+debug.innerHTML = "LOADING...";
 
 window.setTimeout(function() {
     FirstTimeStart();
-}, 1000);
+}, 5000);
 
 function Resize() {
     var windowWidth = window.innerWidth,
@@ -127,10 +127,12 @@ function Resize() {
         containerWidth = Game.MAP.tw * Game.TILE,
         containerHeight = Game.MAP.th * Game.TILE,
         ratio = Game.MAP.tw / Game.MAP.th,
-        scaleFactor = /*Math.ceil*/(windowHeight / containerHeight);
-        //scaleFactor = Math.ceil(windowWidth / containerWidth);
+        scaleFactor = (windowHeight / containerHeight);
     
-    alert(scaleFactor);
+    //limit the scale to 3 times
+    if (scaleFactor > 3) {
+        scaleFactor = 3;
+    }
     
     container.style.width = Game.width * scaleFactor + "px";
     container.style.height = Game.height * scaleFactor + "px";
@@ -166,6 +168,8 @@ function FirstTimeStart() {
     StartGame();
     Game.BuildLevel(map);
     Processor();
+    GameOver.Build();
+    debug.innerHTML = "";
 }
 
 function Draw() {
