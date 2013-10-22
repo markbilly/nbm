@@ -155,11 +155,12 @@ function Resize() {
         containerWidth = Game.MAP.tw * Game.TILE,
         containerHeight = Game.MAP.th * Game.TILE,
         ratio = Game.MAP.tw / Game.MAP.th,
-        scaleFactor = (windowHeight / containerHeight);
+        scaleFactor = (windowWidth / containerWidth);
+        //scaleFactor = (windowHeight / containerHeight);
     
-    //limit the scale to 3 times
-    if (scaleFactor > 3) {
-        scaleFactor = 3;
+    //limit the scale to 4 times
+    if (scaleFactor > 4) {
+        scaleFactor = 4;
     }
     
     container.style.width = Game.width * scaleFactor + "px";
@@ -299,16 +300,17 @@ document.addEventListener("touchend", function(e) {
 
 function ontouch(e, key, down) {
     var x = key.pageX,
+        thirtyW = px(Game.width * 0.3),
         halfW = px(Game.width / 2),
         quarterW = halfW / 2;
     
-    if (x <= quarterW) {
+    if (x <= thirtyW) {
         Player.left = down;
     }
-    else if (x > quarterW && x <= halfW) {
+    else if (x > thirtyW && x <= (thirtyW * 2)) {
         Player.right = down;
     }
-    else if (x > halfW) {
+    else if (x > (thirtyW * 2)) {
         if (Player.dead) {
             StartGame();
             Player.dead = false;
