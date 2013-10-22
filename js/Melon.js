@@ -106,14 +106,14 @@ Melon.prototype.ReactToState = function() {
             self.visible = false;
             //Game.melons.splice(self.index, 1);
             
-            if (!self.newCreated) {
-                //spawn a new melon
-                var newMelon = new Melon();
-                newMelon.Init();
-                Game.melons.push(newMelon);
-                //remove this melon
-                self.newCreated = true;
-            }
+            //if (!self.newCreated) {
+            //    //spawn a new melon
+            //    var newMelon = new Melon();
+            //    newMelon.Init();
+            //    Game.melons.push(newMelon);
+            //    //remove this melon
+            //    self.newCreated = true;
+            //}
             break;
     }
 }
@@ -125,8 +125,31 @@ Melon.prototype.Init = function() {
     self.frame = 0;
     self.visible = true;
     
-    //Random counter between 3 and 10
-    self.counter = 3; //RandomInt(1, 5);
+    //Random counter between 3 and 10 based on score
+    var min = 8,
+        max = 10;
+    
+    if (Game.score > 5 && Game.score <= 10) {
+        min = 6;
+        max = 8;
+    }
+    else if (Game.score > 10 && Game.score <= 15) {
+        min = 4;
+        max = 6;
+    }
+    else if (Game.score > 15 && Game.score <= 20) {
+        min = 3;
+        max = 5;
+    }
+    else if (Game.score > 20) {
+        min = 3;
+        max = 3;
+    }
+    else {
+        min = 8;
+        max = 10;
+    }
+    self.counter = RandomInt(min, max);
     
     //Get index in melons array
     self.index = Game.melons.indexOf(self);

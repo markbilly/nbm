@@ -66,7 +66,8 @@ var mapORIGINAL =[
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
 ];
 
-var mapNEWER =[
+var map =[
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
@@ -80,10 +81,11 @@ var mapNEWER =[
     4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
 ];
 
-var map = [
+var mapTALL = [
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
@@ -160,8 +162,8 @@ function Resize() {
     
     //limit the scale to 4 times
     if (!("ontouchstart" in document)) {
-        if (scaleFactor > 2) {
-            scaleFactor = 2;
+        if (scaleFactor > 3) {
+            scaleFactor = 3;
         }
     }
     
@@ -229,7 +231,7 @@ function Processor() {
     Game.UpdateEnemies();
     
     //Melon
-    //MelonManager();
+    MelonManager();
     Game.UpdateMelons();
    
     Draw();
@@ -238,8 +240,8 @@ function Processor() {
 
 function MelonManager() {
     var freq = 2,
-        number = RandomInt(1, 2);
-        
+        number = 1; //RandomInt(min, max);
+    
     Game.melonTimer++;
     
     if (!(Game.melonTimer % (Game.fps * freq))) {
