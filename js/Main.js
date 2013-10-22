@@ -7,32 +7,6 @@ var controlsL = document.getElementById("controlsL");
 var controlsR = document.getElementById("controlsR");
 var controlsJ = document.getElementById("controlsJ");
 
-Game.width = Game.MAP.tw * Game.TILE;
-Game.height = Game.MAP.th * Game.TILE;
-
-c.width = px(Game.width); //px
-c.height = py(Game.height); //px
-c.style.left = 0 + "px";
-c.style.top = 0 + "px";
-c.style.padding = 0;
-c.style.margin = 0 + "px";
-b.width = px(Game.width); //px
-b.height = py(Game.height); //px
-b.style.left = 0 + "px";
-b.style.top = 0 + "px";
-b.style.padding = 0;
-b.style.margin = 0 + "px";
-container.style.fontSize = px(8) + "px";
-bg.style.width = px(Game.width) + "px";
-bg.style.height = py(Game.height) + "px";
-bg.style.left = 0 + "px";
-bg.style.top = 0 + "px";
-bg.style.backgroundImage = "url('bg.png')";
-bg.style.position = "absolute";
-debug.style.position = "absolute";
-debug.style.left = "900px";
-debug.style.top = "200px";
-
 if ("ontouchstart" in document) {
     controlsL.style.position = "absolute";
     controlsL.style.left = "0%";
@@ -113,8 +87,6 @@ function RandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;    
 }
 
-GameOver.Build();
-
 function StartGame() {
     GameOver.Hide();
     //empty enemies & melons arrays
@@ -140,13 +112,57 @@ function StartGame() {
     Game.score = 0;
 }
 
+Resources.Assign();
+Game.width = Game.MAP.tw * Game.TILE;
+Game.height = Game.MAP.th * Game.TILE;
+GameOver.Build();
+
 window.setTimeout(function() {
     FirstTimeStart();
 }, 1000);
 
-Resources.Assign();
+function Resize() {
+    var windowWidth = window.innerWidth,
+        windowHeight = window.innerHeight,
+        containerWidth = Game.MAP.tw * Game.TILE,
+        containerHeight = Game.MAP.th * Game.TILE,
+        ratio = Game.MAP.tw / Game.MAP.th,
+        scaleFactor = Math.ceil(windowHeight / containerHeight);
+        //scaleFactor = Math.ceil(windowWidth / containerWidth);
+    
+    alert(scaleFactor);
+    
+    container.style.width = Game.width * scaleFactor + "px";
+    container.style.height = Game.height * scaleFactor + "px";
+    
+    Game.scale = scaleFactor;
+    
+    c.width = px(Game.width); //px
+    c.height = py(Game.height); //px
+    c.style.left = 0 + "px";
+    c.style.top = 0 + "px";
+    c.style.padding = 0;
+    c.style.margin = 0 + "px";
+    b.width = px(Game.width); //px
+    b.height = py(Game.height); //px
+    b.style.left = 0 + "px";
+    b.style.top = 0 + "px";
+    b.style.padding = 0;
+    b.style.margin = 0 + "px";
+    container.style.fontSize = px(8) + "px";
+    bg.style.width = px(Game.width) + "px";
+    bg.style.height = py(Game.height) + "px";
+    bg.style.left = 0 + "px";
+    bg.style.top = 0 + "px";
+    bg.style.backgroundImage = "url('bg.png')";
+    bg.style.position = "absolute";
+    debug.style.position = "absolute";
+    debug.style.left = "900px";
+    debug.style.top = "200px";
+}
 
 function FirstTimeStart() {
+    Resize();
     StartGame();
     Game.BuildLevel(map);
     Processor();
