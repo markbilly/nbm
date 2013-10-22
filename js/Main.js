@@ -1,38 +1,34 @@
 var c = document.getElementById("Game");
 var b = document.getElementById("Background");
 var debug = document.getElementById("debug");
-var control = document.getElementById("control");
 var bg = document.getElementById("bg");
 var container = document.getElementById("container");
 var controlsL = document.getElementById("controlsL");
 var controlsR = document.getElementById("controlsR");
 var controlsJ = document.getElementById("controlsJ");
 
-var gameWidth = px(Game.MAP.tw * Game.TILE);
-var gameHeight = py(Game.MAP.th * Game.TILE);
+Game.width = Game.MAP.tw * Game.TILE;
+Game.height = Game.MAP.th * Game.TILE;
 
-c.width = gameWidth; //px
-c.height = gameHeight; //px
+c.width = px(Game.width); //px
+c.height = py(Game.height); //px
 c.style.left = 0 + "px";
 c.style.top = 0 + "px";
 c.style.padding = 0;
 c.style.margin = 0 + "px";
-b.width = gameWidth; //px
-b.height = gameHeight; //px
+b.width = px(Game.width); //px
+b.height = py(Game.height); //px
 b.style.left = 0 + "px";
 b.style.top = 0 + "px";
 b.style.padding = 0;
 b.style.margin = 0 + "px";
 container.style.fontSize = px(8) + "px";
-bg.style.width = gameWidth + "px";
-bg.style.height = gameHeight + "px";
+bg.style.width = px(Game.width) + "px";
+bg.style.height = py(Game.height) + "px";
 bg.style.left = 0 + "px";
 bg.style.top = 0 + "px";
 bg.style.backgroundImage = "url('bg.png')";
 bg.style.position = "absolute";
-control.style.position = "absolute";
-control.style.left = (gameWidth / 2) + "px";
-control.style.top = px(3) + "px";
 debug.style.position = "absolute";
 debug.style.left = "900px";
 debug.style.top = "200px";
@@ -77,7 +73,7 @@ function py(y) {
     return y * Game.scale;
 }
 
-var map =[
+var mapold =[
     4, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
@@ -96,28 +92,21 @@ var map =[
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
 ];
 
-var mapTALL =[
-////1//2//3//4//5//6//7//8//9//10/11/12/13    
-    4, 0, 0, 0, 0, 0, 0, 9, 0, 0, 9, 9, 4, 8, //1
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, //2
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, //3
-    4, 9, 9, 9, 9, 0, 0, 4, 0, 0, 1, 1, 4, 8, //4
-    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //5
-    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 9, 9, 4, 8, //6
-    4, 1, 1, 1, 1, 0, 0, 4, 0, 0, 0, 0, 4, 8, //7
-    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //8
-    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1, 1, 4, 8, //9
-    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //10
-    4, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 4, 8, //11
-    4, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 4, 8, //12
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, //13
-    4, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 4, 8, //14
-    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //15
-    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //16
-    4, 9, 9, 9, 9, 9, 9, 4, 9, 9, 9, 9, 4, 8, //17
-    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //18
-    4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 8, //19
-    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 8, //20
+var map =[
+    4, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 0, 0, 9, 0, 9, 0, 9, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 0, 4, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
 ];
     
 function RandomInt(min, max) {
@@ -149,9 +138,6 @@ function StartGame() {
     Game.InitMelons();
     Game.InitEnemies();
     Game.score = 0;
-    
-    Game.width = Game.MAP.tw * Game.TILE;
-    Game.height = Game.MAP.th * Game.TILE;
 }
 
 window.setTimeout(function() {
@@ -178,7 +164,7 @@ function Draw() {
     ctx.fillText
     (
         "" + Game.score + "",
-        gameWidth / 2,
+        px(Game.width) / 2,
         py(Game.TILE)
     );
 }

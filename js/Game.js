@@ -1,5 +1,5 @@
 var Game = {
-    MAP: { tw: 24, th: 16 }, // object to store size of map in tiles - WIDE
+    MAP: { tw: 24, th: 14 }, // object to store size of map in tiles - WIDE
     //MAP: { tw: 13, th: 20 }, // object to store size of map in tiles - TALL
     TILE: 12,                // size of each tile (in game pixels)
     GRAVITY: 1.0,    // gravity

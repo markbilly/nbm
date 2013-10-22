@@ -5,8 +5,8 @@ var GameOver = {
     Build: function() {
         var self = this;
         
-        self.elem.style.width = gameWidth + "px";
-        self.elem.style.height = py(90) + "px";
+        self.elem.style.width = px(Game.width) + "px";
+        self.elem.style.height = py(Game.TILE * 6) + "px";
         self.elem.style.left = px(0) + "px";
         self.text.style.left = px(0) + "px";
         self.elem.style.top = py(45) + "px";
@@ -22,8 +22,7 @@ var GameOver = {
         var self = this,
             splitString = string.split(""),
             length = splitString.length,
-            gameW = Game.MAP.tw * Game.TILE,
-            left = (gameW - (length * 8)) / 2;
+            left = (Game.width - (length * 8)) / 2;
         
         self.text.style.left = px(left) + "px";
         self.text.innerHTML = string;
