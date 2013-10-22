@@ -251,7 +251,7 @@ document.addEventListener("touchend", function(e) {
 
 function ontouch(e, key, down) {
     var x = key.pageX,
-        halfW = gameWidth / 2,
+        halfW = Game.width / 2,
         quarterW = halfW / 2;
     
     if (x <= quarterW) {
