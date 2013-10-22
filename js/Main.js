@@ -11,20 +11,20 @@ if ("ontouchstart" in document) {
     controlsL.style.position = "absolute";
     controlsL.style.left = "0%";
     controlsL.style.bottom = "0%";
-    controlsL.style.width = "25%";
-    controlsL.style.height = "30%";
+    controlsL.style.width = "30%";
+    controlsL.style.height = "20%";
     controlsL.style.border = "solid 3px";
     controlsR.style.position = "absolute";
-    controlsR.style.left = "25%";
+    controlsR.style.left = "30%";
     controlsR.style.bottom = "0%";
-    controlsR.style.width = "25%";
-    controlsR.style.height = "30%";
+    controlsR.style.width = "30%";
+    controlsR.style.height = "20%";
     controlsR.style.border = "solid 3px";
     controlsJ.style.position = "absolute";
-    controlsJ.style.left = "50%";
+    controlsJ.style.left = "60%";
     controlsJ.style.bottom = "0%";
-    controlsJ.style.width = "50%";
-    controlsJ.style.height = "30%";
+    controlsJ.style.width = "40%";
+    controlsJ.style.height = "20%";
     controlsJ.style.border = "solid 3px";
 }
 
