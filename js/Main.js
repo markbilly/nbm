@@ -125,7 +125,7 @@ function StartGame() {
     //fill enemies array
     var enemy1 = new Enemy((2 * Game.TILE), (2 * Game.TILE));
     var enemy2 = new Enemy((4 * Game.TILE), (8 * Game.TILE));
-    var enemy3 = new Enemy((14 * Game.TILE), (4 * Game.TILE));
+    var enemy3 = new Enemy((16 * Game.TILE), (4 * Game.TILE));
     var enemy4 = new Enemy((10 * Game.TILE), (12 * Game.TILE));
     Game.enemies[0] = enemy1;
     Game.enemies[1] = enemy2;
