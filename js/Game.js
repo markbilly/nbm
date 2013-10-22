@@ -1,6 +1,6 @@
 var Game = {
-    MAP: { tw: 24, th: 14 }, // object to store size of map in tiles - WIDE
-    //MAP: { tw: 13, th: 20 }, // object to store size of map in tiles - TALL
+    //MAP: { tw: 24, th: 14 }, // object to store size of map in tiles - WIDE
+    MAP: { tw: 20, th: 22 }, // object to store size of map in tiles - TALL
     TILE: 12,                // size of each tile (in game pixels)
     GRAVITY: 1.0,    // gravity
     dt: 1,
@@ -41,6 +41,16 @@ var Game = {
         if (list.length > 0) {
             for (i = 0; i < list.length; i++) {
                 list[i].Init();
+            }
+        }
+    },
+    
+    RestoreAllMelonTiles: function() {
+        var list = this.melons;
+        
+        if (list.length > 0) {
+            for (i = 0; i < list.length; i++) {
+                map[list[i].tileIndex] = 9;
             }
         }
     },
