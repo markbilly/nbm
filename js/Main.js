@@ -159,8 +159,10 @@ function Resize() {
         //scaleFactor = (windowHeight / containerHeight);
     
     //limit the scale to 4 times
-    if (scaleFactor > 5) {
-        scaleFactor = 5;
+    if (!("ontouchstart" in document)) {
+        if (scaleFactor > 2) {
+            scaleFactor = 2;
+        }
     }
     
     container.style.width = Game.width * scaleFactor + "px";
@@ -306,11 +308,9 @@ function ontouch(e, key, down) {
     
     if (x <= thirtyW) {
         Player.left = down;
-        Player.right = !down;
     }
     else if (x > thirtyW && x <= (thirtyW * 2)) {
         Player.right = down;
-        Player.left = !down;
     }
     else if (x > (thirtyW * 2)) {
         if (Player.dead) {
