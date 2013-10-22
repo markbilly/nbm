@@ -127,7 +127,7 @@ function Resize() {
         containerWidth = Game.MAP.tw * Game.TILE,
         containerHeight = Game.MAP.th * Game.TILE,
         ratio = Game.MAP.tw / Game.MAP.th,
-        scaleFactor = Math.ceil(windowHeight / containerHeight);
+        scaleFactor = /*Math.ceil*/(windowHeight / containerHeight);
         //scaleFactor = Math.ceil(windowWidth / containerWidth);
     
     alert(scaleFactor);
