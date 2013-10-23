@@ -11,6 +11,7 @@ var Game = {
     melonTimer: 0,
     scale: 3,
     previousMelonY: 0,
+    paused: false,
     
     IsColliding: function(object1, object2) {
         
@@ -158,6 +159,12 @@ var Game = {
                 }
                 else if (level[i] === 4) {
                     tileImage = tile_vert1;
+                }
+                else if (level[i] === 5) {
+                    tileImage = tile_ground1;
+                }
+                else if (level[i] === 6) {
+                    tileImage = tile_ground2;
                 }
                 ctx_b.drawImage(tileImage,x,y,px(Game.TILE),py(Game.TILE));
             }

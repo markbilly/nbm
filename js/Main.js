@@ -38,6 +38,10 @@ var tile_floor2 = new Image();
 tile_floor2.src = "floor2.png";
 var tile_vert1 = new Image();
 tile_vert1.src = "vert1.png";
+var tile_ground1 = new Image();
+tile_ground1.src = "ground2.png";
+var tile_ground2 = new Image();
+tile_ground2.src = "ground3.png";
 
 function px(x) {
     return x * Game.scale;
@@ -47,27 +51,7 @@ function py(y) {
     return y * Game.scale;
 }
 
-var mapORIGINAL =[
-    4, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 0, 0, 9, 0, 9, 0, 9, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 4, 8,
-    4, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
-];
-
 var map =[
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
@@ -83,31 +67,7 @@ var map =[
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
-];
-
-var mapTALL = [
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 4, 0, 0, 9, 9, 9, 9, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1, 1, 1, 1, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 9, 9, 9, 9, 9, 9, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 9, 0, 0, 9, 0, 0, 9, 4, 9, 0, 0, 9, 0, 0, 9, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 8,
 ];
     
 function RandomInt(min, max) {
@@ -116,6 +76,7 @@ function RandomInt(min, max) {
 
 function StartGame() {
     GameOver.Hide();
+    Paused.Hide();
     //restore tiles that contain "alive" melons to "9" so we can spawn more
     Game.RestoreAllMelonTiles();
     //empty enemies & melons arrays
@@ -157,8 +118,8 @@ function Resize() {
         containerWidth = Game.MAP.tw * Game.TILE,
         containerHeight = Game.MAP.th * Game.TILE,
         ratio = Game.MAP.tw / Game.MAP.th,
-        scaleFactor = (windowWidth / containerWidth);
-        //scaleFactor = (windowHeight / containerHeight);
+        //scaleFactor = (windowWidth / containerWidth);
+        scaleFactor = (windowHeight / containerHeight);
     
     //limit the scale to 4 times
     if (!("ontouchstart" in document)) {
@@ -202,6 +163,7 @@ function FirstTimeStart() {
     Game.BuildLevel(map);
     Processor();
     GameOver.Build();
+    Paused.Build();
     debug.innerHTML = "";
 }
 
@@ -224,17 +186,19 @@ function Draw() {
 
 function Processor() {
     
-    //Player
-    Player.Update();
-    
-    //Enemy
-    Game.UpdateEnemies();
-    
-    //Melon
-    MelonManager();
-    Game.UpdateMelons();
-   
-    Draw();
+    if (!Game.paused) {
+        //Player
+        Player.Update();
+        
+        //Enemy
+        Game.UpdateEnemies();
+        
+        //Melon
+        MelonManager();
+        Game.UpdateMelons();
+       
+        Draw();
+    }
     requestTimeout(Processor, (1000 / Game.fps));
 }
 
@@ -286,6 +250,17 @@ function onkey(e, key, down) {
                 Player.jump = down;
             }
             break;
+        case 80: //p
+            if (!down) {
+                if (!Game.paused) {
+                    Game.paused = true;
+                    Paused.Show();
+                }
+                else {
+                    Game.paused = false;
+                    Paused.Hide();
+                }
+            }
     }
 }
 
