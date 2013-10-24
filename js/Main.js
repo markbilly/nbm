@@ -4,30 +4,6 @@ var buttonsCanvas = document.getElementById("Buttons");
 var debug = document.getElementById("debug");
 var bg = document.getElementById("bg");
 var container = document.getElementById("container");
-var controlsL = document.getElementById("controlsL");
-var controlsR = document.getElementById("controlsR");
-var controlsJ = document.getElementById("controlsJ");
-
-if ("ontouchstart" in document) {
-    controlsL.style.position = "absolute";
-    controlsL.style.left = "0%";
-    controlsL.style.bottom = "0%";
-    controlsL.style.width = "30%";
-    controlsL.style.height = "20%";
-    controlsL.style.border = "solid 3px";
-    controlsR.style.position = "absolute";
-    controlsR.style.left = "30%";
-    controlsR.style.bottom = "0%";
-    controlsR.style.width = "30%";
-    controlsR.style.height = "20%";
-    controlsR.style.border = "solid 3px";
-    controlsJ.style.position = "absolute";
-    controlsJ.style.left = "60%";
-    controlsJ.style.bottom = "0%";
-    controlsJ.style.width = "40%";
-    controlsJ.style.height = "20%";
-    controlsJ.style.border = "solid 3px";
-}
 
 var ctx = c.getContext("2d");
 var ctx_b = b.getContext("2d");
