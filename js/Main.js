@@ -327,10 +327,10 @@ function ontouch(e, key, down) {
     function IsInButton(button) {
         var result = false;
         
-        if (key.pageX > button.x &&
-            key.pageX < (button.x + button.width) &&
-            key.pageY > button.y &&
-            key.pageY < (button.y + button.height)) {
+        if (key.pageX > px(button.x) &&
+            key.pageX < px(button.x + button.width) &&
+            key.pageY > py(button.y) &&
+            key.pageY < py(button.y + button.height)) {
             
             result = true;
         }
