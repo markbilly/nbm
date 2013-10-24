@@ -323,32 +323,18 @@ document.addEventListener("touchend", function(e) {
 }, false);
 
 function ontouch(e, key, down) {
+    var x = key.pageX,
+        leftRegion = px(Game.leftButton.width),
+        rightRegion = px(Game.rightButton.x),
+        jumpRegion = px(Game.width - Game.upButton.x);
     
-    function IsInButton(button) {
-        var result = false;
-        
-        if (key.pageX > px(button.x) &&
-            key.pageX < px(button.x + button.width) &&
-            key.pageY > py(button.y) &&
-            key.pageY < py(button.y + button.height)) {
-            
-            result = true;
-        }
-    }
-    
-    if (IsInButton(Game.leftButton)) {
+    if (x <= leftRegion) {
         Player.left = down;
     }
-    else {
-        Player.left = !down;
-    }
-    if (IsInButton(Game.rightButton)) {
+    else if (x >= rightRegion && x <= jumpRegion) {
         Player.right = down;
     }
-    else {
-        Player.right = !down;
-    }
-    if (IsInButton(Game.upButton)) {
+    else if (x > jumpRegion && x <= px(Game.width)) {
         if (Player.dead) {
             StartGame();
             Player.dead = false;
@@ -357,8 +343,5 @@ function ontouch(e, key, down) {
         else {
             Player.jump = down;
         }
-    }
-    else {
-        Player.jump = !down;
     }
 }
