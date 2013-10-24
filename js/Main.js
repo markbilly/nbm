@@ -300,17 +300,20 @@ document.addEventListener("touchend", function(e) {
 
 function ontouch(e, key, down) {
     var x = key.pageX,
-        leftRegion = px(Game.leftButton.width),
-        rightRegion = px(Game.rightButton.x),
-        jumpRegion = px(Game.width - Game.upButton.x);
+        leftStart = px(Game.leftButton.x),
+        leftEnd = leftStart + px(Game.leftButton.width),
+        rightStart = px(Game.rightButton.x),
+        rightEnd = rightStart + px(Game.rightButton.width)
+        jumpStart = px(Game.upButton.x),
+        jumpEnd = jumpStart + px(Game.upButton.width);
     
-    if (x <= leftRegion) {
+    if (x >= leftStart && x <= leftEnd) {
         Player.left = down;
     }
-    else if (x >= rightRegion && x <= jumpRegion) {
+    else if (x >= rightStart && x <= rightEnd) {
         Player.right = down;
     }
-    else if (x > jumpRegion && x <= px(Game.width)) {
+    else if (x >= jumpStart && x <= jumpEnd) {
         if (Player.dead) {
             StartGame();
             Player.dead = false;
