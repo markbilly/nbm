@@ -179,7 +179,7 @@ function FirstTimeStart() {
     Paused.Build();
     debug.innerHTML = "";
     
-    if ("touchstart" in document) {
+    if ("ontouchstart" in document) {
         DrawButtons();
     }
 }
