@@ -4,6 +4,9 @@ var Resources = {
     enemyRight: new Image(),
     enemyLeft: new Image(),
     melon: new Image(),
+    leftButton: new Image(),
+    rightButton: new Image(),
+    upButton: new Image(),
     tiles: {
         wood: new Image(),
         floor1: new Image(),
@@ -21,6 +24,9 @@ var Resources = {
         self.enemyRight.src = "enemyr.png";
         self.enemyLeft.src = "enemy.png";
         self.melon.src = "melonsheet.png";
+        self.leftButton.src = "left.png";
+        self.rightButton.src = "right.png";
+        self.upButton.src = "up.png";
         self.tiles.wood.src = "tile.png";
         self.tiles.floor1.src = "floor1.png";
         self.tiles.floor2.src = "floor2.png";

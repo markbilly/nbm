@@ -1,5 +1,6 @@
 var c = document.getElementById("Game");
 var b = document.getElementById("Background");
+var buttonsCanvas = document.getElementById("Buttons");
 var debug = document.getElementById("debug");
 var bg = document.getElementById("bg");
 var container = document.getElementById("container");
@@ -30,6 +31,7 @@ if ("ontouchstart" in document) {
 
 var ctx = c.getContext("2d");
 var ctx_b = b.getContext("2d");
+var ctx_buttons = buttonsCanvas.getContext("2d");
 var tile = new Image();
 tile.src = "tile.png";
 var tile_floor1 = new Image();
@@ -145,6 +147,12 @@ function Resize() {
     b.style.top = 0 + "px";
     b.style.padding = 0;
     b.style.margin = 0 + "px";
+    buttonsCanvas.width = px(Game.width); //px
+    buttonsCanvas.height = py(Game.height); //px
+    buttonsCanvas.style.left = 0 + "px";
+    buttonsCanvas.style.top = 0 + "px";
+    buttonsCanvas.style.padding = 0;
+    buttonsCanvas.style.margin = 0 + "px";
     container.style.fontSize = px(8) + "px";
     bg.style.width = px(Game.width) + "px";
     bg.style.height = py(Game.height) + "px";
@@ -155,6 +163,11 @@ function Resize() {
     debug.style.position = "absolute";
     debug.style.left = "900px";
     debug.style.top = "200px";
+    
+    Game.leftButton.y = Game.height - Game.leftButton.height;
+    Game.rightButton.y = Game.height - Game.rightButton.height;
+    Game.upButton.y = Game.height - Game.upButton.height;
+    Game.upButton.x = Game.width - Game.upButton.width;
 }
 
 function FirstTimeStart() {
@@ -165,6 +178,38 @@ function FirstTimeStart() {
     GameOver.Build();
     Paused.Build();
     debug.innerHTML = "";
+    
+    //if ("touchstart" in document) {
+        DrawButtons();
+    //}
+}
+
+function DrawButtons() {
+    
+    ctx_buttons.drawImage
+    (
+        Resources.leftButton,
+        px(Game.leftButton.x),
+        py(Game.leftButton.y),
+        px(Game.leftButton.width),
+        py(Game.leftButton.height)
+    );
+    ctx_buttons.drawImage
+    (
+        Resources.rightButton,
+        px(Game.rightButton.x),
+        py(Game.rightButton.y),
+        px(Game.rightButton.width),
+        py(Game.rightButton.height)
+    );
+    ctx_buttons.drawImage
+    (
+        Resources.upButton,
+        px(Game.upButton.x),
+        py(Game.upButton.y),
+        px(Game.upButton.width),
+        py(Game.upButton.height)
+    );
 }
 
 function Draw() {
@@ -278,18 +323,32 @@ document.addEventListener("touchend", function(e) {
 }, false);
 
 function ontouch(e, key, down) {
-    var x = key.pageX,
-        thirtyW = px(Game.width * 0.3),
-        halfW = px(Game.width / 2),
-        quarterW = halfW / 2;
     
-    if (x <= thirtyW) {
+    function IsInButton(button) {
+        var result = false;
+        
+        if (key.pageX > button.x &&
+            key.pageX < (button.x + button.width) &&
+            key.pageY > button.y &&
+            key.pageY < (button.y + button.height)) {
+            
+            result = true;
+        }
+    }
+    
+    if (IsInButton(Game.leftButton)) {
         Player.left = down;
     }
-    else if (x > thirtyW && x <= (thirtyW * 2)) {
+    else {
+        Player.left = !down;
+    }
+    if (IsInButton(Game.rightButton)) {
         Player.right = down;
     }
-    else if (x > (thirtyW * 2)) {
+    else {
+        Player.right = !down;
+    }
+    if (IsInButton(Game.upButton)) {
         if (Player.dead) {
             StartGame();
             Player.dead = false;
@@ -298,5 +357,8 @@ function ontouch(e, key, down) {
         else {
             Player.jump = down;
         }
+    }
+    else {
+        Player.jump = !down;
     }
 }

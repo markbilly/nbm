@@ -12,6 +12,24 @@ var Game = {
     scale: 3,
     previousMelonY: 0,
     paused: false,
+    leftButton: {
+        x: 0,
+        y: /*Game.height -*/ 36,
+        width: 36,
+        height: 36
+    },
+    rightButton: {
+        x: 48,
+        y: /*Game.height -*/ 36,
+        width: 36,
+        height: 36
+    },
+    upButton: {
+        x: /*Game.width -*/ 36,
+        y: /*Game.height -*/ 36,
+        width: 36,
+        height: 36
+    },
     
     IsColliding: function(object1, object2) {
         
