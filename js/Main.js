@@ -309,9 +309,11 @@ function ontouch(e, key, down) {
     
     if (x >= leftStart && x <= leftEnd) {
         Player.left = down;
+        Player.right = !down;
     }
     else if (x >= rightStart && x <= rightEnd) {
         Player.right = down;
+        Player.left = !down;
     }
     else if (x >= jumpStart && x <= jumpEnd) {
         if (Player.dead) {
