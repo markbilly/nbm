@@ -160,6 +160,12 @@ function FirstTimeStart() {
     }
 }
 
+function RandomMap() {
+    var map = [];
+    
+    return map;
+}
+
 function DrawButtons() {
     
     ctx_buttons.drawImage
