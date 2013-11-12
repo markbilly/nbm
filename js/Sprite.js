@@ -1,4 +1,4 @@
-function Sprite(name, width, height, src, frames_n, views_n, longer, scale) {
+function Sprite(name, width, height, img, frames_n, views_n, longer, scale) {
     if (name === undefined) {
 	return;
     }
@@ -10,7 +10,6 @@ function Sprite(name, width, height, src, frames_n, views_n, longer, scale) {
     this.rawHeight = height * scale;
     this.width = px(width);
     this.height = py(height);
-    this.src = src;
     this.frames_n = frames_n;
     this.views_n = views_n;
     this.longer = longer;
@@ -21,8 +20,7 @@ function Sprite(name, width, height, src, frames_n, views_n, longer, scale) {
 
     var self = this;
     
-    self.img = new Image();
-    self.img.src = src;
+    self.img = img;
     
     if (this.longer !== true) {
         this.longer = false;

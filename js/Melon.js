@@ -125,37 +125,24 @@ Melon.prototype.Init = function() {
     self.frame = 0;
     self.visible = true;
     
-    //Random counter between 3 and 10 based on score
-    var min = 8,
-        max = 10;
-    
-    if (Game.score > 5 && Game.score <= 10) {
-        min = 6;
-        max = 8;
+    //Set counter based on dificulty
+    switch(Game.difficulty) {
+        case "easy":
+            self.counter = 10;
+            break;
+        case "hard":
+            self.counter = 5;
+            break;
+        case "evil":
+            self.counter = 2;
+            break;
     }
-    else if (Game.score > 10 && Game.score <= 15) {
-        min = 4;
-        max = 6;
-    }
-    else if (Game.score > 15 && Game.score <= 20) {
-        min = 3;
-        max = 5;
-    }
-    else if (Game.score > 20) {
-        min = 3;
-        max = 3;
-    }
-    else {
-        min = 8;
-        max = 10;
-    }
-    self.counter = RandomInt(min, max);
     
     //Get index in melons array
     self.index = Game.melons.indexOf(self);
     
     //Set up sprite
-    var sprite = new Sprite("melon" + self.index, 100, 100, Resources.melon.src, 10, 1);
+    var sprite = new Sprite("melon" + self.index, 100, 100, Resources.melon, 10, 1);
     
     var spawned = false;
     

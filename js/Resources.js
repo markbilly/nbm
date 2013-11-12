@@ -7,6 +7,9 @@ var Resources = {
     leftButton: new Image(),
     rightButton: new Image(),
     upButton: new Image(),
+    title: new Image(),
+    arrowLeft: new Image(),
+    arrowRight: new Image(),
     tiles: {
         wood: new Image(),
         floor1: new Image(),
@@ -31,6 +34,9 @@ var Resources = {
         self.tiles.floor1.src = "floor1.png";
         self.tiles.floor2.src = "floor2.png";
         self.tiles.vert1.src = "vert1.png";
+        self.title.src = "ninjabreadman.png";
+        self.arrowLeft.src = "arrowLeft.png";
+        self.arrowRight.src = "arrowRight.png";
     },
     
     Load: function(callback) {

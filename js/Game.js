@@ -12,6 +12,16 @@ var Game = {
     scale: 3,
     previousMelonY: 0,
     paused: false,
+    difficulties: ["easy", "hard", "evil"],
+    difficulty: "easy",
+    levels: [
+            new Level("academy", "", "", true),
+            new Level("factory", "", "", true),
+            new Level("underwater", "", "", true)
+             ],
+    level: null,
+    inMenu: false,
+    
     leftButton: {
         x: 0,
         y: /*Game.height -*/ 36,

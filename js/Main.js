@@ -87,7 +87,8 @@ Game.height = Game.MAP.th * Game.TILE;
 debug.innerHTML = "LOADING...";
 
 window.setTimeout(function() {
-    FirstTimeStart();
+    Resize();
+    Menu.Show();
 }, 5000);
 
 function Resize() {
@@ -147,7 +148,7 @@ function Resize() {
 }
 
 function FirstTimeStart() {
-    Resize();
+    Menu.Hide();
     StartGame();
     Game.BuildLevel(map);
     Processor();
@@ -259,22 +260,74 @@ document.addEventListener("keyup", function(e) {
     return onkey(e, e.keyCode, false);
 }, false);
 
+
 function onkey(e, key, down) {
     switch(key) {
         case 37: //left
-            Player.left = down;
-            break;
-        case 39: //right
-            Player.right = down;
-            break;
-        case 88: //x
-            if (Player.dead) {
-                StartGame();
-                Player.dead = false;
-                Player.jump = false;
+            if (Game.inMenu && !down) {
+                if (Menu.selection === "levels") {
+                    
+                }
+                else if (Menu.selection === "difficulty") {
+                    switch(Game.difficulty) {
+                        case "easy":
+                            Game.difficulty = "evil";
+                            break;
+                        case "hard":
+                            Game.difficulty = "easy";
+                            break;
+                        case "evil":
+                            Game.difficulty = "hard";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                Menu.Show();
             }
             else {
-                Player.jump = down;
+                Player.left = down;
+            }
+            break;
+        case 39: //right
+            if (Game.inMenu && !down) {
+                if (Menu.selection === "levels") {
+                    
+                }
+                else if (Menu.selection === "difficulty") {
+                    switch(Game.difficulty) {
+                        case "easy":
+                            Game.difficulty = "hard";
+                            break;
+                        case "hard":
+                            Game.difficulty = "evil";
+                            break;
+                        case "evil":
+                            Game.difficulty = "easy";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                Menu.Show();
+            }
+            else {
+                Player.right = down;
+            }
+            break;
+        case 88: //x
+            if (Game.inMenu && Menu.selection === "play") {
+                FirstTimeStart();
+            }
+            else {
+                if (Player.dead) {
+                    StartGame();
+                    Player.dead = false;
+                    Player.jump = false;
+                }
+                else {
+                    Player.jump = down;
+                }
             }
             break;
         case 80: //p
@@ -290,6 +343,44 @@ function onkey(e, key, down) {
             }
     }
 }
+
+document.addEventListener("keydown", function(e) {
+    if (Game.inMenu) {
+        if (e.keyCode === 38) { //up
+            switch(Menu.selection) {
+                case "levels":
+                    Menu.selection = "play";
+                    break;
+                case "difficulty":
+                    Menu.selection = "levels";
+                    break;
+                case "play":
+                    Menu.selection = "difficulty";
+                    break;
+                default:
+                    break;
+            }
+            Menu.Show();
+        }
+        else if (e.keyCode === 40) { //down
+            switch(Menu.selection) {
+                case "levels":
+                    Menu.selection = "difficulty";
+                    break;
+                case "difficulty":
+                    Menu.selection = "play";
+                    break;
+                case "play":
+                    Menu.selection = "levels";
+                    break;
+                default:
+                    break;
+            }
+            Menu.Show();
+        }
+    }
+
+}, false);
 
 //touch events
 document.addEventListener("touchstart", function(e) {
