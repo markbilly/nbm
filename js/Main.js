@@ -1,5 +1,6 @@
 var c = document.getElementById("Game");
 var b = document.getElementById("Background");
+var overlay = document.getElementById("Overlay");
 var buttonsCanvas = document.getElementById("Buttons");
 var debug = document.getElementById("debug");
 var bg = document.getElementById("bg");
@@ -8,6 +9,7 @@ var container = document.getElementById("container");
 var ctx = c.getContext("2d");
 var ctx_b = b.getContext("2d");
 var ctx_buttons = buttonsCanvas.getContext("2d");
+var ctx_overlay = overlay.getContext("2d");
 var tile = new Image();
 tile.src = "tile.png";
 var tile_floor1 = new Image();
@@ -89,6 +91,7 @@ debug.innerHTML = "LOADING...";
 window.setTimeout(function() {
     Resize();
     Menu.Show();
+    debug.innerHTML = "";
 }, 5000);
 
 function Resize() {
@@ -130,6 +133,12 @@ function Resize() {
     buttonsCanvas.style.top = 0 + "px";
     buttonsCanvas.style.padding = 0;
     buttonsCanvas.style.margin = 0 + "px";
+    overlay.width = px(Game.width); //px
+    overlay.height = py(Game.height); //px
+    overlay.style.left = 0 + "px";
+    overlay.style.top = 0 + "px";
+    overlay.style.padding = 0;
+    overlay.style.margin = 0 + "px";
     container.style.fontSize = px(8) + "px";
     bg.style.width = px(Game.width) + "px";
     bg.style.height = py(Game.height) + "px";
@@ -154,7 +163,6 @@ function FirstTimeStart() {
     Processor();
     GameOver.Build();
     Paused.Build();
-    debug.innerHTML = "";
     
     if ("ontouchstart" in document) {
         DrawButtons();
@@ -264,60 +272,66 @@ document.addEventListener("keyup", function(e) {
 function onkey(e, key, down) {
     switch(key) {
         case 37: //left
-            if (Game.inMenu && !down) {
-                if (Menu.selection === "levels") {
-                    
-                }
-                else if (Menu.selection === "difficulty") {
-                    switch(Game.difficulty) {
-                        case "easy":
-                            Game.difficulty = "evil";
-                            break;
-                        case "hard":
-                            Game.difficulty = "easy";
-                            break;
-                        case "evil":
-                            Game.difficulty = "hard";
-                            break;
-                        default:
-                            break;
+            if (Game.inMenu) {
+                if (!down) {
+                    if (Menu.selection === "levels") {
+                        
                     }
+                    else if (Menu.selection === "difficulty") {
+                        switch(Game.difficulty) {
+                            case "easy":
+                                Game.difficulty = "evil";
+                                break;
+                            case "hard":
+                                Game.difficulty = "easy";
+                                break;
+                            case "evil":
+                                Game.difficulty = "hard";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    Menu.Show();
                 }
-                Menu.Show();
             }
             else {
                 Player.left = down;
             }
             break;
         case 39: //right
-            if (Game.inMenu && !down) {
-                if (Menu.selection === "levels") {
-                    
-                }
-                else if (Menu.selection === "difficulty") {
-                    switch(Game.difficulty) {
-                        case "easy":
-                            Game.difficulty = "hard";
-                            break;
-                        case "hard":
-                            Game.difficulty = "evil";
-                            break;
-                        case "evil":
-                            Game.difficulty = "easy";
-                            break;
-                        default:
-                            break;
+            if (Game.inMenu) {
+                if (!down) {
+                    if (Menu.selection === "levels") {
+                        
                     }
+                    else if (Menu.selection === "difficulty") {
+                        switch(Game.difficulty) {
+                            case "easy":
+                                Game.difficulty = "hard";
+                                break;
+                            case "hard":
+                                Game.difficulty = "evil";
+                                break;
+                            case "evil":
+                                Game.difficulty = "easy";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    Menu.Show();
                 }
-                Menu.Show();
             }
             else {
                 Player.right = down;
             }
             break;
         case 88: //x
-            if (Game.inMenu && Menu.selection === "play") {
-                FirstTimeStart();
+            if (Game.inMenu) {
+                if (Menu.selection === "play") {
+                    FirstTimeStart();
+                }
             }
             else {
                 if (Player.dead) {
@@ -331,7 +345,7 @@ function onkey(e, key, down) {
             }
             break;
         case 80: //p
-            if (!down) {
+            if (!down && !Game.inMenu) {
                 if (!Game.paused) {
                     Game.paused = true;
                     Paused.Show();

@@ -1,22 +1,4 @@
 var GameOver = {
-    elem: document.getElementById("GameOver"),
-    text: document.getElementById("GameOverText"),
-    
-    Build: function() {
-        var self = this;
-        
-        self.elem.style.width = px(Game.width) + "px";
-        self.elem.style.height = py(Game.TILE * 6) + "px";
-        self.elem.style.left = px(0) + "px";
-        self.text.style.left = px(0) + "px";
-        self.elem.style.top = py(45) + "px";
-        self.text.style.top = py(65) + "px";
-        self.elem.style.backgroundColor = "black";
-        self.elem.style.opacity = 0.8;
-        self.elem.style.visibility = "hidden";
-        self.text.style.color = "white";
-        self.elem.style.paddingTop = px(20) + "px";
-    },
     
     Show: function(string) {
         var self = this,
@@ -24,16 +6,23 @@ var GameOver = {
             length = splitString.length,
             left = (Game.width - (length * 8)) / 2;
         
-        self.text.style.left = px(left) + "px";
-        self.text.innerHTML = string;
-        self.elem.style.visibility = "visible";
-        self.text.style.visibility = "visible";
+        ctx_overlay.globalAlpha = 0.8;
+        ctx_overlay.fillStyle = "black";
+        ctx_overlay.fillRect(px(0), py(45), px(Game.width), py(Game.TILE * 6));
+        
+        ctx_overlay.globalAlpha = 1.0;
+        ctx_overlay.font="" + px(8) + "px pixel";
+        ctx_overlay.fillStyle = "white";
+        ctx_overlay.fillText
+        (
+            string,
+            px(left),
+            py(80)
+        );
     },
     
     Hide: function() {
-        var self = this;
-        
-        self.elem.style.visibility = "hidden";
-        self.text.style.visibility = "hidden";
+        ctx_overlay.clearRect(0,0,px(Game.width),py(Game.height));
+        ctx_overlay.clearRect(0,0,px(Game.width),py(Game.height));
     }
 }
