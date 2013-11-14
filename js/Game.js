@@ -1,6 +1,5 @@
 var Game = {
     MAP: { tw: 24, th: 16 }, // object to store size of map in tiles - WIDE
-    //MAP: { tw: 20, th: 22 }, // object to store size of map in tiles - TALL
     TILE: 12,                // size of each tile (in game pixels)
     GRAVITY: 1.0,    // gravity
     dt: 1,
@@ -14,32 +13,9 @@ var Game = {
     paused: false,
     difficulties: ["easy", "hard", "evil"],
     difficulty: "easy",
-    levels: [
-            new Level("academy", "", "", true),
-            new Level("factory", "", "", true),
-            new Level("underwater", "", "", true)
-             ],
+    levels: [Academy, Factory, Underwater],
     level: null,
     inMenu: false,
-    
-    leftButton: {
-        x: 0,
-        y: /*Game.height -*/ 36,
-        width: 36,
-        height: 36
-    },
-    rightButton: {
-        x: 48,
-        y: /*Game.height -*/ 36,
-        width: 36,
-        height: 36
-    },
-    upButton: {
-        x: /*Game.width -*/ 36,
-        y: /*Game.height -*/ 36,
-        width: 36,
-        height: 36
-    },
     
     IsColliding: function(object1, object2) {
         
@@ -79,7 +55,7 @@ var Game = {
         
         if (list.length > 0) {
             for (i = 0; i < list.length; i++) {
-                map[list[i].tileIndex] = 9;
+                Game.level.map[list[i].tileIndex] = 9;
             }
         }
     },
@@ -162,7 +138,7 @@ var Game = {
         out = tx;
         out += (ty - 1) * (Game.MAP.tw + 1);
         
-        return map[out];
+        return Game.level.map[out];
     },  
     
     BuildLevel: function(level) {

@@ -30,25 +30,6 @@ function px(x) {
 function py(y) {
     return y * Game.scale;
 }
-
-var map =[
-    4, 9, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 0, 0, 9, 0, 9, 0, 9, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 0, 4, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 4, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
-    5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 8,
-];
     
 function RandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;    
@@ -64,14 +45,10 @@ function StartGame() {
     Game.melons.length = 0;
     Game.previousMelonY = 0;
     //fill enemies array
-    var enemy1 = new Enemy((2 * Game.TILE), (2 * Game.TILE));
-    var enemy2 = new Enemy((4 * Game.TILE), (8 * Game.TILE));
-    var enemy3 = new Enemy((16 * Game.TILE), (4 * Game.TILE));
-    var enemy4 = new Enemy((10 * Game.TILE), (12 * Game.TILE));
-    Game.enemies[0] = enemy1;
-    Game.enemies[1] = enemy2;
-    Game.enemies[2] = enemy3;
-    Game.enemies[3] = enemy4;
+    Game.enemies[0] = Game.level.enemies[0];
+    Game.enemies[1] = Game.level.enemies[1];
+    Game.enemies[2] = Game.level.enemies[2];
+    Game.enemies[3] = Game.level.enemies[3];
     //add inital melon
     var melon = new Melon();
     Game.melons.push(melon);
@@ -149,58 +126,13 @@ function Resize() {
     debug.style.position = "absolute";
     debug.style.left = "900px";
     debug.style.top = "200px";
-    
-    Game.leftButton.y = Game.height - Game.leftButton.height;
-    Game.rightButton.y = Game.height - Game.rightButton.height;
-    Game.upButton.y = Game.height - Game.upButton.height;
-    Game.upButton.x = Game.width - Game.upButton.width;
 }
 
 function FirstTimeStart() {
     Menu.Hide();
     StartGame();
-    Game.BuildLevel(map);
+    Game.BuildLevel(Game.level.map);
     Processor();
-    GameOver.Build();
-    Paused.Build();
-    
-    if ("ontouchstart" in document) {
-        DrawButtons();
-    }
-}
-
-function RandomMap() {
-    var map = [];
-    
-    return map;
-}
-
-function DrawButtons() {
-    
-    ctx_buttons.drawImage
-    (
-        Resources.leftButton,
-        px(Game.leftButton.x),
-        py(Game.leftButton.y),
-        px(Game.leftButton.width),
-        py(Game.leftButton.height)
-    );
-    ctx_buttons.drawImage
-    (
-        Resources.rightButton,
-        px(Game.rightButton.x),
-        py(Game.rightButton.y),
-        px(Game.rightButton.width),
-        py(Game.rightButton.height)
-    );
-    ctx_buttons.drawImage
-    (
-        Resources.upButton,
-        px(Game.upButton.x),
-        py(Game.upButton.y),
-        px(Game.upButton.width),
-        py(Game.upButton.height)
-    );
 }
 
 function Draw() {
@@ -345,7 +277,7 @@ function onkey(e, key, down) {
             }
             break;
         case 80: //p
-            if (!down && !Game.inMenu) {
+            if (!down && !Game.inMenu && !Player.dead) {
                 if (!Game.paused) {
                     Game.paused = true;
                     Paused.Show();
@@ -395,45 +327,3 @@ document.addEventListener("keydown", function(e) {
     }
 
 }, false);
-
-//touch events
-document.addEventListener("touchstart", function(e) {
-    e.preventDefault();
-    var touch = e.changedTouches[0];
-    return ontouch(e, touch, true);
-}, false);
-
-document.addEventListener("touchend", function(e) {
-    e.preventDefault();
-    var touch = e.changedTouches[0];
-    return ontouch(e, touch, false);
-}, false);
-
-function ontouch(e, key, down) {
-    var x = key.pageX,
-        leftStart = px(Game.leftButton.x),
-        leftEnd = leftStart + px(Game.leftButton.width),
-        rightStart = px(Game.rightButton.x),
-        rightEnd = rightStart + px(Game.rightButton.width)
-        jumpStart = px(Game.upButton.x),
-        jumpEnd = jumpStart + px(Game.upButton.width);
-    
-    if (x >= leftStart && x <= leftEnd) {
-        Player.left = down;
-        Player.right = !down;
-    }
-    else if (x >= rightStart && x <= rightEnd) {
-        Player.right = down;
-        Player.left = !down;
-    }
-    else if (x >= jumpStart && x <= jumpEnd) {
-        if (Player.dead) {
-            StartGame();
-            Player.dead = false;
-            Player.jump = false;
-        }
-        else {
-            Player.jump = down;
-        }
-    }
-}

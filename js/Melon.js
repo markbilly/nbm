@@ -102,7 +102,7 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.y = 0;
             self.BoundingBox.width = 0;
             self.BoundingBox.height = 0;
-            map[self.tileIndex] = 9;
+            Game.level.map[self.tileIndex] = 9;
             self.visible = false;
             //Game.melons.splice(self.index, 1);
             
@@ -147,8 +147,8 @@ Melon.prototype.Init = function() {
     var spawned = false;
     
     while (!spawned) {
-        var tileIndex = RandomInt(0, map.length);
-        var tile = map[tileIndex];
+        var tileIndex = RandomInt(0, Game.level.map.length);
+        var tile = Game.level.map[tileIndex];
         
         if (tile === 9) {
             
@@ -164,7 +164,7 @@ Melon.prototype.Init = function() {
                 self.state = "start";
                 self.sprite = sprite;
                 self.tileIndex = tileIndex;
-                map[tileIndex] = 0;
+                Game.level.map[tileIndex] = 0;
                 Game.previousMelonY = self.yInit;
             }
         }
