@@ -13,7 +13,7 @@ var Game = {
     paused: false,
     difficulties: ["easy", "hard", "evil"],
     difficulty: "easy",
-    levels: [Academy, Factory, Underwater],
+    levels: [],
     level: null,
     inMenu: false,
     

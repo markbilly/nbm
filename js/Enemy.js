@@ -1,4 +1,4 @@
-function Enemy(x, y) {
+function Enemy(x, y) {    
     this.image = null;
     this.xInit = x;
     this.yInit = y;
