@@ -235,6 +235,9 @@ var Player = {
             player.dx = 0;           // stop horizontal velocity
           }
         }
+        if (player.y > ((Game.MAP.th + 2) * Game.TILE)) {
+            player.Die("You're toast!");
+        }
         
         //wall grab
         if (cellright && !celldown && player.right && !player.jump) {

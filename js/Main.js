@@ -10,14 +10,19 @@ var ctx = c.getContext("2d");
 var ctx_b = b.getContext("2d");
 var ctx_buttons = buttonsCanvas.getContext("2d");
 var ctx_overlay = overlay.getContext("2d");
+var ctx_bg = bg.getContext("2d");
 var tile = new Image();
 tile.src = "tile.png";
+var tile_factory = new Image();
+tile_factory.src = "tile_factory.png";
 var tile_floor1 = new Image();
 tile_floor1.src = "floor1.png";
 var tile_floor2 = new Image();
 tile_floor2.src = "floor2.png";
 var tile_vert1 = new Image();
 tile_vert1.src = "vert1.png";
+var vert_factory = new Image();
+vert_factory.src = "vert_factory.png";
 var tile_ground1 = new Image();
 tile_ground1.src = "ground2.png";
 var tile_ground2 = new Image();
@@ -45,10 +50,9 @@ function StartGame() {
     Game.melons.length = 0;
     Game.previousMelonY = 0;
     //fill enemies array
-    Game.enemies[0] = Game.level.enemies[0];
-    Game.enemies[1] = Game.level.enemies[1];
-    Game.enemies[2] = Game.level.enemies[2];
-    Game.enemies[3] = Game.level.enemies[3];
+    for (var i = 0; i < Game.level.enemies.length; i++) {
+        Game.enemies[i] = Game.level.enemies[i];
+    }
     //add inital melon
     var melon = new Melon();
     Game.melons.push(melon);
@@ -117,12 +121,12 @@ function Resize() {
     overlay.style.padding = 0;
     overlay.style.margin = 0 + "px";
     container.style.fontSize = px(8) + "px";
-    bg.style.width = px(Game.width) + "px";
-    bg.style.height = py(Game.height) + "px";
+    bg.width = px(Game.width); //px
+    bg.height = py(Game.height); //px
     bg.style.left = 0 + "px";
     bg.style.top = 0 + "px";
-    bg.style.backgroundImage = "url('bg.png')";
-    bg.style.position = "absolute";
+    bg.style.padding = 0;
+    bg.style.margin = 0 + "px";
     debug.style.position = "absolute";
     debug.style.left = "900px";
     debug.style.top = "200px";
@@ -159,6 +163,9 @@ function Processor() {
         Player.Update();
         
         //Enemy
+        if (Game.level.name === "factory") {
+            EnemyManager();
+        }
         Game.UpdateEnemies();
         
         //Melon
@@ -189,6 +196,28 @@ function MelonManager() {
             newMelon.Init();
             Game.melons.push(newMelon);
         }
+    }
+}
+
+function EnemyManager() {
+    var freq = 1;
+    
+    Game.enemyTimer++;
+    
+    if (!(Game.enemyTimer % (Game.fps * freq))) {
+        Spawn();
+    }
+    if (Game.enemyTimer > 1000) {
+        Game.enemyTimer = 0;
+    }
+    
+    function Spawn() {
+        var newEnemy1 = new Enemy((11 * Game.TILE), (1 * Game.TILE));
+        var newEnemy2 = new Enemy((21 * Game.TILE), (1 * Game.TILE));
+        newEnemy1.Init();
+        newEnemy2.Init();
+        Game.enemies.push(newEnemy1);
+        Game.enemies.push(newEnemy2);
     }
 }
 
@@ -351,22 +380,25 @@ var mapAcademy = [
 
 var mapFactory = [
     4, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 4, 8,
-    4, 9, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 9, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 9, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 4, 8,
+    4, 0, 0, 4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 0, 0, 0, 0, 9, 0, 9, 0, 9, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 9, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 9, 0, 9, 0, 9, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    4, 9, 0, 9, 0, 9, 0, 9, 0, 1, 1, 1, 1, 1, 1, 0, 9, 0, 9, 0, 9, 0, 9, 4, 8,
+    4, 9, 0, 9, 0, 9, 0, 9, 0, 1, 1, 1, 1, 1, 1, 0, 9, 0, 0, 0, 0, 9, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 8,
+    4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 4, 8,
 ];
+
+var bgAcademy = new Image();
+bgAcademy.src = "bg.png";
 
 var Academy = new Level(
     "academy",
@@ -378,14 +410,19 @@ var Academy = new Level(
         new Enemy((4 * Game.TILE), (8 * Game.TILE)),
         new Enemy((16 * Game.TILE), (4 * Game.TILE)),
         new Enemy((10 * Game.TILE), (12 * Game.TILE))
-    ]
+    ],
+    bgAcademy
 );
 var Factory = new Level(
     "factory",
     mapFactory,
     "",
     true,
-    []
+    [
+        new Enemy((11 * Game.TILE), (1 * Game.TILE)),
+        new Enemy((21 * Game.TILE), (1 * Game.TILE))
+    ],
+    bgAcademy
 );
 var Underwater = new Level(
     "underwater",

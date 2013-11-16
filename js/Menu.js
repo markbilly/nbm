@@ -9,8 +9,9 @@ var Menu = {
         
         ctx.clearRect(0,0,px(Game.width),py(Game.height));
         ctx_b.clearRect(0,0,px(Game.width),py(Game.height));
+        ctx_bg.clearRect(0,0,px(Game.width),py(Game.height));
         
-        Game.level = Game.levels[0];
+        Game.level = Game.levels[1];
         
         var width = px(73);
         var height = py(56);
@@ -30,6 +31,7 @@ var Menu = {
             playText = "* play *";
         }
         
+        ctx_bg.drawImage(Game.level.bg, 0, 0, px(Game.width), py(Game.height));
         ctx.drawImage(Resources.title, left, top, width, height);
         
         ctx.font="" + px(8) + "px pixel";

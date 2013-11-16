@@ -8,6 +8,7 @@ var Game = {
     score: 0,
     fps: 50,
     melonTimer: 0,
+    enemyTimer: 0,
     scale: 3,
     previousMelonY: 0,
     paused: false,
@@ -154,6 +155,9 @@ var Game = {
             else {
                 if (level[i] === 1) {
                     tileImage = tile;
+                    if (Game.level.name === "factory") {
+                        tileImage = tile_factory;
+                    }
                 }
                 else if (level[i] === 2) {
                     tileImage = tile_floor1;
@@ -163,6 +167,9 @@ var Game = {
                 }
                 else if (level[i] === 4) {
                     tileImage = tile_vert1;
+                    if (Game.level.name === "factory") {
+                        tileImage = vert_factory;
+                    }
                 }
                 else if (level[i] === 5) {
                     tileImage = tile_ground1;

@@ -24,6 +24,7 @@ function Enemy(x, y) {
 }
 
 Enemy.prototype.Init = function() {
+    this.dead = false;
     this.onfire = false;
     this.MAXDX = 1.0;
     //var img = new Image();
@@ -143,7 +144,8 @@ Enemy.prototype.ApplyCollisions = function() {
       }
     }
     if ((!enemycelldiag || !enemycellleftdiag) &&
-        !enemy.falling && !enemy.jumping && enemycelldown/*&& !enemy.onfire*/) {
+        !enemy.falling && !enemy.jumping && enemycelldown &&
+        (Game.level.name !== "factory")) {
         
         enemy.y = Game.TileToPixel(enemyty);
         if (enemy.dx > 0) {
@@ -166,6 +168,9 @@ Enemy.prototype.ApplyCollisions = function() {
         enemy.x = Game.TileToPixel(enemytx + 1);  // clamp the x position to avoid moving into the platform we just hit
         enemy.dx = enemy.MAXDX;           // stop horizontal velocity
       }
+    }
+    if (enemy.y > ((Game.MAP.th + 2) * Game.TILE)) {
+        enemy.Die();
     }
     
     enemy.falling = ! (enemycelldown || (enemynx && enemycelldiag));
