@@ -157,6 +157,9 @@ var Game = {
                     if (Game.level.name === "factory") {
                         tileImage = tile_factory;
                     }
+                    if (Game.level.name === "underwater") {
+                        tileImage = underwater;
+                    }
                 }
                 else if (level[i] === 2) {
                     tileImage = tile_floor1;
@@ -168,6 +171,9 @@ var Game = {
                     tileImage = tile_vert1;
                     if (Game.level.name === "factory") {
                         tileImage = vert_factory;
+                    }
+                    if (Game.level.name === "underwater") {
+                        tileImage = underwater;
                     }
                 }
                 else if (level[i] === 5) {

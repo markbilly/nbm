@@ -23,6 +23,8 @@ var tile_vert1 = new Image();
 tile_vert1.src = "vert1.png";
 var vert_factory = new Image();
 vert_factory.src = "vert_factory.png";
+var underwater = new Image();
+underwater.src = "tile_underwater.png";
 var tile_ground1 = new Image();
 tile_ground1.src = "ground2.png";
 var tile_ground2 = new Image();
@@ -138,24 +140,29 @@ function FirstTimeStart() {
     StartGame();
     Game.BuildLevel(Game.level.map);
     if (!Game.processing) Processor();
+    Draw();
 }
 
 function Draw() {
-    ctx.clearRect(0,0,px(Game.width),py(Game.height));
-    if (!Player.dead) ctx_overlay.clearRect(0,0,px(Game.width),py(Game.height));
     
-    ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(12));
-    Game.DrawEnemies();
-    Game.DrawMelons();
-    
-    ctx_overlay.font="" + px(8 * 2) + "px pixel";
-    ctx_overlay.fillStyle = "black";
-    ctx_overlay.fillText
-    (
-        "" + Game.score + "",
-        px(Game.width - 4) / 2,
-        py(Game.TILE * 2)
-    );
+    if (!Game.paused) {
+        ctx.clearRect(0,0,px(Game.width),py(Game.height));
+        if (!Player.dead) ctx_overlay.clearRect(0,0,px(Game.width),py(Game.height));
+        
+        ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(12));
+        Game.DrawEnemies();
+        Game.DrawMelons();
+        
+        ctx_overlay.font="" + px(8 * 2) + "px pixel";
+        ctx_overlay.fillStyle = "black";
+        ctx_overlay.fillText
+        (
+            "" + Game.score + "",
+            px(Game.width - 4) / 2,
+            py(Game.TILE * 2)
+        );
+    }
+    requestTimeout(Draw, (1000 / 60));
 }
 
 function Processor() {
@@ -175,8 +182,6 @@ function Processor() {
         //Melon
         MelonManager();
         Game.UpdateMelons();
-       
-        Draw();
     }
     requestTimeout(Processor, (1000 / Game.fps));
 }
@@ -346,10 +351,10 @@ var mapFactory = [
     4, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 9, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 4, 8,
-    4, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 0, 0, 9, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 4, 8,
-    4, 0, 0, 4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
+    4, 0, 0, 4, 1, 1, 1, 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8,
     4, 9, 0, 9, 0, 9, 0, 9, 0, 1, 1, 1, 1, 1, 1, 0, 9, 0, 0, 0, 0, 9, 0, 4, 8,
@@ -358,11 +363,33 @@ var mapFactory = [
     4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 4, 8,
 ];
 
+var mapUnderwater = [
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    0, 0, 0, 0, 0, 0, 0, 9, 0, 9, 0, 9, 0, 0, 0, 0, 0, 9, 0, 0, 9, 0, 0, 0, 8,
+    0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 8,
+    0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 0, 0, 0, 4, 4, 4, 4, 0, 0, 4, 0, 0, 8,
+    0, 0, 0, 4, 0, 0, 0, 0, 4, 0, 4, 0, 0, 0, 0, 4, 0, 4, 0, 0, 4, 4, 0, 0, 8,
+    0, 0, 0, 4, 0, 0, 0, 0, 4, 0, 4, 0, 0, 0, 0, 4, 0, 4, 0, 0, 4, 4, 0, 0, 8,
+    0, 0, 0, 4, 0, 9, 0, 0, 4, 0, 4, 0, 0, 0, 0, 4, 0, 4, 0, 0, 4, 4, 0, 0, 8,
+    0, 0, 0, 4, 0, 0, 0, 0, 4, 0, 4, 0, 0, 0, 0, 4, 0, 4, 0, 0, 4, 4, 0, 0, 8,
+    0, 0, 9, 4, 0, 0, 0, 0, 4, 0, 4, 9, 0, 9, 0, 4, 0, 4, 0, 0, 4, 4, 9, 0, 8,
+    0, 0, 0, 4, 0, 4, 0, 0, 4, 0, 4, 0, 0, 0, 0, 4, 0, 4, 0, 0, 4, 4, 0, 0, 8,
+    0, 0, 0, 4, 0, 4, 0, 0, 4, 0, 4, 0, 0, 0, 0, 4, 0, 4, 0, 0, 4, 4, 0, 0, 8,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8,
+];
+
 var bgAcademy = new Image();
 bgAcademy.src = "bg.png";
 
 var bgFactory = new Image();
 bgFactory.src = "bg_factory.png";
+
+var bgUnderwater = new Image();
+bgUnderwater.src = "bg_underwater.png";
 
 var Academy = new Level(
     "academy",
@@ -388,10 +415,10 @@ var Factory = new Level(
 );
 var Underwater = new Level(
     "underwater",
-    "",
-    "",
+    mapUnderwater,
     true,
-    []
+    [],
+    bgUnderwater
 );
 
 Game.levels = [Academy, Factory, Underwater];

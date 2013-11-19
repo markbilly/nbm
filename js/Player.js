@@ -235,9 +235,19 @@ var Player = {
             player.dx = 0;           // stop horizontal velocity
           }
         }
+        
         if (player.y > ((Game.MAP.th + 2) * Game.TILE)) {
             player.Die("You're toast!");
         }
+        
+        //if (player.x > ((Game.MAP.tw + 3) * Game.TILE)) {
+        //    player.x = Game.TileToPixel(tx);  // clamp the x position to avoid moving into the platform we just hit
+        //    player.dx = 0;           // stop horizontal velocity
+        //}
+        //else if (player.x < (-3 * Game.TILE)) {
+        //    player.x = Game.TileToPixel(tx + 1);  // clamp the x position to avoid moving into the platform we just hit
+        //    player.dx = 0;           // stop horizontal velocity
+        //}
         
         //wall grab
         if (cellright && !celldown && player.right && !player.jump) {
