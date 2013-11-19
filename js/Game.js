@@ -173,7 +173,7 @@ var Game = {
                         tileImage = vert_factory;
                     }
                     if (Game.level.name === "underwater") {
-                        tileImage = underwater;
+                        tileImage = pillar_underwater;
                     }
                 }
                 else if (level[i] === 5) {
