@@ -71,6 +71,7 @@ debug.innerHTML = "LOADING...";
 
 window.setTimeout(function() {
     Resize();
+    Game.level = Game.levels[0];
     Menu.Show();
     debug.innerHTML = "";
 }, 5000);
@@ -136,27 +137,30 @@ function FirstTimeStart() {
     Menu.Hide();
     StartGame();
     Game.BuildLevel(Game.level.map);
-    Processor();
+    if (!Game.processing) Processor();
 }
 
 function Draw() {
     ctx.clearRect(0,0,px(Game.width),py(Game.height));
+    if (!Player.dead) ctx_overlay.clearRect(0,0,px(Game.width),py(Game.height));
     
     ctx.drawImage(Player.image,px(Player.x - 6),py(Player.y - Game.TILE), px(24), py(12));
     Game.DrawEnemies();
     Game.DrawMelons();
     
-    ctx.font="" + px(8) + "px pixel";
-    ctx.fillStyle = "black";
-    ctx.fillText
+    ctx_overlay.font="" + px(8 * 2) + "px pixel";
+    ctx_overlay.fillStyle = "black";
+    ctx_overlay.fillText
     (
         "" + Game.score + "",
-        px(Game.width) / 2,
-        py(Game.TILE)
+        px(Game.width - 4) / 2,
+        py(Game.TILE * 2)
     );
 }
 
 function Processor() {
+    
+    Game.processing = true;
     
     if (!Game.paused) {
         //Player
@@ -200,7 +204,7 @@ function MelonManager() {
 }
 
 function EnemyManager() {
-    var freq = 1;
+    var freq = 2;
     
     Game.enemyTimer++;
     
@@ -235,23 +239,18 @@ function onkey(e, key, down) {
         case 37: //left
             if (Game.inMenu) {
                 if (!down) {
-                    if (Menu.selection === "levels") {
-                        
-                    }
-                    else if (Menu.selection === "difficulty") {
-                        switch(Game.difficulty) {
-                            case "easy":
-                                Game.difficulty = "evil";
-                                break;
-                            case "hard":
-                                Game.difficulty = "easy";
-                                break;
-                            case "evil":
-                                Game.difficulty = "hard";
-                                break;
-                            default:
-                                break;
-                        }
+                    switch(Game.level.name) {
+                        case "factory":
+                            Game.level = Game.levels[0];
+                            break;
+                        case "underwater":
+                            Game.level = Game.levels[1];
+                            break;
+                        case "academy":
+                            Game.level = Game.levels[2];
+                            break;
+                        default:
+                            break;
                     }
                     Menu.Show();
                 }
@@ -263,23 +262,18 @@ function onkey(e, key, down) {
         case 39: //right
             if (Game.inMenu) {
                 if (!down) {
-                    if (Menu.selection === "levels") {
-                        
-                    }
-                    else if (Menu.selection === "difficulty") {
-                        switch(Game.difficulty) {
-                            case "easy":
-                                Game.difficulty = "hard";
-                                break;
-                            case "hard":
-                                Game.difficulty = "evil";
-                                break;
-                            case "evil":
-                                Game.difficulty = "easy";
-                                break;
-                            default:
-                                break;
-                        }
+                    switch(Game.level.name) {
+                        case "underwater":
+                            Game.level = Game.levels[0];
+                            break;
+                        case "academy":
+                            Game.level = Game.levels[1];
+                            break;
+                        case "factory":
+                            Game.level = Game.levels[2];
+                            break;
+                        default:
+                            break;
                     }
                     Menu.Show();
                 }
@@ -290,9 +284,7 @@ function onkey(e, key, down) {
             break;
         case 88: //x
             if (Game.inMenu) {
-                if (Menu.selection === "play") {
-                    FirstTimeStart();
-                }
+                FirstTimeStart();
             }
             else {
                 if (Player.dead) {
@@ -316,46 +308,15 @@ function onkey(e, key, down) {
                     Paused.Hide();
                 }
             }
+            break;
+        case 27: //escape
+            if (!Game.inMenu) {
+                Menu.Show();
+                debug.innerHTML = "";
+            }
+            
     }
 }
-
-document.addEventListener("keydown", function(e) {
-    if (Game.inMenu) {
-        if (e.keyCode === 38) { //up
-            switch(Menu.selection) {
-                case "levels":
-                    Menu.selection = "play";
-                    break;
-                case "difficulty":
-                    Menu.selection = "levels";
-                    break;
-                case "play":
-                    Menu.selection = "difficulty";
-                    break;
-                default:
-                    break;
-            }
-            Menu.Show();
-        }
-        else if (e.keyCode === 40) { //down
-            switch(Menu.selection) {
-                case "levels":
-                    Menu.selection = "difficulty";
-                    break;
-                case "difficulty":
-                    Menu.selection = "play";
-                    break;
-                case "play":
-                    Menu.selection = "levels";
-                    break;
-                default:
-                    break;
-            }
-            Menu.Show();
-        }
-    }
-
-}, false);
 
 //LEVELS
 
@@ -400,10 +361,12 @@ var mapFactory = [
 var bgAcademy = new Image();
 bgAcademy.src = "bg.png";
 
+var bgFactory = new Image();
+bgFactory.src = "bg_factory.png";
+
 var Academy = new Level(
     "academy",
     mapAcademy,
-    "",
     true,
     [
         new Enemy((2 * Game.TILE), (2 * Game.TILE)),
@@ -416,13 +379,12 @@ var Academy = new Level(
 var Factory = new Level(
     "factory",
     mapFactory,
-    "",
     true,
     [
         new Enemy((11 * Game.TILE), (1 * Game.TILE)),
         new Enemy((21 * Game.TILE), (1 * Game.TILE))
     ],
-    bgAcademy
+    bgFactory
 );
 var Underwater = new Level(
     "underwater",

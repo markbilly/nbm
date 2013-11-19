@@ -12,11 +12,10 @@ var Game = {
     scale: 3,
     previousMelonY: 0,
     paused: false,
-    difficulties: ["easy", "hard", "evil"],
-    difficulty: "easy",
     levels: [],
     level: null,
     inMenu: false,
+    processing: false,
     
     IsColliding: function(object1, object2) {
         

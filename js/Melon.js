@@ -124,19 +124,7 @@ Melon.prototype.Init = function() {
     self.timer = 0;
     self.frame = 0;
     self.visible = true;
-    
-    //Set counter based on dificulty
-    switch(Game.difficulty) {
-        case "easy":
-            self.counter = 10;
-            break;
-        case "hard":
-            self.counter = 5;
-            break;
-        case "evil":
-            self.counter = 2;
-            break;
-    }
+    self.counter = 10;
     
     //Get index in melons array
     self.index = Game.melons.indexOf(self);
