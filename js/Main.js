@@ -384,6 +384,25 @@ var mapUnderwater = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8,
 ];
 
+var mapUnderground = [
+    3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 0, 9, 0, 9, 0, 0, 5, 5, 5, 5, 9, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 0, 0, 0, 0, 0, 0, 9, 0, 9, 0, 0, 0, 9, 0, 9, 0, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 9, 0, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 0, 9, 0, 9, 0, 0, 0, 9, 0, 0, 0, 9, 0, 9, 0, 0, 0, 9, 0, 9, 0, 5, 8,
+    5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 9, 0, 9, 0, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+];
+
 var bgAcademy = new Image();
 bgAcademy.src = "bg.png";
 
@@ -392,6 +411,9 @@ bgFactory.src = "bg_factory.png";
 
 var bgUnderwater = new Image();
 bgUnderwater.src = "bg_underwater.png";
+
+var bgUnderground = new Image();
+bgUnderground.src = "bg_underground.png";
 
 var Academy = new Level(
     "academy",
@@ -415,14 +437,18 @@ var Factory = new Level(
     ],
     bgFactory
 );
-var Underwater = new Level(
-    "underwater",
-    mapUnderwater,
+var Underground = new Level(
+    "underground",
+    mapUnderground,
     true,
-    [],
-    bgUnderwater
+    [
+        new Enemy((5 * Game.TILE), (10 * Game.TILE)),
+        new Enemy((15 * Game.TILE), (10 * Game.TILE)),
+        new Enemy((17 * Game.TILE), (5 * Game.TILE))
+    ],
+    bgUnderground
 );
 
-Game.levels = [Academy, Factory, Underwater];
+Game.levels = [Academy, Factory, Underground];
 
 //END OF LEVELS
