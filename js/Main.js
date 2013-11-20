@@ -62,6 +62,10 @@ function StartGame() {
     Game.melons.push(melon);
 
     Game.melonTimer = 0;
+    if (Game.level.name === "underground") {
+        Player.y = 4 * Game.TILE;
+        Player.yInit = 4 * Game.TILE;
+    }
     Player.Init();
     Game.InitMelons();
     Game.InitEnemies();
