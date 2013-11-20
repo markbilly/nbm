@@ -35,7 +35,7 @@ var Menu = {
         (
             "press X to play",
             px(Centered("press X to play")),
-            py(170)
+            py(167)
         );
         
         function Centered(string) {
