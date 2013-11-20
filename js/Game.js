@@ -160,6 +160,9 @@ var Game = {
                     if (Game.level.name === "underwater") {
                         tileImage = underwater;
                     }
+                    if (Game.level.name === "underground") {
+                        tileImage = underground_topright;
+                    }
                 }
                 else if (level[i] === 2) {
                     tileImage = tile_floor1;
@@ -175,12 +178,36 @@ var Game = {
                     if (Game.level.name === "underwater") {
                         tileImage = pillar_underwater;
                     }
+                    if (Game.level.name === "underground") {
+                        tileImage = underground_topleft;
+                    }
                 }
                 else if (level[i] === 5) {
                     tileImage = tile_ground1;
                 }
                 else if (level[i] === 6) {
                     tileImage = tile_ground2;
+                }
+                else if (level[i] === 7) {
+                    tileImage = underground_bottomright;
+                }
+                else if (level[i] === 10) {
+                    tileImage = underground_bottomleft;
+                }
+                else if (level[i] === 11) {
+                    tileImage = underground_left;
+                }
+                else if (level[i] === 12) {
+                    tileImage = underground_inside_topleft;
+                }
+                else if (level[i] === 13) {
+                    tileImage = underground_inside_topright;
+                }
+                else if (level[i] === 14) {
+                    tileImage = underground_inside_bottomleft;
+                }
+                else if (level[i] === 15) {
+                    tileImage = underground_inside_bottomright;
                 }
                 ctx_b.drawImage(tileImage,x,y,px(Game.TILE),py(Game.TILE));
             }

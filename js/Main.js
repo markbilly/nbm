@@ -31,6 +31,26 @@ var tile_ground1 = new Image();
 tile_ground1.src = "ground2.png";
 var tile_ground2 = new Image();
 tile_ground2.src = "ground3.png";
+var underground_topleft = new Image();
+underground_topleft.src = "underground_topleft.png";
+var underground_topright = new Image();
+underground_topright.src = "underground_topright.png";
+var underground_bottomright = new Image();
+underground_bottomright.src = "underground_bottomright.png";
+var underground_bottomleft = new Image();
+underground_bottomleft.src = "underground_bottomleft.png";
+var underground_left = new Image();
+underground_left.src = "underground_left.png";
+var underground_right = new Image();
+underground_right.src = "underground_right.png";
+var underground_inside_topright = new Image();
+underground_inside_topright.src = "underground_inside_topright.png";
+var underground_inside_topleft = new Image();
+underground_inside_topleft.src = "underground_inside_topleft.png";
+var underground_inside_bottomleft = new Image();
+underground_inside_bottomleft.src = "underground_inside_bottomleft.png";
+var underground_inside_bottomright = new Image();
+underground_inside_bottomright.src = "underground_inside_bottomright.png";
 
 function px(x) {
     return x * Game.scale;
@@ -47,6 +67,8 @@ function RandomInt(min, max) {
 function StartGame() {
     GameOver.Hide();
     Paused.Hide();
+    //draw bg
+    ctx_bg.drawImage(Game.level.bg, 0, 0, px(Game.width), py(Game.height));
     //restore tiles that contain "alive" melons to "9" so we can spawn more
     Game.RestoreAllMelonTiles();
     //empty enemies & melons arrays
@@ -164,7 +186,7 @@ function Draw() {
         ctx_overlay.fillText
         (
             "" + Game.score + "",
-            px(Game.width - 4) / 2,
+            px(Game.width - 5) / 2,
             py(Game.TILE * 2)
         );
     }
@@ -254,7 +276,7 @@ function onkey(e, key, down) {
                         case "factory":
                             Game.level = Game.levels[0];
                             break;
-                        case "underwater":
+                        case "underground":
                             Game.level = Game.levels[1];
                             break;
                         case "academy":
@@ -274,7 +296,7 @@ function onkey(e, key, down) {
             if (Game.inMenu) {
                 if (!down) {
                     switch(Game.level.name) {
-                        case "underwater":
+                        case "underground":
                             Game.level = Game.levels[0];
                             break;
                         case "academy":
@@ -390,20 +412,20 @@ var mapUnderwater = [
 
 var mapUnderground = [
     3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 8,
-    5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 8,
-    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
-    5, 5, 0, 9, 0, 9, 0, 0, 5, 5, 5, 5, 9, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
-    5, 5, 0, 0, 0, 0, 0, 0, 9, 0, 9, 0, 0, 0, 9, 0, 9, 0, 5, 5, 5, 5, 5, 5, 8,
-    5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 8,
-    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
-    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 9, 0, 5, 5, 5, 5, 8,
-    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 5, 5, 5, 5, 8,
-    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 8,
-    5, 5, 0, 9, 0, 9, 0, 0, 0, 9, 0, 0, 0, 9, 0, 9, 0, 0, 0, 9, 0, 9, 0, 5, 8,
-    5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 8,
-    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
-    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 9, 0, 9, 0, 5, 5, 5, 5, 5, 5, 5, 5, 8,
-    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,12,13, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5,12, 9, 9, 0, 9, 0,13,10, 5, 5, 7, 9, 0,10, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5,14, 0, 0, 0, 0, 0, 0, 9, 0, 9, 0, 0, 0, 9, 0, 9,13, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,15, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 0, 0, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 8,
+    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 6, 5, 5, 5, 5,12, 0, 9,13, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0,15, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 7, 0, 0,10, 5, 5, 5, 5, 5, 5, 7, 0, 0,11, 5, 5, 5, 5, 5, 8,
+    5,12, 0, 9, 0, 9, 0, 0, 0, 9, 0, 0, 0, 9, 0, 9, 0, 0, 0, 9, 0, 9,13, 5, 8,
+    5,14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,15, 5, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 0, 0,11, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 0, 9, 0, 9,13, 5, 5, 5, 5, 5, 5, 5, 5, 8,
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,14, 0, 0, 0,15, 5, 5, 5, 5, 5, 5, 5, 5, 8,
     5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8,
 ];
 
@@ -448,7 +470,7 @@ var Underground = new Level(
     [
         new Enemy((5 * Game.TILE), (10 * Game.TILE)),
         new Enemy((15 * Game.TILE), (10 * Game.TILE)),
-        new Enemy((17 * Game.TILE), (5 * Game.TILE))
+        new Enemy((16 * Game.TILE), (5 * Game.TILE))
     ],
     bgUnderground
 );
