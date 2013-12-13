@@ -191,11 +191,11 @@ var Player = {
             celldown  = Game.TileLocationFromTile(tx,     ty + 1),
             celldiag  = Game.TileLocationFromTile(tx + 1, ty + 1);
             
-        if (cell === 9 || cell === 12 || cell === 13 || cell === 15) cell = 0;
-        if (cellright === 9 || cellright === 12 || cellright === 13 || cellright === 15) cellright = 0;
-        if (cellleft === 9 || cellleft === 12 || cellleft === 13 || cellleft === 15) cellleft = 0;
-        if (celldown === 9 || celldown === 12 || celldown === 13 || celldown === 15) celldown = 0;
-        if (celldiag === 9 || celldiag === 12 || celldiag === 13 || celldiag === 15) celldiag = 0;
+        if (cell === 9 || cell === 12 || cell === 13 || cell === 14 || cell === 15) cell = 0;
+        if (cellright === 9 || cellright === 12 || cellright === 13 || cellright === 14 || cellright === 15) cellright = 0;
+        if (cellleft === 9 || cellleft === 12 || cellleft === 13 || cellleft === 14 || cellleft === 15) cellleft = 0;
+        if (celldown === 9 || celldown === 12 || celldown === 13 || celldown === 14 || celldown === 15) celldown = 0;
+        if (celldiag === 9 || celldiag === 12 || celldiag === 13 || celldiag === 14 || celldiag === 15) celldiag = 0;
         
         player.tx = tx;
         player.ty = ty;

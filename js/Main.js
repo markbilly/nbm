@@ -88,6 +88,10 @@ function StartGame() {
         Player.y = 4 * Game.TILE;
         Player.yInit = 4 * Game.TILE;
     }
+    else {
+        Player.y = 140;
+        Player.yInit = 140;
+    }
     Player.Init();
     Game.InitMelons();
     Game.InitEnemies();
@@ -173,7 +177,7 @@ function FirstTimeStart() {
 
 function Draw() {
     
-    if (!Game.paused) {
+    if (!Game.paused && !Game.inMenu) {
         ctx.clearRect(0,0,px(Game.width),py(Game.height));
         if (!Player.dead) ctx_overlay.clearRect(0,0,px(Game.width),py(Game.height));
         
@@ -197,7 +201,7 @@ function Processor() {
     
     Game.processing = true;
     
-    if (!Game.paused) {
+    if (!Game.paused && !Game.inMenu) {
         //Player
         Player.Update();
         

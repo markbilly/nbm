@@ -117,12 +117,12 @@ Enemy.prototype.ApplyCollisions = function() {
         enemycelldown  = Game.TileLocationFromTile(enemytx,     enemyty + 1),
         enemycelldiag  = Game.TileLocationFromTile(enemytx + 1, enemyty + 1),
         enemycellleftdiag  = Game.TileLocationFromTile(enemytx - 1, enemyty + 1);
-        
-    if (enemycell === 9) enemycell = 0;
-    if (enemycellright === 9) enemycellright = 0;
-    if (enemycellleft === 9) enemycellleft = 0;
-    if (enemycelldown === 9) enemycelldown = 0;
-    if (enemycelldiag === 9) enemycelldiag = 0;
+            
+        if (enemycell === 9 || enemycell === 12 || enemycell === 13 || enemycell === 14 || enemycell === 15) enemycell = 0;
+        if (enemycellright === 9 || enemycellright === 12 || enemycellright === 13 || enemycellright === 14 || enemycellright === 15) enemycellright = 0;
+        if (enemycellleft === 9 || enemycellleft === 12 || enemycellleft === 13 || enemycellleft === 14 || enemycellleft === 15) enemycellleft = 0;
+        if (enemycelldown === 9 || enemycelldown === 12 || enemycelldown === 13 || enemycelldown === 14 || enemycelldown === 15) enemycelldown = 0;
+        if (enemycelldiag === 9 || enemycelldiag === 12 || enemycelldiag === 13 || enemycelldiag === 14 || enemycelldiag === 15) enemycelldiag = 0;
         
     if (enemy.dy > 0) {
       if ((enemycelldown && !enemycell) ||

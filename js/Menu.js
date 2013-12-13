@@ -1,6 +1,13 @@
 var Menu = {
     
     Show: function() {
+        //restore tiles that contain "alive" melons to "9" so we can spawn more
+        Game.RestoreAllMelonTiles();
+        //empty enemies & melons arrays
+        Game.enemies.length = 0;
+        Game.melons.length = 0;
+        Game.previousMelonY = 0;
+    
         Game.inMenu = true;
         Game.paused = true;
         

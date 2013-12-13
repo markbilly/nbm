@@ -104,16 +104,6 @@ Melon.prototype.ReactToState = function() {
             self.BoundingBox.height = 0;
             Game.level.map[self.tileIndex] = 9;
             self.visible = false;
-            //Game.melons.splice(self.index, 1);
-            
-            //if (!self.newCreated) {
-            //    //spawn a new melon
-            //    var newMelon = new Melon();
-            //    newMelon.Init();
-            //    Game.melons.push(newMelon);
-            //    //remove this melon
-            //    self.newCreated = true;
-            //}
             break;
     }
 }
@@ -192,12 +182,12 @@ Melon.prototype.ApplyCollisions = function() {
         melcellleft  = Game.TileLocationFromTile(meltx - 1, melty),
         melcelldown  = Game.TileLocationFromTile(meltx,     melty + 1),
         melcelldiag  = Game.TileLocationFromTile(meltx + 1, melty + 1);
-        
-    if (melcell === 9) melcell = 0;
-    if (melcellright === 9) melcellright = 0;
-    if (melcellleft === 9) melcellleft = 0;
-    if (melcelldown === 9) melcelldown = 0;
-    if (melcelldiag === 9) melcelldiag = 0;
+            
+        if (melcell === 9 || melcell === 12 || melcell === 13 || melcell === 14 || melcell === 15) melcell = 0;
+        if (melcellright === 9 || melcellright === 12 || melcellright === 13 || melcellright === 14 || melcellright === 15) melcellright = 0;
+        if (melcellleft === 9 || melcellleft === 12 || melcellleft === 13 || melcellleft === 14 || melcellleft === 15) melcellleft = 0;
+        if (melcelldown === 9 || melcelldown === 12 || melcelldown === 13 || melcelldown === 14 || melcelldown === 15) melcelldown = 0;
+        if (melcelldiag === 9 || melcelldiag === 12 || melcelldiag === 13 || melcelldiag === 14 || melcelldiag === 15) melcelldiag = 0;
     
     if (mel.dy > 0) {
         if ((melcelldown && !melcell) ||
