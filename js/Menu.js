@@ -40,6 +40,12 @@ var Menu = {
         );
         ctx_overlay.fillText
         (
+            "use arrows to choose level",
+            px(Centered("use arrows to choose level")),
+            py(158)
+        );
+        ctx_overlay.fillText
+        (
             "press X to play",
             px(Centered("press X to play")),
             py(167)

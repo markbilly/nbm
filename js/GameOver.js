@@ -17,7 +17,13 @@ var GameOver = {
         (
             string,
             px(left),
-            py(80)
+            py(75)
+        );
+        ctx_overlay.fillText
+        (
+            "x - retry / esc - menu",
+            px(51),
+            py(107)
         );
     },
     
