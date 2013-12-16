@@ -110,6 +110,11 @@ window.setTimeout(function() {
     debug.innerHTML = "";
 }, 5000);
 
+function Refresh() {
+    ctx_bg.drawImage(Game.level.bg, 0, 0, px(Game.width), py(Game.height));
+    Game.BuildLevel(Game.level.map);
+}
+
 function Resize() {
     var windowWidth = window.innerWidth,
         windowHeight = window.innerHeight,
@@ -131,35 +136,37 @@ function Resize() {
     
     Game.scale = scaleFactor;
     
+    var left = (windowWidth / 2) - ((Game.width * scaleFactor) / 2);
+    
     c.width = px(Game.width); //px
     c.height = py(Game.height); //px
-    c.style.left = 0 + "px";
-    c.style.top = 0 + "px";
+    c.style.left = left + "px";
+    c.style.top = 50 + "px";
     c.style.padding = 0;
     c.style.margin = 0 + "px";
     b.width = px(Game.width); //px
     b.height = py(Game.height); //px
-    b.style.left = 0 + "px";
-    b.style.top = 0 + "px";
+    b.style.left = left + "px";
+    b.style.top = 50 + "px";
     b.style.padding = 0;
     b.style.margin = 0 + "px";
     buttonsCanvas.width = px(Game.width); //px
     buttonsCanvas.height = py(Game.height); //px
-    buttonsCanvas.style.left = 0 + "px";
-    buttonsCanvas.style.top = 0 + "px";
+    buttonsCanvas.style.left = left + "px";
+    buttonsCanvas.style.top = 50 + "px";
     buttonsCanvas.style.padding = 0;
     buttonsCanvas.style.margin = 0 + "px";
     overlay.width = px(Game.width); //px
     overlay.height = py(Game.height); //px
-    overlay.style.left = 0 + "px";
-    overlay.style.top = 0 + "px";
+    overlay.style.left = left + "px";
+    overlay.style.top = 50 + "px";
     overlay.style.padding = 0;
     overlay.style.margin = 0 + "px";
     container.style.fontSize = px(8) + "px";
     bg.width = px(Game.width); //px
     bg.height = py(Game.height); //px
-    bg.style.left = 0 + "px";
-    bg.style.top = 0 + "px";
+    bg.style.left = left + "px";
+    bg.style.top = 50 + "px";
     bg.style.padding = 0;
     bg.style.margin = 0 + "px";
     debug.style.position = "absolute";
@@ -270,6 +277,15 @@ document.addEventListener("keyup", function(e) {
     return onkey(e, e.keyCode, false);
 }, false);
 
+window.onresize = function(e) {
+    Resize();
+    if (Game.inMenu) {
+        Menu.Show();
+    }
+    else {
+        Refresh();
+    }
+};
 
 function onkey(e, key, down) {
     switch(key) {

@@ -24,6 +24,8 @@ var Menu = {
         var levelsText = Game.level.name;
         levelsText = "< " + levelsText + " >";
         
+        ctx_bg.fillStyle = "white";
+        ctx_bg.fillRect(0, 0, px(Game.width), py(Game.height));
         ctx_bg.drawImage(Game.level.bg, 0, 0, px(Game.width), py(Game.height));
         ctx_overlay.drawImage(Resources.title, left, top, width, height);
         ctx_b.globalAlpha = 0.8;
