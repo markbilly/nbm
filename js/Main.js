@@ -126,8 +126,8 @@ function Resize() {
     
     //limit the scale to 4 times
     if (!("ontouchstart" in document)) {
-        if (scaleFactor > 3) {
-            scaleFactor = 3;
+        if (scaleFactor > 4) {
+            scaleFactor = 4;
         }
     }
     
@@ -137,36 +137,37 @@ function Resize() {
     Game.scale = scaleFactor;
     
     var left = (windowWidth / 2) - ((Game.width * scaleFactor) / 2);
+    var top = (windowHeight / 2) - ((Game.height * scaleFactor) / 2)
     
     c.width = px(Game.width); //px
     c.height = py(Game.height); //px
     c.style.left = left + "px";
-    c.style.top = 50 + "px";
+    c.style.top = top + "px";
     c.style.padding = 0;
     c.style.margin = 0 + "px";
     b.width = px(Game.width); //px
     b.height = py(Game.height); //px
     b.style.left = left + "px";
-    b.style.top = 50 + "px";
+    b.style.top = top + "px";
     b.style.padding = 0;
     b.style.margin = 0 + "px";
     buttonsCanvas.width = px(Game.width); //px
     buttonsCanvas.height = py(Game.height); //px
     buttonsCanvas.style.left = left + "px";
-    buttonsCanvas.style.top = 50 + "px";
+    buttonsCanvas.style.top = top + "px";
     buttonsCanvas.style.padding = 0;
     buttonsCanvas.style.margin = 0 + "px";
     overlay.width = px(Game.width); //px
     overlay.height = py(Game.height); //px
     overlay.style.left = left + "px";
-    overlay.style.top = 50 + "px";
+    overlay.style.top = top + "px";
     overlay.style.padding = 0;
     overlay.style.margin = 0 + "px";
     container.style.fontSize = px(8) + "px";
     bg.width = px(Game.width); //px
     bg.height = py(Game.height); //px
     bg.style.left = left + "px";
-    bg.style.top = 50 + "px";
+    bg.style.top = top + "px";
     bg.style.padding = 0;
     bg.style.margin = 0 + "px";
     debug.style.position = "absolute";
