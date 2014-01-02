@@ -27,6 +27,7 @@ Enemy.prototype.Init = function() {
     this.dead = false;
     this.onfire = false;
     this.MAXDX = 1.0;
+    this.dx = 0;
     //var img = new Image();
     //img.src = "enemy.png";
     this.image = Resources.enemyLeft;
